@@ -1,7 +1,6 @@
 // Вставь этот код в Google Apps Script (Расширения → Apps Script)
-// Замени SHEET_ID на ID своей таблицы из URL
 
-const SHEET_ID = 'ВАШ_ID_ТАБЛИЦЫ'; // из URL: /spreadsheets/d/ВАШ_ID/edit
+const SHEET_ID = '1-s_dIG1skLHWFcCa7Fad4X004AeNgytgaDkXYvTe56o';
 
 function doPost(e) {
   try {

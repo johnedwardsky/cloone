@@ -234,7 +234,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 // Waitlist form → Google Sheets
-const GOOGLE_SCRIPT_URL = 'ВСТАВЬ_СВОЙ_URL_СЮДА'; // https://script.google.com/macros/s/.../exec
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuSuzAjRznF64xXmrtJ6x2KLREM7CrBegkcEo36yaCwtC1c2FpNPZVLEr74A5gw459/exec';
 
 document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
   e.preventDefault();
