@@ -718,7 +718,15 @@ footer {
   border-top: 1px solid rgba(255,255,255,0.06);
   text-align: center;
 }
-footer p { color: #555566; font-size: 13px; }
+footer p { color: #555566; font-size: 13px; margin-bottom: 4px; }
+.footer-credit { color: #44445a !important; font-size: 12px !important; margin-bottom: 0 !important; }
+.footer-credit a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.footer-credit a:hover { opacity: 0.75; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
