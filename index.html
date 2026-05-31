@@ -120,6 +120,62 @@
   </div>
 </section>
 
+<!-- MIRROR SECTION -->
+<section id="mirror" class="mirror-section">
+  <canvas id="mirror-particles"></canvas>
+  <div class="mirror-scene">
+
+    <!-- Художественная иллюстрация слева -->
+    <div class="mirror-art fade-up">
+      <div class="mirror-art-container">
+        <img src="mirror-visual.png" alt="Диалог с цифровым клоном" class="mirror-art-img">
+        <div class="mirror-art-glow"></div>
+      </div>
+    </div>
+
+    <!-- Центр — зеркало -->
+    <div class="mirror-frame fade-up">
+      <div class="mirror-glow"></div>
+      <div class="mirror-glass">
+        <div class="mirror-reflection">
+          <svg class="clone-silhouette" viewBox="0 0 120 280" fill="none">
+            <ellipse cx="60" cy="38" rx="28" ry="30" fill="url(#cloneGrad)"/>
+            <path d="M20 100 C20 70 100 70 100 100 L108 200 L80 200 L75 280 L45 280 L40 200 L12 200 Z" fill="url(#cloneGrad)"/>
+            <defs>
+              <linearGradient id="cloneGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f0a500" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#6c5ce7" stop-opacity="0.5"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="mirror-typing" id="mirror-response">
+            <span class="mirror-cursor">|</span>
+          </div>
+        </div>
+      </div>
+      <div class="mirror-arch-top"></div>
+      <div class="mirror-arch-bottom"></div>
+    </div>
+
+    <!-- Диалог справа -->
+    <div class="mirror-dialog fade-up">
+      <div class="mirror-title">
+        <span class="mirror-label">Зеркало, зеркало</span>
+        <h2>Спроси своего<br><span class="mirror-accent">цифрового двойника</span></h2>
+      </div>
+      <div class="mirror-messages" id="mirror-messages"></div>
+      <div class="mirror-input-wrap">
+        <input id="mirror-input" class="mirror-input" type="text" placeholder="Задай вопрос своему клону..." maxlength="120">
+        <button class="mirror-ask-btn" id="mirror-ask">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+        </button>
+      </div>
+      <p class="mirror-hint">Клон знает тебя лучше, чем ты думаешь</p>
+    </div>
+
+  </div>
+</section>
+
 <!-- INSIGHT -->
 <section id="insight" class="insight-section">
   <div class="container">
@@ -273,6 +329,7 @@ document.getElementById('waitlist-form').addEventListener('submit', async functi
 <!-- NEURAL NETWORK ANIMATION -->
 <script src="neurons.js"></script>
 <script src="clone-demo.js"></script>
+<script src="mirror.js"></script>
 
 </body>
 </html>
