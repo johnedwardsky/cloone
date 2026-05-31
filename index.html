@@ -12,13 +12,12 @@
 <!-- NAV -->
 <nav>
   <div class="container">
-    <!-- Иконка (два кольца) -->
     <img src="icon.svg" alt="Cloone" class="nav-icon">
-
     <div class="nav-links">
       <a href="#features">Возможности</a>
       <a href="#how">Как это работает</a>
-      <a href="#insight">Самопознание</a>
+      <a href="#influencer">Для экспертов</a>
+      <a href="#mirror">Зеркало</a>
       <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Ранний доступ</button>
     </div>
   </div>
@@ -28,9 +27,7 @@
 <section class="hero">
   <canvas id="neural-canvas"></canvas>
   <div class="container">
-    <!-- Полный логотип -->
     <img src="logo.svg" alt="Cloone" class="hero-logo">
-
     <div class="hero-badge">Закрытая бета — 2026</div>
     <h1>Создай <span class="accent">цифровую<br>копию</span> себя</h1>
     <p class="hero-sub">Cloone переносит твою личность, знания и стиль общения в ИИ, который думает и отвечает как ты.</p>
@@ -108,102 +105,6 @@
       </div>
     </div>
   </div>
-</section>
-
-<!-- CLONE DEMO — interactive interface -->
-<section id="demo" class="demo-section">
-  <div class="container">
-    <div class="section-label fade-up" style="text-align:center;">Интерфейс</div>
-    <h2 class="section-title fade-up" style="text-align:center;">Как выглядит обучение клона</h2>
-    <p class="section-desc fade-up" style="text-align:center; margin: 0 auto 48px;">Наблюдай в реальном времени как клон впитывает твою личность, формирует память и обучается вести диалог от твоего имени.</p>
-    <div id="clone-demo" class="fade-up"></div>
-  </div>
-</section>
-
-<!-- MIRROR SECTION -->
-<section id="mirror" class="mirror-section">
-  <canvas id="mirror-particles"></canvas>
-  <div class="mirror-scene">
-
-    <!-- Художественная иллюстрация слева -->
-    <div class="mirror-art fade-up">
-      <div class="mirror-art-container">
-        <img src="mirror-visual.png" alt="Диалог с цифровым клоном" class="mirror-art-img">
-        <div class="mirror-art-glow"></div>
-      </div>
-    </div>
-
-    <!-- Центр — зеркало -->
-    <div class="mirror-frame fade-up">
-      <div class="mirror-glow"></div>
-      <div class="mirror-glass">
-        <div class="mirror-reflection">
-          <svg class="clone-silhouette" viewBox="0 0 120 280" fill="none">
-            <ellipse cx="60" cy="38" rx="28" ry="30" fill="url(#cloneGrad)"/>
-            <path d="M20 100 C20 70 100 70 100 100 L108 200 L80 200 L75 280 L45 280 L40 200 L12 200 Z" fill="url(#cloneGrad)"/>
-            <defs>
-              <linearGradient id="cloneGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#f0a500" stop-opacity="0.9"/>
-                <stop offset="100%" stop-color="#6c5ce7" stop-opacity="0.5"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="mirror-typing" id="mirror-response">
-            <span class="mirror-cursor">|</span>
-          </div>
-        </div>
-      </div>
-      <div class="mirror-arch-top"></div>
-      <div class="mirror-arch-bottom"></div>
-    </div>
-
-    <!-- Диалог справа -->
-    <div class="mirror-dialog fade-up">
-      <div class="mirror-title">
-        <span class="mirror-label">Зеркало, зеркало</span>
-        <h2>Спроси своего<br><span class="mirror-accent">цифрового двойника</span></h2>
-      </div>
-      <div class="mirror-messages" id="mirror-messages"></div>
-      <div class="mirror-input-wrap">
-        <input id="mirror-input" class="mirror-input" type="text" placeholder="Задай вопрос своему клону..." maxlength="120">
-        <button class="mirror-ask-btn" id="mirror-ask">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
-        </button>
-      </div>
-      <p class="mirror-hint">Клон знает тебя лучше, чем ты думаешь</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- INSIGHT -->
-<section id="insight" class="insight-section">
-  <div class="container">
-    <div class="section-label fade-up">Самопознание</div>
-    <h2 class="section-title fade-up">Узнай себя через клона</h2>
-    <p class="section-desc fade-up">Когда ИИ воспроизводит твои паттерны — ты видишь их со стороны впервые.</p>
-
-    <div class="insight-grid fade-up">
-      <div class="insight-visual">
-        <div class="insight-circles">
-          <div class="ring"></div>
-          <div class="ring"></div>
-          <div class="ring"></div>
-          <div class="ring"></div>
-          <div class="core"></div>
-        </div>
-      </div>
-      <div>
-        <ul class="insight-list">
-          <li><span class="insight-dot"></span>Какие темы ты обходишь стороной — слепые зоны</li>
-          <li><span class="insight-dot"></span>Как ты звучишь для других людей — тон и стиль</li>
-          <li><span class="insight-dot"></span>Какие ценности проявляются в ответах</li>
-          <li><span class="insight-dot"></span>Где логика противоречит убеждениям</li>
-          <li><span class="insight-dot"></span>Что ты повторяешь — и почему</li>
-        </ul>
-      </div>
-    </div>
-</div>
 </section>
 
 <!-- INFLUENCER & AUDIENCE -->
@@ -284,22 +185,88 @@
   </div>
 </section>
 
-<!-- ACCELERATOR — KEY VALUE -->
+<!-- CLONE DEMO — interactive interface -->
+<section id="demo" class="demo-section">
+  <div class="container">
+    <div class="section-label fade-up" style="text-align:center;">Интерфейс</div>
+    <h2 class="section-title fade-up" style="text-align:center;">Как выглядит обучение клона</h2>
+    <p class="section-desc fade-up" style="text-align:center; margin: 0 auto 48px;">Наблюдай в реальном времени как клон впитывает твою личность, формирует память и обучается вести диалог от твоего имени.</p>
+    <div id="clone-demo" class="fade-up"></div>
+  </div>
+</section>
+
+<!-- MIRROR SECTION -->
+<section id="mirror" class="mirror-section">
+  <canvas id="mirror-particles"></canvas>
+  <div class="mirror-scene">
+
+    <!-- Художественная иллюстрация слева -->
+    <div class="mirror-art fade-up">
+      <div class="mirror-art-container">
+        <img src="mirror-visual.png" alt="Диалог с цифровым клоном" class="mirror-art-img">
+        <div class="mirror-art-glow"></div>
+      </div>
+    </div>
+
+    <!-- Центр — зеркало -->
+    <div class="mirror-frame fade-up">
+      <div class="mirror-glow"></div>
+      <div class="mirror-glass">
+        <div class="mirror-reflection">
+          <svg class="clone-silhouette" viewBox="0 0 120 280" fill="none">
+            <ellipse cx="60" cy="38" rx="28" ry="30" fill="url(#cloneGrad)"/>
+            <path d="M20 100 C20 70 100 70 100 100 L108 200 L80 200 L75 280 L45 280 L40 200 L12 200 Z" fill="url(#cloneGrad)"/>
+            <defs>
+              <linearGradient id="cloneGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f0a500" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#6c5ce7" stop-opacity="0.5"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="mirror-typing" id="mirror-response">
+            <span class="mirror-cursor">|</span>
+          </div>
+        </div>
+      </div>
+      <div class="mirror-arch-top"></div>
+      <div class="mirror-arch-bottom"></div>
+    </div>
+
+    <!-- Диалог справа -->
+    <div class="mirror-dialog fade-up">
+      <div class="mirror-title">
+        <span class="mirror-label">Зеркало, зеркало</span>
+        <h2>Спроси своего<br><span class="mirror-accent">цифрового двойника</span></h2>
+      </div>
+      <div class="mirror-messages" id="mirror-messages"></div>
+      <div class="mirror-input-wrap">
+        <input id="mirror-input" class="mirror-input" type="text" placeholder="Задай вопрос своему клону..." maxlength="120">
+        <button class="mirror-ask-btn" id="mirror-ask">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+        </button>
+      </div>
+      <p class="mirror-hint">Клон знает тебя лучше, чем ты думаешь</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACCELERATOR — KEY VALUE (with Insight merged) -->
 <section id="accelerator" class="accelerator">
   <canvas id="accel-canvas"></canvas>
   <div class="container">
     <div class="accel-inner fade-up">
-      <div class="section-label" style="color: #fff;">Главное</div>
+      <div class="section-label" style="color: #fff;">Самопознание</div>
       <h2 class="accel-title">Клон видит то,<br>что ты не замечаешь</h2>
-      <p class="accel-desc">Твой цифровой клон анализирует тебя без эмоций, страхов и иллюзий. Он видит картину целиком — и помогает действовать точнее.</p>
+      <p class="accel-desc">Твой цифровой клон анализирует тебя без эмоций, страхов и иллюзий. Когда ИИ воспроизводит твои паттерны — ты видишь их со стороны впервые.</p>
 
       <div class="accel-grid">
         <div class="accel-card fade-up">
           <div class="accel-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
           </div>
-          <h3>Перспективы и возможности</h3>
-          <p>Клон видит скрытые связи между твоими навыками, опытом и целями — и показывает пути, которые ты упускаешь.</p>
+          <h3>Слепые зоны и паттерны</h3>
+          <p>Какие темы ты обходишь стороной, что повторяешь снова и снова, где логика противоречит убеждениям — клон покажет всё.</p>
         </div>
 
         <div class="accel-card fade-up" style="transition-delay:0.1s">
@@ -315,7 +282,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
           </div>
           <h3>Фокус и приоритеты</h3>
-          <p>Рекомендует на чём сделать акцент, чтобы достичь целей быстрее — минимизируя ошибки, сомнения и потерянное время.</p>
+          <p>Как ты звучишь для других людей, какие ценности проявляются в ответах — клон помогает действовать точнее.</p>
         </div>
       </div>
 
@@ -335,14 +302,12 @@
     <p class="section-desc fade-up" style="margin: 0 auto;">Cloone в закрытой бете. Оставь email — мы пришлём приглашение.</p>
 
     <div class="waitlist-box fade-up" id="waitlist-box">
-      <!-- Мини-логотип в форме -->
       <img src="logo.svg" alt="Cloone" style="height:28px; margin-bottom:16px;">
       <form class="waitlist-form" id="waitlist-form">
         <input type="email" placeholder="your@email.com" required id="waitlist-email">
         <button type="submit">Записаться</button>
       </form>
       <p class="waitlist-note">Никакого спама. Только приглашение, когда всё готово.</p>
-      <!-- Thank you state (hidden) -->
       <div class="waitlist-thanks" id="waitlist-thanks">
         <div class="thanks-check">✓</div>
         <h3>Спасибо!</h3>
