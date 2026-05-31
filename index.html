@@ -208,39 +208,79 @@
 
 <!-- INFLUENCER & AUDIENCE -->
 <section id="influencer" class="influencer-section">
-  <div class="container">
-    <div class="influencer-grid">
-      
-      <!-- Текст и чат -->
-      <div class="influencer-content fade-up">
-        <div class="section-label">Для экспертов</div>
-        <h2 class="section-title">Твое влияние 24/7</h2>
-        <p class="section-desc">Клон общается <strong>твоим голосом</strong>, помнит все твои подкасты и дает советы так, как это сделал бы ты лично. Масштабируй себя без потери качества.</p>
-        
-        <ul class="influencer-list">
-          <li><span class="influencer-dot"></span><span class="influencer-hl">Присутствие 24/7:</span> Аудитория получает твое внимание, когда ты спишь.</li>
-          <li><span class="influencer-dot"></span><span class="influencer-hl">Абсолютная память:</span> Опирается на всю базу твоего контента.</li>
-          <li><span class="influencer-dot"></span><span class="influencer-hl">Глубокая эмпатия:</span> Это не скриптовый бот, а живой диалог.</li>
-        </ul>
 
-        <div class="influencer-chat">
-          <div class="inf-chat-msg user-msg">Я запутался, стоит ли мне уходить из найма в свой проект? Страшно.</div>
-          <div class="inf-chat-msg clone-msg">
-            <span class="clone-avatar"></span>
-            <div class="clone-text">Слушай, мы же это разбирали в последнем подкасте. Страх — это нормально. Но давай посмотрим на цифры: что ты теряешь, если просто попробуешь на выходных? Твоя главная проблема сейчас — перфекционизм.</div>
-          </div>
+  <!-- Hero header -->
+  <div class="inf-hero">
+    <div class="inf-hero-bg">
+      <img src="influencer-visual.png" alt="Связь с аудиторией" class="inf-hero-img">
+      <div class="inf-hero-overlay"></div>
+    </div>
+    <div class="container inf-hero-content fade-up">
+      <div class="section-label">Для экспертов и блогеров</div>
+      <h2 class="inf-hero-title">Твоё время ограничено.<br><span class="inf-hero-accent">Твоё влияние — нет.</span></h2>
+      <p class="inf-hero-desc">Ты не можешь ответить тысячам подписчиков в директе. Твой цифровой двойник — может. Он общается <strong>твоим голосом</strong>, помнит всё, что ты говорил, и шутит твоими шутками.</p>
+    </div>
+  </div>
+
+  <!-- Feature cards -->
+  <div class="container">
+    <div class="inf-cards fade-up">
+
+      <div class="inf-card">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
+        <h3>Присутствие 24/7</h3>
+        <p>Аудитория получает твоё внимание и поддержку, даже когда ты спишь, отдыхаешь или на сцене.</p>
       </div>
 
-      <!-- Иллюстрация -->
-      <div class="influencer-visual fade-up">
-        <div class="inf-visual-container">
-          <img src="influencer-visual.png" alt="Связь с аудиторией" class="inf-visual-img">
-          <div class="inf-visual-glow"></div>
+      <div class="inf-card">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
         </div>
+        <h3>Абсолютная память</h3>
+        <p>Клон опирается на всю базу твоего контента — от первого видео до платных курсов и закрытых вебинаров.</p>
+      </div>
+
+      <div class="inf-card inf-card-highlight">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Полная прозрачность</h3>
+        <p>Аудитория знает, что общается с твоей копией. Никакого обмана — только честное масштабирование тебя.</p>
+      </div>
+
+      <div class="inf-card inf-card-highlight">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Эскалация к автору</h3>
+        <p>Если клон не может ответить — он честно передаёт вопрос настоящему тебе. Ни один важный диалог не потеряется.</p>
       </div>
 
     </div>
+
+    <!-- Chat demo -->
+    <div class="inf-chat-demo fade-up">
+      <div class="inf-chat-header">
+        <span class="inf-chat-dot green"></span>
+        <span class="inf-chat-title">Диалог с клоном эксперта</span>
+        <span class="inf-chat-badge">CLONE</span>
+      </div>
+      <div class="inf-chat-body">
+        <div class="inf-msg inf-msg-user">Я запутался, стоит ли мне уходить из найма в свой проект? Страшно.</div>
+        <div class="inf-msg inf-msg-clone">
+          <span class="inf-clone-dot"></span>
+          <div>Слушай, мы же это разбирали в последнем подкасте. Страх — это нормально. Но давай посмотрим на цифры: что ты теряешь, если просто попробуешь на выходных? Твоя главная проблема сейчас — перфекционизм.</div>
+        </div>
+        <div class="inf-msg inf-msg-user">А можно обсудить мой конкретный кейс подробнее? У меня нестандартная ситуация с партнёром.</div>
+        <div class="inf-msg inf-msg-escalation">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/></svg>
+          <div>Это выходит за рамки моих знаний — я передам твой вопрос <strong>настоящему автору</strong>. Он свяжется с тобой лично. Я сохраню весь контекст нашего разговора, чтобы ему не пришлось переспрашивать.</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
