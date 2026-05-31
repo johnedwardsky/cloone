@@ -316,7 +316,7 @@ section { padding: 100px 0; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center;
 }
 .inf-hero-overlay {
   position: absolute;
@@ -360,29 +360,31 @@ section { padding: 100px 0; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-top: -40px;
+  margin-top: 30px;
   position: relative;
   z-index: 2;
 }
 .inf-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(108, 92, 231, 0.1);
+  background: var(--bg-card);
+  border: 1px solid rgba(108, 92, 231, 0.08);
   border-radius: 16px;
-  padding: 28px 24px;
+  padding: 36px 28px;
   transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(108, 92, 231, 0.04);
 }
 .inf-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   border-color: rgba(108, 92, 231, 0.25);
-  box-shadow: 0 12px 30px rgba(108, 92, 231, 0.08);
+  box-shadow: 0 16px 40px rgba(108, 92, 231, 0.1);
 }
 .inf-card-highlight {
-  border-color: rgba(240, 165, 0, 0.2);
-  background: linear-gradient(160deg, rgba(240, 165, 0, 0.04) 0%, rgba(108, 92, 231, 0.03) 100%);
+  border-color: rgba(240, 165, 0, 0.15);
+  background: linear-gradient(160deg, rgba(240, 165, 0, 0.03) 0%, var(--bg-card) 100%);
+  box-shadow: 0 10px 30px rgba(240, 165, 0, 0.03);
 }
 .inf-card-highlight:hover {
   border-color: rgba(240, 165, 0, 0.35);
-  box-shadow: 0 12px 30px rgba(240, 165, 0, 0.08);
+  box-shadow: 0 16px 40px rgba(240, 165, 0, 0.08);
 }
 .inf-card-icon {
   width: 40px;
