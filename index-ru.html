@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloone — Твой цифровой клон</title>
+  <meta name="description" content="Перенеси свою личность в цифровой формат. Cloone создаёт ИИ-клон, который думает, общается и действует как ты.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <img src="icon.svg" alt="Cloone" class="nav-icon">
+    <div class="nav-links">
+      <a href="#features">Возможности</a>
+      <a href="#how">Как это работает</a>
+      <a href="#influencer">Для экспертов</a>
+      <a href="#pitch">Бизнес-модель</a>
+      <a href="#mirror">Зеркало</a>
+      <div class="lang-select-wrap">
+        <select class="lang-select" onchange="location = this.value;">
+          <option value="index.html">EN</option>
+          <option value="index-ru.html" selected>RU</option>
+          <option value="index-zh.html">中文</option>
+          <option value="index-es.html">ES</option>
+          <option value="index-ar.html">العربية</option>
+        </select>
+      </div>
+      <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Ранний доступ</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="neural-canvas"></canvas>
+  <div class="container">
+    <img src="logo.svg" alt="Cloone" class="hero-logo">
+    <div class="hero-badge">Закрытая бета — 2026</div>
+    <h1>Создай <span class="accent">цифровую<br>копию</span> себя</h1>
+    <p class="hero-sub">Cloone переносит твою личность, знания и стиль общения в ИИ, который думает и отвечает как ты.</p>
+    <button class="hero-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+      Попасть в список
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+    <p class="hero-hint">Двигай мышкой — нейроны следуют за тобой</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="section-label fade-up">Возможности</div>
+    <h2 class="section-title fade-up">Три грани цифрового клона</h2>
+    <p class="section-desc fade-up">Клон — не чат-бот. Это цифровое продолжение тебя там, где ты не можешь быть физически.</p>
+
+    <div class="cards">
+      <div class="card fade-up">
+        <div class="card-num">01</div>
+        <h3>Оцифровка личности</h3>
+        <p>Загрузи свои тексты, диалоги и заметки — клон впитает твой стиль, знания и ценности. Чем больше данных, тем точнее копия.</p>
+        <span class="card-tag">Персонализация</span>
+      </div>
+
+      <div class="card fade-up" style="transition-delay:0.1s">
+        <div class="card-num">02</div>
+        <h3>Действует за тебя</h3>
+        <p>Клон отвечает на сообщения, ведёт переписку и общается с людьми, пока ты занят. Твой голос — без твоего присутствия.</p>
+        <span class="card-tag">Автономность</span>
+      </div>
+
+      <div class="card fade-up" style="transition-delay:0.2s">
+        <div class="card-num">03</div>
+        <h3>Зеркало для роста</h3>
+        <p>Клон показывает паттерны мышления и слепые зоны. Разговор с копией — самый честный диалог о саморазвитии.</p>
+        <span class="card-tag">Самопознание</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label fade-up">Процесс</div>
+    <h2 class="section-title fade-up">Три шага до клона</h2>
+    <p class="section-desc fade-up">Без программирования. Просто расскажи о себе.</p>
+
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-line">
+          <div class="step-dot">1</div>
+          <div class="step-dash"></div>
+        </div>
+        <h3>Профиль личности</h3>
+        <p>Пройди короткий онбординг: расскажи кто ты, как общаешься, что для тебя важно. Клон начнёт формировать персону.</p>
+      </div>
+      <div class="step fade-up" style="transition-delay:0.1s">
+        <div class="step-line">
+          <div class="step-dot">2</div>
+          <div class="step-dash"></div>
+        </div>
+        <h3>Обучение на данных</h3>
+        <p>Загрузи переписки, заметки, тексты — любой материал, который отражает тебя. Клон запоминает стиль и контекст.</p>
+      </div>
+      <div class="step fade-up" style="transition-delay:0.2s">
+        <div class="step-line">
+          <div class="step-dot">3</div>
+          <div class="step-dash"></div>
+        </div>
+        <h3>Клон работает</h3>
+        <p>Общайся с клоном, делись ссылкой с другими, наблюдай как он представляет тебя в цифровом пространстве.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFLUENCER & AUDIENCE -->
+<section id="influencer" class="influencer-section">
+
+  <!-- Hero header -->
+  <div class="inf-hero">
+    <div class="inf-hero-bg">
+      <img src="influencer-visual.png" alt="Связь с аудиторией" class="inf-hero-img">
+      <div class="inf-hero-overlay"></div>
+    </div>
+    <div class="container inf-hero-content fade-up">
+      <div class="section-label">Для экспертов и блогеров</div>
+      <h2 class="inf-hero-title">Твоё время ограничено.<br><span class="inf-hero-accent">Твоё влияние — нет.</span></h2>
+      <p class="inf-hero-desc">Ты не можешь ответить тысячам подписчиков в директе. Твой цифровой двойник — может. Он общается <strong>твоим голосом</strong>, помнит всё, что ты говорил, и шутит твоими шутками.</p>
+    </div>
+  </div>
+
+  <!-- Feature cards -->
+  <div class="container">
+    <div class="inf-cards fade-up">
+
+      <div class="inf-card">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Присутствие 24/7</h3>
+        <p>Аудитория получает твоё внимание и поддержку, даже когда ты спишь, отдыхаешь или на сцене.</p>
+      </div>
+
+      <div class="inf-card">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <h3>Абсолютная память</h3>
+        <p>Клон опирается на всю базу твоего контента — от первого видео до платных курсов и закрытых вебинаров.</p>
+      </div>
+
+      <div class="inf-card inf-card-highlight">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Полная прозрачность</h3>
+        <p>Аудитория знает, что общается с твоей копией. Никакого обмана — только честное масштабирование тебя.</p>
+      </div>
+
+      <div class="inf-card inf-card-highlight">
+        <div class="inf-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Эскалация к автору</h3>
+        <p>Если клон не может ответить — он честно передаёт вопрос настоящему тебе. Ни один важный диалог не потеряется.</p>
+      </div>
+
+    </div>
+
+    <!-- Chat demo -->
+    <div class="inf-chat-demo fade-up">
+      <div class="inf-chat-header">
+        <span class="inf-chat-dot green"></span>
+        <span class="inf-chat-title">Диалог с клоном эксперта</span>
+        <span class="inf-chat-badge">CLONE</span>
+      </div>
+      <div class="inf-chat-body">
+        <div class="inf-msg inf-msg-user">Как перестать бояться сцены и уверенно держаться перед толпой? Завтра первое выступление, голос дрожит, боюсь забыть текст песни.</div>
+        <div class="inf-msg inf-msg-clone">
+          <span class="inf-clone-dot"></span>
+          <div>Понимаю тебя! Мандраж перед сценой — это нормально. Помнишь, когда я забыл слова на выступлении в Вегасе в 2011 году? Было очень неловко, но я собрался и просто заговорил с моими поклонниками. Они меня поддержали... Просто будь собой, в потоке! А если нужен практический лайфхак: найди в зале три дружелюбных лица в разных концах и пой лично им, чередуя взгляд.</div>
+        </div>
+        <div class="inf-msg inf-msg-user">А как правильно работать с дыханием во время динамичных песен, чтобы не сбиваться, и выстроить идеальный сет-лист?</div>
+        <div class="inf-msg inf-msg-escalation">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/></svg>
+          <div>Ну а то, что выходит за рамки моих советов, лучше обсудить персонально — вы можете записаться на личную встречу онлайн со мной, чтобы детально проработать ваши песни, сет-лист и вокал.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CLONE DEMO — interactive interface -->
+<section id="demo" class="demo-section">
+  <div class="container">
+    <div class="section-label fade-up" style="text-align:center;">Интерфейс</div>
+    <h2 class="section-title fade-up" style="text-align:center;">Интерактивный кабинет управления</h2>
+    <p class="section-desc fade-up" style="text-align:center; margin: 0 auto 48px;">Посмотрите, как устроена работа клона изнутри. Переключайте вкладки в панели управления, чтобы увидеть систему аналитики, монетизацию тарифов и психологическое зеркало личности.</p>
+    <div id="clone-demo" class="fade-up"></div>
+  </div>
+</section>
+
+<!-- MIRROR SECTION -->
+<section id="mirror" class="mirror-section">
+  <canvas id="mirror-particles"></canvas>
+  <div class="mirror-scene">
+
+    <!-- Художественная иллюстрация слева -->
+    <div class="mirror-art fade-up">
+      <div class="mirror-art-container">
+        <img src="mirror-visual.png" alt="Диалог с цифровым клоном" class="mirror-art-img">
+        <div class="mirror-art-glow"></div>
+      </div>
+    </div>
+
+    <!-- Центр — зеркало -->
+    <div class="mirror-frame fade-up">
+      <div class="mirror-glow"></div>
+      <div class="mirror-glass">
+        <!-- Scanline scanning effect -->
+        <div class="mirror-scan-line"></div>
+        
+        <!-- Cyber HUD overlays -->
+        <div class="mirror-hud-top">SYS_SYNC: 84.2%</div>
+        <div class="mirror-hud-bottom">NEURAL_CORE_ACTIVE</div>
+        
+        <!-- Tech corners/brackets -->
+        <div class="mirror-bracket mb-tl"></div>
+        <div class="mirror-bracket mb-tr"></div>
+        <div class="mirror-bracket mb-bl"></div>
+        <div class="mirror-bracket mb-br"></div>
+        
+        <div class="mirror-reflection">
+          <svg class="clone-silhouette" viewBox="0 0 120 280" fill="none">
+            <!-- Outer rotating rings around head -->
+            <circle cx="60" cy="45" r="32" stroke="url(#techGrad)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+            <circle cx="60" cy="45" r="24" stroke="url(#techGrad)" stroke-width="1.5" stroke-dasharray="12 4" class="tech-ring-rotate"/>
+            
+            <!-- Head -->
+            <circle cx="60" cy="45" r="16" fill="url(#cloneGrad)" filter="url(#glowFilter)"/>
+            
+            <!-- Neck & shoulders structure -->
+            <path d="M48 68 L72 68 M60 62 L60 72" stroke="url(#cloneGrad)" stroke-width="2" opacity="0.8"/>
+            
+            <!-- Tech-mesh wireframe body -->
+            <path d="M30 110 C30 85 90 85 90 110 L96 180 C96 195 90 200 80 200 L40 200 C30 200 24 195 24 180 Z" stroke="url(#cloneGrad)" stroke-width="2" fill="url(#bodyPattern)" filter="url(#glowFilter)"/>
+            
+            <!-- Neural network connections -->
+            <line x1="60" y1="90" x2="60" y2="150" stroke="url(#techGrad)" stroke-width="1" opacity="0.7"/>
+            <line x1="60" y1="110" x2="40" y2="130" stroke="url(#techGrad)" stroke-width="1" opacity="0.5"/>
+            <line x1="60" y1="110" x2="80" y2="130" stroke="url(#techGrad)" stroke-width="1" opacity="0.5"/>
+            <line x1="60" y1="150" x2="35" y2="175" stroke="url(#techGrad)" stroke-width="1" opacity="0.5"/>
+            <line x1="60" y1="150" x2="85" y2="175" stroke="url(#techGrad)" stroke-width="1" opacity="0.5"/>
+            
+            <!-- Tech nodes/joints -->
+            <circle cx="60" cy="90" r="3" fill="#6c5ce7"/>
+            <circle cx="60" cy="110" r="3" fill="#f0a500"/>
+            <circle cx="40" cy="130" r="2.5" fill="#f0a500"/>
+            <circle cx="80" cy="130" r="2.5" fill="#6c5ce7"/>
+            <circle cx="60" cy="150" r="4" fill="#6c5ce7" class="pulse-node"/>
+            <circle cx="35" cy="175" r="2.5" fill="#6c5ce7"/>
+            <circle cx="85" cy="175" r="2.5" fill="#f0a500"/>
+            
+            <defs>
+              <linearGradient id="cloneGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f0a500" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#6c5ce7" stop-opacity="0.75"/>
+              </linearGradient>
+              <linearGradient id="techGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#6c5ce7"/>
+                <stop offset="100%" stop-color="#f0a500"/>
+              </linearGradient>
+              <pattern id="bodyPattern" width="10" height="10" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="10" y2="10" stroke="rgba(108,92,231,0.15)" stroke-width="1"/>
+              </pattern>
+              <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+            </defs>
+          </svg>
+          <div class="mirror-typing" id="mirror-response">
+            [ ОЖИДАНИЕ СИНХРОНИЗАЦИИ ]
+          </div>
+        </div>
+      </div>
+      <div class="mirror-arch-top"></div>
+      <div class="mirror-arch-bottom"></div>
+    </div>
+
+    <!-- Диалог справа -->
+    <div class="mirror-dialog fade-up">
+      <div class="mirror-title">
+        <span class="mirror-label">Зеркало, зеркало</span>
+        <h2>Спроси своего<br><span class="mirror-accent">цифрового двойника</span></h2>
+      </div>
+      <div class="mirror-messages" id="mirror-messages"></div>
+      <div class="mirror-chips" id="mirror-chips">
+        <button class="mirror-chip" data-q="Кто я?">👁️ Кто я?</button>
+        <button class="mirror-chip" data-q="Мои сильные стороны">✨ Мои силы</button>
+        <button class="mirror-chip" data-q="Мои слепые зоны">⚠️ Слепые зоны</button>
+        <button class="mirror-chip" data-q="Дай мне совет">🎯 Дай совет</button>
+      </div>
+      <div class="mirror-input-wrap">
+        <input id="mirror-input" class="mirror-input" type="text" placeholder="Задай вопрос своему клону..." maxlength="120">
+        <button class="mirror-ask-btn" id="mirror-ask">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+        </button>
+      </div>
+      <p class="mirror-hint">Клон знает тебя лучше, чем ты думаешь</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACCELERATOR — KEY VALUE (with Insight merged) -->
+<section id="accelerator" class="accelerator">
+  <canvas id="accel-canvas"></canvas>
+  <div class="container">
+    <div class="accel-inner fade-up">
+      <div class="section-label" style="color: #fff;">Самопознание</div>
+      <h2 class="accel-title">Клон видит то,<br>что ты не замечаешь</h2>
+      <p class="accel-desc">Твой цифровой клон анализирует тебя без эмоций, страхов и иллюзий. Когда ИИ воспроизводит твои паттерны — ты видишь их со стороны впервые.</p>
+
+      <div class="accel-grid">
+        <div class="accel-card fade-up">
+          <div class="accel-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Слепые зоны и паттерны</h3>
+          <p>Какие темы ты обходишь стороной, что повторяешь снова и снова, где логика противоречит убеждениям — клон покажет всё.</p>
+        </div>
+
+        <div class="accel-card fade-up" style="transition-delay:0.1s">
+          <div class="accel-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3>Сильные стороны</h3>
+          <p>Распознаёт твои реальные сильные стороны — не те, о которых ты думаешь, а те, которые проявляются в твоих решениях и текстах.</p>
+        </div>
+
+        <div class="accel-card fade-up" style="transition-delay:0.2s">
+          <div class="accel-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <h3>Фокус и приоритеты</h3>
+          <p>Как ты звучишь для других людей, какие ценности проявляются в ответах — клон помогает действовать точнее.</p>
+        </div>
+      </div>
+
+      <div class="accel-bottom fade-up">
+        <p class="accel-quote">"Страхи, эмоции и когнитивные искажения мешают видеть реальность.<br>Клон свободен от них — он видит только факты и закономерности."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PITCH & CREATOR ECONOMY -->
+<section id="pitch" class="tam-pitch-section">
+  <div class="container">
+    <div class="pitch-grid">
+      <div class="pitch-text-content fade-up">
+        <span class="pitch-tag">Бизнес-модель</span>
+        <h2>Экономика Создателей<br><span class="accent" style="color:var(--accent)">на автопилоте</span></h2>
+        <p>Cloone позволяет экспертам масштабировать свою экспертизу и личный бренд. Подписчики готовы платить за персональные консультации от вашего цифрового двойника. Вы настраиваете тарифы, а ИИ обрабатывает тысячи диалогов.</p>
+        <div class="pitch-bullets">
+          <div class="pitch-bullet-item">
+            <span class="pitch-bullet-check">✓</span>
+            <div class="pitch-bullet-text"><strong>90% чистого дохода</strong> выплачивается автору напрямую.</div>
+          </div>
+          <div class="pitch-bullet-item">
+            <span class="pitch-bullet-check">✓</span>
+            <div class="pitch-bullet-text"><strong>10% роялти Cloone</strong> — платформа зарабатывает только тогда, когда зарабатываете вы.</div>
+          </div>
+          <div class="pitch-bullet-item">
+            <span class="pitch-bullet-check">✓</span>
+            <div class="pitch-bullet-text"><strong>Инвестиционный потенциал</strong>: масштабирование от 1 до бесконечного числа платных диалогов без дополнительных затрат времени автора.</div>
+          </div>
+        </div>
+      </div>
+      <div class="pitch-metric-card fade-up">
+        <div class="pitch-metric-item">
+          <div class="pitch-number">₽10.7B+</div>
+          <div class="pitch-metric-title">Рынок EdTech & Creator Economy</div>
+          <div class="pitch-metric-desc">Стремительно растущий целевой рынок для ИИ-ассистентов экспертов и авторов контента.</div>
+        </div>
+        <div class="pitch-metric-item">
+          <div class="pitch-number">10x</div>
+          <div class="pitch-metric-title">Рост вовлеченности аудитории</div>
+          <div class="pitch-metric-desc">За счет мгновенного индивидуального внимания к каждому подписчику в директе мессенджеров.</div>
+        </div>
+        <div class="pitch-metric-item">
+          <div class="pitch-number">0<span class="sub">сек.</span></div>
+          <div class="pitch-metric-title">Время ожидания ответа</div>
+          <div class="pitch-metric-desc">Клон отвечает мгновенно, повышая конверсию в платные подписки и лояльность клиентов.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HYBRID AI & PRIVACY -->
+<section class="hybrid-ai-section">
+  <div class="container">
+    <div class="hybrid-box">
+      <div class="hybrid-visual fade-up">
+        <div class="hybrid-node">
+          <span class="hn-icon">💻</span>
+          <div class="hn-info">
+            <h5>Локальный узел (Edge-AI)</h5>
+            <p>Обучение на личных дневниках через Ollama (Qwen/Llama)</p>
+          </div>
+          <span class="hn-badge local">Локально</span>
+        </div>
+        <div class="hybrid-arrow-flow">▼ Синхронизация паттернов Tone of Voice ▼</div>
+        <div class="hybrid-node">
+          <span class="hn-icon yellow">☁️</span>
+          <div class="hn-info">
+            <h5>Безопасный Облачный Шлюз</h5>
+            <p>Интеграция с Telegram, WhatsApp и Instagram API</p>
+          </div>
+          <span class="hn-badge cloud">Облако</span>
+        </div>
+      </div>
+      <div class="hybrid-info-content fade-up">
+        <span class="pitch-tag" style="background:rgba(108, 92, 231, 0.08); color:var(--accent);">Технологический стек</span>
+        <h2>Абсолютная приватность и гибридный ИИ</h2>
+        <p>Мы решили ключевую проблему доверия к ИИ-агентам. Личные данные пользователя (дневники, интимные мысли, рефлексия) могут храниться и обрабатываться локально на его устройстве с помощью технологий Ollama.</p>
+        <p>В облако передаются только десенсибилизированные паттерны общения и Tone of Voice, необходимые для автоответов во внешних мессенджерах. Это создает непреодолимый барьер конфиденциальности и надежно защищает данные пользователя.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist" class="waitlist">
+  <canvas id="waitlist-canvas"></canvas>
+  <div class="container">
+    <div class="section-label fade-up">Ранний доступ</div>
+    <h2 class="section-title fade-up">Стань одним из первых</h2>
+    <p class="section-desc fade-up" style="margin: 0 auto;">Cloone в закрытой бете. Оставь email — мы пришлём приглашение.</p>
+
+    <div class="waitlist-box fade-up" id="waitlist-box">
+      <img src="logo.svg" alt="Cloone" style="height:28px; margin-bottom:16px;">
+      <form class="waitlist-form" id="waitlist-form">
+        <input type="email" placeholder="your@email.com" required id="waitlist-email">
+        <button type="submit">Записаться</button>
+      </form>
+      <p class="waitlist-note">Никакого спама. Только приглашение, когда всё готово.</p>
+      <div class="waitlist-thanks" id="waitlist-thanks">
+        <div class="thanks-check">✓</div>
+        <h3>Спасибо!</h3>
+        <p>Мы отправим приглашение на<br><strong id="thanks-email"></strong></p>
+        <p class="thanks-sub">Ты в списке ранних пользователей Cloone</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>© 2026 Cloone. Твоя цифровая копия.</p>
+    <p class="footer-credit">Исследования и разработка — <a href="https://a-lab.tech" target="_blank" rel="noopener">A-lab</a></p>
+  </div>
+</footer>
+
+<!-- SCROLL ANIMATION -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Waitlist form → Google Sheets
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuSuzAjRznF64xXmrtJ6x2KLREM7CrBegkcEo36yaCwtC1c2FpNPZVLEr74A5gw459/exec';
+
+document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('waitlist-email').value;
+  const btn = this.querySelector('button');
+  const box = document.getElementById('waitlist-box');
+  const thanks = document.getElementById('waitlist-thanks');
+
+  // Loading state
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    // Send to Google Sheets
+    if (GOOGLE_SCRIPT_URL !== 'ВСТАВЬ_СВОЙ_URL_СЮДА') {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Google Apps Script требует no-cors
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'cloone-landing' }),
+      });
+    }
+  } catch (err) {
+    console.warn('Sheets error:', err);
+  }
+
+  // Show thank you regardless (no-cors doesn't give response)
+  document.getElementById('thanks-email').textContent = email;
+  box.classList.add('submitted');
+  thanks.style.display = 'block';
+  setTimeout(() => { thanks.style.opacity = '1'; thanks.style.transform = 'translateY(0)'; }, 50);
+});
+</script>
+
+<!-- NEURAL NETWORK ANIMATION -->
+<script src="neurons.js"></script>
+<script src="dashboard-tour.js"></script>
+<script src="mirror.js"></script>
+
+</body>
+</html>
