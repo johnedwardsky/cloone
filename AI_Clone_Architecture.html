@@ -253,9 +253,68 @@
   .risk-row-med td { background: rgba(217,119,6,0.03); }
   .risk-row-low td { background: rgba(18,183,106,0.03); }
   .doc-footer { background: var(--bg2); border-top: 1px solid var(--border2); padding: 40px; text-align: center; font-size: 13px; color: var(--text3); line-height: 1.8; }
+
+  /* Floating Back Navigation Bar */
+  .nav-back-bar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10000;
+    display: flex;
+    gap: 12px;
+    pointer-events: none;
+  }
+  .nav-back-link {
+    pointer-events: auto;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 8px 16px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+  }
+  .nav-back-link:hover {
+    background: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(108, 99, 255, 0.15);
+    border-color: rgba(108, 99, 255, 0.4);
+    color: var(--primary);
+  }
+  .nav-back-link:active {
+    transform: translateY(0);
+  }
+  
+  @media print {
+    .nav-back-bar { display: none !important; }
+  }
+  @media (max-width: 600px) {
+    .nav-back-bar {
+      top: 12px;
+      left: 12px;
+      gap: 8px;
+    }
+    .nav-back-link {
+      padding: 6px 12px;
+      font-size: 11px;
+    }
+  }
 </style>
 </head>
 <body>
+
+<div class="nav-back-bar">
+  <a href="index.html" class="nav-back-link">← На главную</a>
+  <a href="pitch_deck.html" class="nav-back-link">← К презентации</a>
+</div>
 
 <div class="cover">
   <div class="cover-badge">Версия 2.0 · Техническая Спецификация</div>
