@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLOONE — Закрытый список ожидания</title>
+  <meta name="description" content="Присоединяйтесь к закрытому списку ожидания CLOONE. Приглашайте друзей, чтобы подняться в очереди и получить ранний доступ к созданию своего ИИ-клона.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --accent: #E94070;
+      --bg-gradient: linear-gradient(160deg, #f0f1ff 0%, #f7f8fc 60%, #fdf4ff 100%);
+    }
+
+    .waitlist-hero {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 0 80px;
+    }
+
+    .waitlist-card {
+      background: #ffffff;
+      border: 1px solid rgba(108, 92, 231, 0.15);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(108, 92, 231, 0.06);
+      max-width: 550px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .waitlist-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    }
+
+    .live-counter {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(233, 64, 112, 0.08);
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    .live-counter::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.4; }
+    }
+
+    .timer-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0 30px;
+    }
+
+    .timer-box {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 70px;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    .timer-num {
+      font-size: 22px;
+      font-weight: 800;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--primary);
+    }
+
+    .timer-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .referral-box {
+      background: rgba(108, 92, 231, 0.04);
+      border: 1px dashed var(--primary);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 25px 0;
+      display: none;
+    }
+
+    .ref-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-top: 8px;
+      cursor: pointer;
+      display: inline-block;
+      padding: 4px 12px;
+      background: white;
+      border: 1px solid rgba(108, 92, 231, 0.2);
+      border-radius: 6px;
+    }
+
+    .queue-status {
+      margin: 20px 0;
+      display: none;
+    }
+
+    .queue-num {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .share-btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      background: var(--primary);
+    }
+
+    .share-btn.tg { background: #0088cc; }
+    .share-btn.copy { background: #2d2b3d; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <img src="logo.svg" alt="Cloone" class="nav-icon" style="cursor:pointer;" onclick="location='index-ru.html'">
+      <div class="nav-links">
+        <a href="index-ru.html#features">Возможности</a>
+        <a href="index-ru.html#how">Как это работает</a>
+        <button class="nav-cta" onclick="location='kol_landing.html'">Для авторов</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="waitlist-hero">
+    <canvas id="neural-canvas"></canvas>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="waitlist-card">
+        
+        <div id="join-pane">
+          <div class="live-counter">Уже в списке: 142,504</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 8px;">Закрытый список ожидания</h2>
+          <p style="color: var(--text-mid); font-size: 14px; margin-bottom: 24px;">Зарегистрируйтесь, чтобы зарезервировать ранний доступ к созданию своего ИИ-клона.</p>
+          
+          <form class="waitlist-form" id="regForm" style="margin-bottom: 24px;">
+            <input type="email" placeholder="your@email.com" required id="regEmail" class="form-input" style="width:100%; margin-bottom:12px; padding:12px; border-radius:8px; border:1px solid var(--border);">
+            <button type="submit" class="nav-cta" style="width:100%; padding:12px;">Занять место в очереди</button>
+          </form>
+
+          <p style="font-size: 11px; color: var(--text-dim);">До распределения следующей волны инвайтов:</p>
+          <div class="timer-wrap">
+            <div class="timer-box">
+              <div class="timer-num" id="t-hr">18</div>
+              <div class="timer-label">час</div>
+            </div>
+            <div class="timer-box">
+              <div class="timer-num" id="t-min">42</div>
+              <div class="timer-label">мин</div>
+            </div>
+            <div class="timer-box">
+              <div class="timer-num" id="t-sec">15</div>
+              <div class="timer-label">сек</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="status-pane" style="display:none;">
+          <div class="live-counter">Успешная регистрация</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 8px;">Вы в списке ожидания!</h2>
+          
+          <div class="queue-status" id="queueStatus" style="display:block;">
+            <div class="queue-num" id="queueNum">#142,505</div>
+            <p style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">ваше место в очереди</p>
+          </div>
+
+          <div class="referral-box" id="referralBox" style="display:block;">
+            <h4 style="font-size: 14px; font-weight: 700; color: var(--text);">Пригласите 3 друзей и обойдите 5,000 человек в очереди!</h4>
+            <p style="font-size: 12px; color: var(--text-mid); margin-top: 6px;">Поделитесь персональным кодом для перехода на приоритетный уровень:</p>
+            <div class="ref-code" id="refCode" onclick="copyRefCode()">CLOONE-49A8B</div>
+            <div style="font-size: 10px; color: var(--text-dim); margin-top: 6px;">Нажмите на код, чтобы скопировать</div>
+          </div>
+
+          <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+            <button class="share-btn tg" onclick="shareTelegram()">Поделиться в Telegram</button>
+            <button class="share-btn copy" onclick="copyLink()">Копировать ссылку</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Cloone. Закрытый список ожидания.</p>
+    </div>
+  </footer>
+
+  <script src="neurons.js"></script>
+  <script>
+    // Live Timer countdown logic
+    let hrs = 18, mins = 42, secs = 15;
+    setInterval(() => {
+      secs--;
+      if (secs < 0) { secs = 59; mins--; }
+      if (mins < 0) { mins = 59; hrs--; }
+      if (hrs < 0) { hrs = 23; }
+      document.getElementById('t-hr').innerText = String(hrs).padStart(2, '0');
+      document.getElementById('t-min').innerText = String(mins).padStart(2, '0');
+      document.getElementById('t-sec').innerText = String(secs).padStart(2, '0');
+    }, 1000);
+
+    // Form submit logic
+    document.getElementById('regForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Random waitlist position generation
+      const basePos = 142505;
+      const email = document.getElementById('regEmail').value;
+      const hash = Math.abs(email.split("").reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0));
+      const myPos = basePos + (hash % 850);
+      
+      // Generate referral code
+      const codePart = hash.toString(16).toUpperCase().substring(0, 5);
+      const refCode = `CLOONE-${codePart}`;
+      
+      document.getElementById('queueNum').innerText = `#${myPos.toLocaleString()}`;
+      document.getElementById('refCode').innerText = refCode;
+      
+      // Switch panes
+      document.getElementById('join-pane').style.display = 'none';
+      document.getElementById('status-pane').style.display = 'block';
+    });
+
+    function copyRefCode() {
+      const code = document.getElementById('refCode').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Реферальный код скопирован!');
+      });
+    }
+
+    function copyLink() {
+      const code = document.getElementById('refCode').innerText;
+      const shareUrl = `${window.location.origin}${window.location.pathname}?ref=${code}`;
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        alert('Реферальная ссылка скопирована!');
+      });
+    }
+
+    function shareTelegram() {
+      const code = document.getElementById('refCode').innerText;
+      const shareUrl = `${window.location.origin}${window.location.pathname}?ref=${code}`;
+      const text = `Регистрируйся на CLOONE по моему приглашению и обходи очередь раннего доступа к созданию ИИ-клона! ${shareUrl}`;
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`);
+    }
+  </script>
+</body>
+</html>
