@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Human Clone — المواصفات الفنية لهيكل الهندسة v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const langCodes = ['en', 'ru', 'zh', 'es', 'ar'];
+    const filename = window.location.pathname.split('/').pop() || 'index.html';
+    let pageType = '';
+    let currentLang = 'en';
+    
+    if (filename.startsWith('index')) {
+      pageType = 'index';
+      const suffix = filename.replace('index', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('pitch_deck')) {
+      pageType = 'pitch_deck';
+      const suffix = filename.replace('pitch_deck', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('AI_Clone_Architecture')) {
+      pageType = 'AI_Clone_Architecture';
+      const suffix = filename.replace('AI_Clone_Architecture', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    }
+    
+    if (!pageType) return;
+    
+    const savedLang = localStorage.getItem('cloone_pref_lang');
+    if (savedLang && savedLang !== currentLang && langCodes.includes(savedLang)) {
+      let targetFile = (savedLang === 'en') ? pageType + '.html' : pageType + '-' + savedLang + '.html';
+      window.location.replace(targetFile);
+    }
+  })();
+</script>
+<link rel="stylesheet" href="AI_Clone_Architecture.css">
+</head>
+<body>
+
+<div class="nav-back-bar">
+  <a href="index.html" class="nav-back-link">← العودة إلى الرئيسية</a>
+  <a href="pitch_deck.html" class="nav-back-link">← إلى العرض التقديمي</a>
+  <div class="lang-select-wrap" style="pointer-events: auto;">
+    <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'AI_Clone_Architecture.html' : 'AI_Clone_Architecture-' + this.value + '.html');">
+      <option value="en">EN</option>
+      <option value="ru">RU</option>
+      <option value="zh">中文</option>
+      <option value="es">ES</option>
+      <option value="ar" selected>العربية</option>
+    </select>
+  </div>
+</div>
+
+<div class="cover">
+  <div class="cover-badge">الإصدار 2.0 · المواصفات الفنية</div>
+  <div style="margin-bottom: 24px; max-width: 280px; width: 100%; display: flex; align-items: center; justify-content: center;">
+    <svg width="100%" height="auto" viewBox="0 0 409 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <linearGradient x1="100%" y1="50%" x2="4.87186121%" y2="50%" id="linearGradient-logo-cover">
+                <stop stop-color="#F0A500" offset="0%"></stop>
+                <stop stop-color="#6C5CE7" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+        <g id="Artboard-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="CL" transform="translate(5.200000, 31.000000)" fill="#1A1B2E" fill-rule="nonzero">
+                <path d="M35.4,72 C28.2666667,72 22.0333333,70.5333333 16.7,67.6 C11.3666667,64.6666667 7.25,60.5 4.35,55.1 C1.45,49.7 0,43.3666667 0,36.1 C0,28.8333333 1.45,22.4833333 4.35,17.05 C7.25,11.6166667 11.35,7.41666667 16.65,4.45 C21.95,1.48333333 28.1333333,0 35.2,0 C41.1333333,0 46.5833333,1 51.55,3 C56.5166667,5 60.3333333,7.73333333 63,11.2 C63.6,12 63.9,12.8666667 63.9,13.8 C63.9,15 63.3,16.0666667 62.1,17 C61.4333333,17.4666667 60.6666667,17.7 59.8,17.7 C59.0666667,17.7 58.3333333,17.5333333 57.6,17.2 C56.8666667,16.8666667 56.2666667,16.4333333 55.8,15.9 C51.4,10.5 44.5333333,7.8 35.2,7.8 C27.2666667,7.8 21,10.3166667 16.4,15.35 C11.8,20.3833333 9.5,27.3 9.5,36.1 C9.5,44.8333333 11.8,51.7 16.4,56.7 C21,61.7 27.3333333,64.2 35.4,64.2 C40.2,64.2 44.4333333,63.5 48.1,62.1 C51.7666667,60.7 54.7666667,58.7 57.1,56.1 C58.4333333,54.7 59.7666667,54 61.1,54 C61.9666667,54 62.7666667,54.3 63.5,54.9 C64.6333333,55.9 65.2,57 65.2,58.2 C65.2,59.0666667 64.8666667,59.9333333 64.2,60.8 C61.4666667,64.2666667 57.5333333,67 52.4,69 C47.2666667,71 41.6,72 35.4,72 Z" id="Path"></path>
+                <path d="M92.95,71 C88.4833333,71 85.0333333,69.8333333 82.6,67.5 C80.1666667,65.1666667 78.95,61.9333333 78.95,57.8 L78.95,4.7 C78.95,3.23333333 79.3666667,2.08333333 80.2,1.25 C81.0333333,0.416666667 82.1833333,0 83.65,0 C85.1166667,0 86.2833333,0.416666667 87.15,1.25 C88.0166667,2.08333333 88.45,3.23333333 88.45,4.7 L88.45,57.9 C88.45,59.5666667 88.8833333,60.9 89.75,61.9 C90.6166667,62.9 91.8166667,63.4 93.35,63.4 L126.25,63.4 C129.383333,63.4 130.95,64.6666667 130.95,67.2 C130.95,68.4 130.533333,69.3333333 129.7,70 C128.866667,70.6666667 127.716667,71 126.25,71 L92.95,71 Z" id="Path"></path>
+            </g>
+            <g id="NE" transform="translate(266.600000, 31.000000)" fill="#1A1B2E" fill-rule="nonzero">
+                <path d="M4.7,72 C3.23333333,72 2.08333333,71.5833333 1.25,70.75 C0.416666667,69.9166667 0,68.7666667 0,67.3 L0,27.6 C0,21.9333333 1.2,17.0333333 3.6,12.9 C6,8.76666667 9.45,5.58333333 13.95,3.35 C18.45,1.11666667 23.7666667,0 29.9,0 C36.0333333,0 41.35,1.11666667 45.85,3.35 C50.35,5.58333333 53.8,8.76666667 56.2,12.9 C58.6,17.0333333 59.8,21.9333333 59.8,27.6 L59.8,67.3 C59.8,68.7666667 59.3833333,69.9166667 58.55,70.75 C57.7166667,71.5833333 56.5666667,72 55.1,72 C53.6333333,72 52.4666667,71.5833333 51.6,70.75 C50.7333333,69.9166667 50.3,68.7666667 50.3,67.3 L50.3,27.3 C50.3,21.1 48.5166667,16.3 44.95,12.9 C41.3833333,9.5 36.3666667,7.8 29.9,7.8 C23.5,7.8 18.5,9.51666667 14.9,12.95 C11.3,16.3833333 9.5,21.1666667 9.5,27.3 L9.5,67.3 C9.5,68.7666667 9.06666667,69.9166667 8.2,70.75 C7.33333333,71.5833333 6.16666667,72 4.7,72 Z" id="Path"></path>
+            </g>
+            <path d="M214,25 C225.045695,25 235.045695,29.4771525 242.284271,36.7157288 C249.522847,43.954305 254,53.954305 254,65 C254,76.045695 249.522847,86.045695 242.284271,93.2842712 C235.045695,100.522847 225.045695,105 214,105 C209.489065,105 205.15237,104.253756 201.108615,102.876813 C206.394861,99.2263988 210.87928,94.4980946 214.244095,89.0093599 C218.528767,82.0201442 221,73.7987583 221,65 C221,56.2014176 218.528863,47.9801845 214.244592,40.991129 C210.879411,35.5014133 206.394366,30.7724432 201.109173,27.1222926 C205.153476,25.7460463 209.489643,25 214,25 Z M175,25 C179.355418,25 183.548406,25.6956477 187.473562,26.9825099 L187.893,27.123 L187.6902,27.2635841 C182.664827,30.7731339 178.373407,35.260835 175.092143,40.4507109 L174.756317,40.9900881 C170.471395,47.9793235 168,56.2009563 168,65 C168,73.7072462 170.420128,81.8490607 174.622573,88.7908169 C177.977562,94.3327134 182.46975,99.1092425 187.773793,102.796992 C183.861514,104.254586 179.516893,105 175,105 C163.954305,105 153.954305,100.522847 146.715729,93.2842712 C139.477153,86.045695 135,76.045695 135,65 C135,53.954305 139.477153,43.954305 146.715729,36.7157288 C153.954305,29.4771525 163.954305,25 175,25 Z" id="Combined-Shape" stroke="url(#linearGradient-logo-cover)" stroke-width="6"></path>
+            <rect id="Rectangle" fill="#1A1B2E" x="342" y="95" width="49" height="8" rx="3.5"></rect>
+            <rect id="Rectangle-Copy-2" fill="#1A1B2E" x="342" y="32" width="49" height="8" rx="3.5"></rect>
+            <rect id="Rectangle-Copy" fill="#1A1B2E" x="342" y="64" width="34" height="8" rx="3.5"></rect>
+        </g>
+    </svg>
+  </div>
+  <p class="cover-sub">المواصفات الفنية الرسمية لهيكل نظام متعدد الوكلاء لإنشاء نسخة رقمية مخصصة للإنسان</p>
+  <div class="cover-stats">
+    <div class="stat-pill"><strong>24</strong> متجهاً للشخصية</div>
+    <div class="stat-pill"><strong>8</strong> أنواع من الأدوار</div>
+    <div class="stat-pill"><strong>8</strong> وكلاء ذكاء اصطناعي</div>
+    <div class="stat-pill"><strong>3</strong> خوارزميات</div>
+    <div class="stat-pill"><strong>4</strong> مراحل للتطوير</div>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><div class="label">نوع المستند</div><div class="value">المواصفات الفنية</div></div>
+    <div class="cover-meta-item"><div class="label">الجمهور</div><div class="value">PM · Lead Dev · ML Engineers</div></div>
+    <div class="cover-meta-item"><div class="label">التاريخ</div><div class="value">يونيو 2026</div></div>
+    <div class="cover-meta-item"><div class="label">الحالة</div><div class="value">✦ قيد التطوير</div></div>
+    <div class="cover-meta-item"><div class="label">الإصدار</div><div class="value">2.0 (Unified Vectors)</div></div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-section">
+  <div class="container">
+    <div class="section-label">الفهرس</div>
+    <h2 style="font-size:28px;font-weight:800;">بنية المستند</h2>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s1"><div class="toc-num">01</div><div><div class="toc-title">مفهوم وهدف النظام</div><div class="toc-desc">ماذا نبني ولماذا وكيف</div></div></a>
+      <a class="toc-item" href="#s2"><div class="toc-num">02</div><div><div class="toc-title">ملف الشخصية — 24 متجهاً</div><div class="toc-desc">كتالوج موحد كامل لجميع المتجهات</div></div></a>
+      <a class="toc-item" href="#s3"><div class="toc-num">03</div><div><div class="toc-title">نظام الأدوار</div><div class="toc-desc">الأدوار الواعية والظلية</div></div></a>
+      <a class="toc-item" href="#s4"><div class="toc-num">04</div><div><div class="toc-title">خوارزميات ربط المتجهات</div><div class="toc-desc">3 خوارزميات للنموذج الموحد</div></div></a>
+      <a class="toc-item" href="#s5"><div class="toc-num">05</div><div><div class="toc-title">هيكل متعدد الوكلاء</div><div class="toc-desc">8 وكلاء وتفاعلهم</div></div></a>
+      <a class="toc-item" href="#s6"><div class="toc-num">06</div><div><div class="toc-title">جمع البيانات والتدريب</div><div class="toc-desc">مسار ومخطط البيانات</div></div></a>
+      <a class="toc-item" href="#s7"><div class="toc-num">07</div><div><div class="toc-title">الأخلاقيات والأمان</div><div class="toc-desc">القيود الإلزامية للنظام</div></div></a>
+      <a class="toc-item" href="#s8"><div class="toc-num">08</div><div><div class="toc-title">خارطة طريق التطوير</div><div class="toc-desc">4 مراحل، MVP وتعريف الإنجاز</div></div></a>
+    </div>
+  </div>
+</div>
+
+<!-- S1 -->
+<div class="section" id="s1">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title-wrap">
+        <h2>مفهوم وهدف النظام</h2>
+        <p>يقوم النظام بإنشاء وكيل ذكاء اصطناعي يشكل نسخة رقمية لشخص معين - ليس مجرد تقليد للحديث، بل نموذج ديناميكي متعدد المستويات للشخصية مع صيغة أولويات فريدة، وقائمة أدوار، وأنماط سلوكية.</p>
+      </div>
+    </div>
+    <div class="highlight purple">
+      <div class="highlight-title">المبدأ الأساسي</div>
+      <p>الإنسان نظام ديناميكي مع <strong>صيغة أولويات</strong> تشكلت تحت تأثير الرمز الجيني للعائلة، والمجتمع، ونماذج الأدوار، والمخاوف، والخبرات الحياتية. النسخة الرقمية تعيد إنتاج هذه الصيغة، وليس فقط الأنماط اللفظية. توصف الشخصية بمتجه واحد يتكون من <strong>24 بعداً</strong>.</p>
+    </div>
+    <div class="card-grid" style="margin-top:32px;">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.12);">🎯</div>Что система умеет</div>
+        <ul>
+          <li>إعادة إنتاج أسلوب التواصل واتخاذ القرار</li>
+          <li>Предсказывать поведение в разных ситуациях</li>
+          <li>التنقل بين الأدوار بناءً على السياق</li>
+          <li>مراعاة أنماط الظل واللاوعي</li>
+          <li>التطور جنباً إلى جنب مع الشخص (التعلم عبر الإنترنت)</li>
+          <li>نقل التحكم إلى المنشئ الحقيقي في الحوار</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🚫</div>Что система НЕ делает</div>
+        <ul>
+          <li>لا يحل محل الشخص الحقيقي بالمعنى القانوني</li>
+          <li>لا يتخذ قرارات دون موافقة الأصلي</li>
+          <li>لا يخزن البيانات البيومترية دون تشفير</li>
+          <li>لا يتصرف في أدوار الظل المدمرة دون تفعيل محدد</li>
+          <li>لا يتدرب على بيانات أطراف ثالثة دون موافقة</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">📐</div>Базовая модель человека</div>
+        <ul>
+          <li><strong>4 типа:</strong> Экстраверт / Интроверт / Баланс / Непредсказуемый</li>
+          <li><strong>الأولويةы:</strong> Уникальный вектор весов W из 24 измерений</li>
+          <li><strong>Роли:</strong> Осознанные + Теневые (Карпман, ТА)</li>
+          <li><strong>Состояние:</strong> Динамический эмоциональный фон</li>
+          <li><strong>Эволюция:</strong> Живой, обновляемый профиль</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight green" style="margin-top:32px;">
+      <div class="highlight-title">المبدأ الهيكلي</div>
+      <p>يبنى النظام <strong>كشبكة متعددة الوكلاء</strong>: كل وكيل مسؤول عن مجال أو طبقة معينة من الشخصية. يقوم المنسق المركزي (الوكيل الرئيسي - Master Agent) بالتنسيق بين الوكلاء وتشكيل الإجابة النهائية مع مراعاة السياق الحالي والحالة العاطفية والدور النشط.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S2 -->
+<div class="section" id="s2" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-wrap">
+        <h2>ملف الشخصية — 24 متجهاً</h2>
+        <p>Полный унифицированный каталог всех измерений личностного профиля. 24 вектора объединены в единую спецификацию: каждый имеет вес (приоритет), набор маркеров для сбора данных и связь с соответствующим агентом системы.</p>
+      </div>
+    </div>
+
+    <div class="graph-container">
+      <div class="section-label" style="margin-bottom:16px;">هيكل ملف الشخصية: 24 متجهاً</div>
+      <div class="vector-diagram">
+        <div class="vd-center">ملف<br>الشخصية<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₄]</span></div>
+        <div class="vd-ring">
+          <div class="vd-node primary">👥 الأصدقاء</div>
+          <div class="vd-node primary">👨‍👩‍👧 العائلة</div>
+          <div class="vd-node primary">🏆 الإنجازات</div>
+          <div class="vd-node primary">⭐ نماذج الأدوار</div>
+          <div class="vd-node primary">💼 العمل</div>
+          <div class="vd-node primary">🎮 الهوايات</div>
+          <div class="vd-node primary">🌍 البيئة المحيطة</div>
+          <div class="vd-node accent">🔒 الأسرار</div>
+          <div class="vd-node green">📚 التعليم</div>
+          <div class="vd-node green">🔄 العادات</div>
+          <div class="vd-node accent">😨 المخاوف</div>
+          <div class="vd-node violet">🧬 الذكاء الجسدي</div>
+          <div class="vd-node violet">💬 أسلوب التواصل</div>
+          <div class="vd-node violet">🎭 الخريطة العاطفية</div>
+          <div class="vd-node violet">🔭 النظرة العالمية</div>
+          <div class="vd-node violet">⚡ القرارات</div>
+          <div class="vd-node violet">💰 النمط المالي</div>
+          <div class="vd-node violet">🕐 الوقت</div>
+          <div class="vd-node violet">🎨 الجماليات</div>
+          <div class="vd-node violet">😤 الصراع</div>
+          <div class="vd-node violet">📖 السرد</div>
+          <div class="vd-node violet">🤝 الارتباط</div>
+          <div class="vd-node violet">🌡️ الحالات</div>
+          <div class="vd-node accent">😄 الفكاهة</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight yellow">
+      <div class="highlight-title">صيغة الملف الشخصي</div>
+      <p>كل شخص لديه <strong>متجه أوزان فريد W = [w₁, w₂, …, w₂₄]</strong>، حيث wᵢ ∈ [0, 1]. الأوزان ليست ثابتة - فهي تتغير تحت تأثير أحداث الحياة والعمر والضغط الخارجي. يقوم النظام بتحديث الأوزان في الوقت الفعلي ويوثق إصدار كل تغيير.</p>
+    </div>
+
+    <!-- VECTOR GRID -->
+    <div class="vector-grid">
+
+      <div class="vector-group-label">— القسم الأول: مجالات الحياة (المتجهات 01-11)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">👥</div><div><div class="vector-num">المتجه 01</div><div class="vector-name">Друзья</div></div></div>
+        <div class="vector-desc">انعكاس الشخصية: ما يجذبنا وما نخفيه. وقت الفراغ، الدعم المتبادل، مرآة التصور الذاتي الاجتماعي.</div>
+        <div class="vector-tags"><span class="vector-tag">الترفيه</span><span class="vector-tag">الدعم المتبادل</span><span class="vector-tag">انعكاس الذات</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--primary);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👨‍👩‍👧</div><div><div class="vector-num">المتجه 02</div><div class="vector-name">Семья</div></div></div>
+        <div class="vector-desc">القيم، المجتمع الأول، المعلمون. الأجداد، الشريك، الأطفال - مصدر نماذج السلوك والارتباط الأولية.</div>
+        <div class="vector-tags"><span class="vector-tag">القيم</span><span class="vector-tag">التقاليد</span><span class="vector-tag">النماذج الأولية</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🏆</div><div><div class="vector-num">المتجه 03</div><div class="vector-name">Достижения</div></div></div>
+        <div class="vector-desc">الوضع الاجتماعي. الإنجازات الاجتماعية والرياضية والمهنية والأكاديمية والعائلية كعلامات على قيمة الذات.</div>
+        <div class="vector-tags"><span class="vector-tag">الاجتماعية</span><span class="vector-tag">المهنية</span><span class="vector-tag">الأكاديمية</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--warning);"></div></div><span>~60%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">⭐</div><div><div class="vector-num">المتجه 04</div><div class="vector-name">Ролевые модели</div></div></div>
+        <div class="vector-desc">القدوة والموجهون: الآباء، رجال الأعمال، المعلمون الروحيون. يحددون أفق القيم والملف التحفيزي.</div>
+        <div class="vector-tags"><span class="vector-tag">الآباء</span><span class="vector-tag">رجال الأعمال</span><span class="vector-tag">المعلمون</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">💼</div><div><div class="vector-num">المتجه 05</div><div class="vector-name">Карьера</div></div></div>
+        <div class="vector-desc">استخدام المواهب لكسب العيش. التطلعات المهنية، الانضباط، الإنجازات، والموقف من النجاح المالي.</div>
+        <div class="vector-tags"><span class="vector-tag">التطلعات</span><span class="vector-tag">الانضباط</span><span class="vector-tag">المالية</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--info);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🎮</div><div><div class="vector-num">المتجه 06</div><div class="vector-name">Хобби / الترفيه</div></div></div>
+        <div class="vector-desc">طريقة الاستشفاء والاستراحة. مع من وكيف يقضي وقت الفراغ - مفتاح توازن الطاقة في الشخصية.</div>
+        <div class="vector-tags"><span class="vector-tag">الرياضة</span><span class="vector-tag">الإبداع</span><span class="vector-tag">السفر</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:45%;background:var(--primary);"></div></div><span>~45%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.08);">🌍</div><div><div class="vector-num">المتجه 07</div><div class="vector-name">Люди / Окружение</div></div></div>
+        <div class="vector-desc">الموقف من جميع الناس: المارة، الغرباء، الزملاء. مستوى الثقة الاجتماعية والانفتاح على بناء العلاقات.</div>
+        <div class="vector-tags"><span class="vector-tag">الزملاء</span><span class="vector-tag">الغرباء</span><span class="vector-tag">العلاقات</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--success);"></div></div><span>~50%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🔒</div><div><div class="vector-num">المتجه 08</div><div class="vector-name">Тайны</div></div></div>
+        <div class="vector-desc">الخفايا: عدم تقدير الذات، الصحة، الأحلام، الضمير، الإدمان، الأنا، صدمات الطفولة، القناعات المفروضة. المتجه الأكثر حساسية. يخزن بتشفير المعرفة الصفرية.</div>
+        <div class="vector-tags"><span class="vector-tag">صدمات الطفولة</span><span class="vector-tag">الإدمان</span><span class="vector-tag">الأحلام</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--danger);"></div></div><span>~90%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📚</div><div><div class="vector-num">المتجه 09</div><div class="vector-name">Образование</div></div></div>
+        <div class="vector-desc">الخبرة المتراكمة، التعلم الذاتي، البحوث الشخصية، الانضباط الذاتي والتحليل الذاتي. القاعدة المعرفية لاتخاذ القرارات.</div>
+        <div class="vector-tags"><span class="vector-tag">التعلم الذاتي</span><span class="vector-tag">الخبرة</span><span class="vector-tag">التحليل الذاتي</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🔄</div><div><div class="vector-num">المتجه 10</div><div class="vector-name">العادات / الملذات</div></div></div>
+        <div class="vector-desc">الاستقلالية من خلال العادات (الجيدة/السيئة)، وأنماط الدوبامين. الطقوس اليومية تحدد إمكانية التنبؤ بالسلوك.</div>
+        <div class="vector-tags"><span class="vector-tag">الطقوس</span><span class="vector-tag">الدوبامين</span><span class="vector-tag">التلقائية</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--warning);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😨</div><div><div class="vector-num">المتجه 11</div><div class="vector-name">Страхи</div></div></div>
+        <div class="vector-desc">الواضحة وغير الواضحة. الخوف الأكبر هو عدم اليقين. العقل يحمي الإنسان دائماً، خالقاً بيئة مريحة. يؤثر على بقية المتجهات.</div>
+        <div class="vector-tags"><span class="vector-tag">السرية</span><span class="vector-tag">الواضحة</span><span class="vector-tag">النفسية</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— Блок II: النفسية и когнитивные измерения (Векторы 12–23)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🧬</div><div><div class="vector-num">المتجه 12</div><div class="vector-name">Телесный интеллект</div></div></div>
+        <div class="vector-desc">العلاقة مع الجسد، النشاط البدني، الإيقاعات الحيوية، الأنماط الجسدية للتوتر. يحدد الإيقاع الحيوي مدى توفر وجودة الإجابات في أوقات مختلفة من اليوم.</div>
+        <div class="vector-tags"><span class="vector-tag">الإيقاع الحيوي</span><span class="vector-tag">جسدنة التوتر</span><span class="vector-tag">الصحة</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">💬</div><div><div class="vector-num">المتجه 13</div><div class="vector-name">Стиль коммуникации</div></div></div>
+        <div class="vector-desc">الملف اللغوي التفصيلي: أنماط الكلام، السرعة، المفردات، الاستعارات. يعتبر مدخلاً لوكيل الصوت ويحدد "صوت" النسخة.</div>
+        <div class="vector-tags"><span class="vector-tag">السجل</span><span class="vector-tag">طول الإجابات</span><span class="vector-tag">الاستعارات</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--primary);"></div></div><span>~90%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🎭</div><div><div class="vector-num">المتجه 14</div><div class="vector-name">Эмоциональная карта</div></div></div>
+        <div class="vector-desc">نطاق المشاعر التي يتم تجربتها والتعبير عنها مقابل تلك التي يتم كبتها. التنظيم العاطفي وفق نموذج بلوتشيك. سرعة الاستعادة.</div>
+        <div class="vector-tags"><span class="vector-tag">بلوتشيك</span><span class="vector-tag">التنظيم</span><span class="vector-tag">المشاعر المكبوتة</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">🔭</div><div><div class="vector-num">المتجه 15</div><div class="vector-name">النظرة العالمية والفلسفة</div></div></div>
+        <div class="vector-desc">صورة العالم، المعتقدات حول طبيعة الواقع، الآراء السياسية، الروحانية. المعتقدات الأساسية حول الناس (ثقة/عدم ثقة)، الموقف من القدر والصدفة.</div>
+        <div class="vector-tags"><span class="vector-tag">المعتقدات</span><span class="vector-tag">الروحانية</span><span class="vector-tag">صورة العالم</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--info);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚡</div><div><div class="vector-num">المтجه 16</div><div class="vector-name">Стиль принятия решений</div></div></div>
+        <div class="vector-desc">كيفية اتخاذ القرارات: عقلانياً، حدسياً، بالتأجيل، بالاستشارة. سرعة اتخاذ القرارات، دور الحدس مقابل التحليل، رد الفعل على الأخطاء.</div>
+        <div class="vector-tags"><span class="vector-tag">السرعة</span><span class="vector-tag">الحدس</span><span class="vector-tag">التحليل</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--warning);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">💰</div><div><div class="vector-num">المتجه 17</div><div class="vector-name">Финансовый паттерн</div></div></div>
+        <div class="vector-desc">الموقف من المال، المخاطر، الاستثمارات. المال كأمان، أو مكانة، أو حرية. نموذج الإنفاق: اندفاعي / عقلاني.</div>
+        <div class="vector-tags"><span class="vector-tag">الإنفاق</span><span class="vector-tag">الخطر</span><span class="vector-tag">استعارة المال</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--success);"></div></div><span>~60%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🕐</div><div><div class="vector-num">المتجه 18</div><div class="vector-name">Отношение ко времени</div></div></div>
+        <div class="vector-desc">الاهتمام بالماضي أو الحاضر أو المستقبل (زيمباردو). أفق التخطيط. رد الفعل على المواعيد النهائية، المماطلة.</div>
+        <div class="vector-tags"><span class="vector-tag">زيمباردو</span><span class="vector-tag">التخطيط</span><span class="vector-tag">المماطلة</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--primary);"></div></div><span>~50%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🎨</div><div><div class="vector-num">المтجه 19</div><div class="vector-name">Эстетический код</div></div></div>
+        <div class="vector-desc">التفضيلات البصرية والسمعية واللمسية. القناة الحسية الرائدة (VAK). التفضيلات الجمالية (الأسلوب، اللون)، رد الفعل على النظام/الفوضى.</div>
+        <div class="vector-tags"><span class="vector-tag">VAK</span><span class="vector-tag">الجماليات</span><span class="vector-tag">المساحة</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:40%;background:var(--accent3);"></div></div><span>~40%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😤</div><div><div class="vector-num">المтجه 20</div><div class="vector-name">Конфликтный паттерн</div></div></div>
+        <div class="vector-desc">Поведение в конфликте по модели Томаса-Килмана: избегает, нападает, уступает, ищет компромисс. Реакция на критику. السرعة прощения.</div>
+        <div class="vector-tags"><span class="vector-tag">توماس-كيلمان</span><span class="vector-tag">النقد</span><span class="vector-tag">الغفران</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--danger);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📖</div><div><div class="vector-num">المтجه 21</div><div class="vector-name">السردная идентичность</div></div></div>
+        <div class="vector-desc">كيفية رواية قصة حياتهم: بطل، ضحية، هائم. نقاط التحول الرئيسية. صورة الذات في الماضي والحاضر والمستقبل.</div>
+        <div class="vector-tags"><span class="vector-tag">السرد</span><span class="vector-tag">نقاط التحول</span><span class="vector-tag">صورة الذات</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">🤝</div><div><div class="vector-num">المтجه 22</div><div class="vector-name">Стиль привязанности</div></div></div>
+        <div class="vector-desc">Теория بولبي: надёжный, тревожный, избегающий, дезорганизованный. Критически влияет на все отношения. Паттерн реакции на разлуку и близость.</div>
+        <div class="vector-tags"><span class="vector-tag">بولبي</span><span class="vector-tag">القرب</span><span class="vector-tag">الاستقلالية</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="vector-num">المтجه 23</div><div class="vector-name">Динамика состояний</div></div></div>
+        <div class="vector-desc">الخلفية العاطفية الحالية، مستوى التوتر، الطاقة. يتم تحليلها في الوقت الفعلي بواسطة وكيل العاطفة. أساسي للموقع "المتقلب".</div>
+        <div class="vector-tags"><span class="vector-tag">الوقت الفعلي</span><span class="vector-tag">المحفزات</span><span class="vector-tag">الاحتراق النفسي</span></div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— القسم الثالث: المؤشرات الفكرية (المتجه 24)</div>
+
+      <div class="vector-card" style="border-color:rgba(155,81,224,0.3);background:linear-gradient(135deg,#fff 0%,rgba(155,81,224,0.04) 100%);">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.12);">😄</div><div><div class="vector-num">المتجه 24 · مؤشر الذكاء</div><div class="vector-name" style="color:var(--accent3);">وجود الفكاهة</div></div></div>
+        <div class="vector-desc">الفكاهة ليست مجرد سمة شخصية، بل هي <strong>مؤشر ذكاء</strong>: القدرة على رؤية التناقضات، وتبديل السياقات، وخلق اتصالات غير متوقعة. يكشف نوع وكثافة الفكاهة عن الأسلوب المعرفي، ومستوى الأمان النفسي، وطريقة التفاعل مع الواقع.</div>
+        <div class="vector-tags"><span class="vector-tag">السخرية من الذات</span><span class="vector-tag">العبث</span><span class="vector-tag">التهكم</span><span class="vector-tag">القائم على الملاحظة</span><span class="vector-tag">الكوميديا السوداء</span></div>
+        <div class="vector-desc" style="margin-top:10px;font-size:11px;color:var(--text3);">
+          مرتبط بالمتجه 13 (أسلوب التواصل) ودور "المهرج/المخادع" (مخطط الأدوار). رد الفعل على فكاهة الآخرين هو مؤشر على النضج النفسي. القدرة على الضحك على الذات هي علامة على نضج الأنا.
+        </div>
+        <div class="vector-weight"><span>الوزن</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
+      </div>
+
+    </div><!-- end vector-grid -->
+
+    <div class="formula" style="margin-top:32px;">
+      <span class="type">PersonalityProfile</span> <span class="op">=</span> {<br>
+      &nbsp;&nbsp;social_type: <span class="var">"extrovert" | "introvert" | "balanced" | "volatile"</span>,<br>
+      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 24 вектора</span><br>
+      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// مرتبة تنازلياً веса</span><br>
+      &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// чувствительность к давлению</span><br>
+      &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// إصدارات دلالية</span><br>
+      &nbsp;&nbsp;alignment_score: <span class="var">0..1</span> <span class="comment">// точность копии, цель ≥ 0.85</span><br>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="section" id="s3">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-wrap">
+        <h2>نظام الأدوار</h2>
+        <p>نظام أدوار ثنائي المستوى: واعية / اجتماعية (مرئية للجميع) وظلية / لاواعية (لا يلاحظها الشخص نفسه). للحصول على نسخة كاملة، المستوى الثاني بالغ الأهمية.</p>
+      </div>
+    </div>
+    <div class="role-grid">
+      <div class="role-col">
+        <div class="role-col-title" style="color:var(--success);">✓ الأدوار الواعية (الإطار الاجتماعي)</div>
+        <div class="role-item"><div class="role-item-icon">👨‍👩‍👧</div><div><div class="role-item-name">الأدوار العائلية</div><div class="role-item-desc">ابن/ابنة، أخ/أخت، شريك، والد - التجربة الأولى للحب والمسؤولية والتنازلات</div></div></div>
+        <div class="role-item"><div class="role-item-icon">💼</div><div><div class="role-item-name">الأدوار المهنية</div><div class="role-item-desc">متخصص، موجه/متدرب، مواطن، صديق - تحقيق الذات في المجتمع</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧠</div><div><div class="role-item-name">الشخصية / الوجودية</div><div class="role-item-desc">صانع الحياة، المراقب/المفكر، حارس الطفل الداخلي</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🏠</div><div><div class="role-item-name">الاجتماعية واليومية</div><div class="role-item-desc">سيد الحياة، جار/عضو في المجتمع - الاستقلال اليومي</div></div></div>
+      </div>
+      <div class="role-col">
+        <div class="role-col-title" style="color:var(--danger);">⚠ أدوار الظل (السيناريوهات اللاواعية)</div>
+        <div class="role-item"><div class="role-item-icon">🎭</div><div><div class="role-item-name">مثلث كاربمان</div><div class="role-item-desc"><strong>الضحية</strong> (تنقل المسؤولية)، <strong>الجاني</strong> (التحكم بالخوف)، <strong>المنقذ</strong> (الحاجة الخفية للشعور بالأهمية)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧛</div><div><div class="role-item-name">الأدوار المدمرة</div><div class="role-item-desc"><strong>مصاص دماء/طفيلي</strong> (يتغذى على العواطف)، <strong>العاشق المقنع</strong> (السعي القهري للحصول على القيمة والاعتراف)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">👶</div><div><div class="role-item-name">تحليل المعاملات (TA)</div><div class="role-item-desc"><strong>الطفل الأبدي</strong> (الطفولية)، <strong>الوالد الناقد</strong> (الأخلاقي)، <strong>المهرج/المخادع</strong> (الهروب من القرب)</div></div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <h3>المصفوفة: دور الظل ← البديل الصحي</h3>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>دور الظل</th><th>الحاجة الخفية</th><th>البديل الصحي</th><th>محفز التنشيط</th><th>الأولوية</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag red">الضحية</span></td><td>الانتباه، رفع المسؤولية</td><td><span class="tag green">صانع / كاتب الحياة</span></td><td>التوتر، الصراع</td><td><span class="tag purple">مرتفع</span></td></tr>
+          <tr><td><span class="tag red">الجاني</span></td><td>التحكم، السلطة</td><td><span class="tag green">القائد / الموجه</span></td><td>تهديد السلطة/الهيبة</td><td><span class="tag purple">مرتفع</span></td></tr>
+          <tr><td><span class="tag yellow">المنقذ</span></td><td>الأهمية، الاحتياج</td><td><span class="tag green">صديق (عند الطلب)</span></td><td>أزمة الآخرين</td><td><span class="tag blue">متوسط</span></td></tr>
+          <tr><td><span class="tag red">مصاص الدماء</span></td><td>الطاقة، المورد</td><td><span class="tag green">المراقب / المفكر</span></td><td>الاستنزاف، الملل</td><td><span class="tag blue">متوسط</span></td></tr>
+          <tr><td><span class="tag yellow">العاشق المقنع</span></td><td>الأدرينالين، التحقق/التأكيد</td><td><span class="tag green">الشريك / الزوج</span></td><td>الروتين، فقدان المعنى</td><td><span class="tag blue">متوسط</span></td></tr>
+          <tr><td><span class="tag yellow">الطفل الأبدي</span></td><td>الأمان</td><td><span class="tag green">سيد الحياة</span></td><td>الخوف من الفشل</td><td><span class="tag blue">متوسط</span></td></tr>
+          <tr><td><span class="tag red">الوالد الناقد</span></td><td>الصواب، التنبؤ</td><td><span class="tag green">الموجه (مع الدعم)</span></td><td>أخطاء الآخرين</td><td><span class="tag blue">متوسط</span></td></tr>
+          <tr><td><span class="tag yellow">المهرج / المخادع</span></td><td>الهروب من القرب</td><td><span class="tag green">حارس الطفل الداخلي</span></td><td>الهشاشة العاطفية</td><td><span class="tag blue">متوسط</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="section" id="s4" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-wrap">
+        <h2>خوارزميات ربط المتجهات</h2>
+        <p>ثلاث خوارزميات تربط 24 متجهاً في نموذج شخصية ديناميكي واحد. تعمل الخوارزميات بشكل متسلسل وفي الوقت الفعلي.</p>
+      </div>
+    </div>
+
+    <div class="algo-box">
+      <h3>🧮 الخوارزمية 1: بناء ملف الشخصية (التهيئة)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">يتم تشغيلها مرة واحدة عند التهيئة + وتحديثها بانتظام.</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>جمع البيانات الخام</h4><p>استبيان المقابلة (100-200 سؤال)، تحليل المراسلات/الصوت/المحتوى، الأنماط السلوكية. لكل من المتجهات الـ 24 مجموعة من الأسئلة وعلامات الجمع.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>تصنيف النوع الاجتماعي</h4><p>يحدد المصنف: منفتح / منغلق / متوازن / متقلب. للنوع الرابع، يتم حساب <em>volatility_factor</em> - الحساسية للمحفزات المسببة للتوتر.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>حساب متجه الوزن W</h4><p>لكل من المتجهات الـ 24، يتم حساب الوزن w ∈ [0, 1] من خلال: التقييم المباشر للمستخدم + المؤشرات السلوكية غير المباشرة + تحليل التناقضات (المعلن مقابل الفعلي).</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>بناء مصفوفة الأدوار</h4><p>لكل دور واعي: تكرار التنشيط + السياق. للأدوار الظلية: احتمال التنشيط في حالة التوتر. يرتبط كل دور ظل بمحفزات من المتجهات 11، 14، 23.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">5</div><div class="algo-step-content"><h4>التحقق من صحة الملف الشخصي مع المستخدم</h4><p>يتم تقديم الملف الشخصي كـ "مرآة". يقوم المستخدم بالتعديل. تكرار العملية من 3 إلى 5 مرات حتى التقارب. يتم تثبيت الإصدار v1.0.</p></div></div>
+      </div>
+    </div>
+
+    <div class="algo-box" style="margin-top:24px;">
+      <h3>⚡ الخوارزمية 2: التنشيط السياقي (وقت التشغيل)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">تنفذ مع كل طلب. تحدد: المتجه، الدور، الخلفية العاطفية.</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>تصنيف سياق الطلب</h4><p>يحدد مصنف الـ NLP أي من المتجهات الـ 24 ينتمي إليه الطلب ← يتم تنشيط الوكيل المعني.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>رصد الخلفية العاطفية</h4><p>المтجه 23 анализируется в реальном времени: тональность, время суток, история, маркеры стресса → вычисляется <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …}</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>اختيار الدور النشط</h4><p>إذا كان stressed ← تزداد احتمالية أدوار الظل. P(الدور | المتجه، الحالة، التاريخ). في حال تفعيل دور الظل - يقوم النظام إما بإعادة إنتاجه أو التبديل إلى البديل الصحي.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>صياغة الإجابة الموزونة</h4><p>Ответ = Σ(вес_агента × ответ_агента). Каждый из 8 агентов даёт версию, взвешенную по активным векторам и роли. Voice Agent применяет лингвистический стиль (المتجه 13).</p></div></div>
+      </div>
+    </div>
+
+    <div class="algo-box" style="margin-top:24px;">
+      <h3>🔄 الخوارزمية 3: التحديث التطوري (التعلم المستمر)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">الملف الشخصي نظام حي. تقوم الخوارزمية بتحديث النموذج مع تراكم البيانات.</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>تراكم الفروق (الدلتا)</h4><p>Каждое взаимодействие фиксируется: вектор, роль, состояние, исход. Дельты накапливаются в буфере. Согласие собеседника хранится в consent_log.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>رصد الانحراف</h4><p>إذا تغير وزن المتجه بمقدار ±0.15 خلال 30 يوماً ← يتم تسجيل "حدث حياتي" ويُطلب من المستخدم توضيح السياق.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>تحديث مصفوفة الأدوار</h4><p>زيادة تكرار أدوار الظل = مؤشر على تدهور الحالة. يولد النظام تقرير رؤية للمستخدم عبر وكيل الظل.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>إصدارات الملف الشخصي</h4><p>يتم حفظ كل تحديث كإصدار. يتاح تحليل الديناميكيات و"الرجوع" إلى حالة سابقة.</p></div></div>
+      </div>
+    </div>
+
+    <div class="highlight blue" style="margin-top:28px;">
+      <div class="highlight-title">مصفوفة التأثير المتبادل للمتجهات</div>
+      <p>المتجهات ليست مستقلة. المخاوف المرتفعة (V11) تكبت العمل (V05) وتشوه الإنجازات (V03). تخفف الفكاهة (V24) من نمط الصراع (V20). يخزن النظام مصفوفة الارتباطات ويحدثها مع التدريب.</p>
+    </div>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table class="matrix-table">
+        <thead><tr><th>يؤثر على ←</th><th>العائلة (V02)</th><th>العمل (V05)</th><th>المخاوف (V11)</th><th>العادات (V10)</th><th>الفكاهة (V24)</th></tr></thead>
+        <tbody>
+          <tr><td>المخاوف (V11)</td><td><span class="dot high"></span> مرتفع</td><td><span class="dot high"></span> مرتفع</td><td>—</td><td><span class="dot med"></span> متوسط</td><td><span class="dot high"></span> مرتفع</td></tr>
+          <tr><td>العائلة (V02)</td><td>—</td><td><span class="dot med"></span> متوسط</td><td><span class="dot high"></span> مرتفع</td><td><span class="dot med"></span> متوسط</td><td><span class="dot med"></span> متوسط</td></tr>
+          <tr><td>التعليم (V09)</td><td><span class="dot low"></span> منخفض</td><td><span class="dot high"></span> مرتفع</td><td><span class="dot med"></span> متوسط</td><td><span class="dot med"></span> متوسط</td><td><span class="dot med"></span> متوسط</td></tr>
+          <tr><td>التواصل (V13)</td><td><span class="dot med"></span> متوسط</td><td><span class="dot med"></span> متوسط</td><td><span class="dot low"></span> منخفض</td><td><span class="dot low"></span> منخفض</td><td><span class="dot high"></span> مرتفع</td></tr>
+          <tr><td>الفكاهة (V24)</td><td><span class="dot med"></span> متوسط</td><td><span class="dot med"></span> متوسط</td><td><span class="dot med"></span> متوسط</td><td><span class="dot low"></span> منخفض</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="section" id="s5" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title-wrap">
+        <h2>هيكل متعدد الوكلاء</h2>
+        <p>8 وكلاء متخصصين. كل وكيل مسؤول عن طبقة منفصلة من الشخصية، ويعمل بشكل مستقل، ويتفاعل عبر ناقل الأحداث.</p>
+      </div>
+    </div>
+    <div class="graph-container">
+      <div class="section-label" style="margin-bottom:20px;">مخطط تفاعل الوكلاء</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="background:rgba(108,99,255,0.1);border:2px solid rgba(108,99,255,0.4);border-radius:14px;padding:18px 40px;font-weight:700;color:var(--primary);font-size:15px;">🎯 MASTER AGENT (المنسق)</div>
+        <div style="color:var(--text3);font-size:24px;">↕</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:900px;">
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌍 Sphere Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🎭 Role Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌡️ Emotion Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">💬 Voice Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🧠 Shadow Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">📈 Evolution Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🔒 Privacy Agent</div>
+        </div>
+        <div style="color:var(--text3);font-size:24px;">↕</div>
+        <div style="background:rgba(18,183,106,0.07);border:1px solid rgba(18,183,106,0.2);border-radius:10px;padding:14px 32px;font-size:12px;font-weight:600;color:#0a6641;">📦 مخزن المتجهات + قاعدة بيانات الشخصية + ناقل الأحداث</div>
+      </div>
+    </div>
+    <div class="agent-grid">
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">المنسق</div></div></div><p>المنسق المركزي. يوزع المهام على الوكلاء، ويجمع الإجابات، ويزنها، ويشكل الإجابة النهائية. نقطة الدخول/الخروج الوحيدة.</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">سياق الـ 24 متجهاً</div></div></div><p>يخزن ويحدث متجه الوزن W عبر 24 بعداً. يصنف الطلب حسب المتجه ويعيد سياق الملف الشخصي ذي الصلة.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">إدارة الأدوار</div></div></div><p>يدير مصفوفة الأدوار: واعية + ظل. يحدد الدور النشط بناءً على السياق والحالة.</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">الخلفية العاطفية</div></div></div><p>Определяет текущее эмоциональное состояние в реальном времени (المтجه 23). Тональность, время, история, биомаркеры.</p><div class="agent-card-tags"><span class="tag red">بلوتشيك</span><span class="tag yellow">NLP Tone</span><span class="tag blue">الوقت الفعلي</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">الأسلوب اللغوي</div></div></div><p>Хранит и применяет лингвистический профиль (المتجه 13 + Вектор 24). «Окрашивает» ответ под стиль конкретного человека, включая юмор.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">أنماط الظل</div></div></div><p>يكشف عن تنشيط أدوار الظل، ويولد تقارير رؤى، ويقترح "بدائل صحية".</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">التعلم المستمر</div></div></div><p>يتتبع انحراف الملف الشخصي، ويحدث W، ويدير الإصدارات، ويكشف أحداث الحياة، ويبدأ إعادة التدريب.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">الأمان и этика</div></div></div><p>يتحكم في الوصول إلى البيانات. يشفر المتجهات الحساسة (الأسرار V08، المخاوف V11). يدير consent_log. الحق في النسيان. سجل التدقيق.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="section" id="s6">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title-wrap">
+        <h2>Сбор данных и пайплайн обучения</h2>
+        <p>Источники данных и процесс превращения сырых данных в обученную модель с Personality Alignment Score ≥ 0.85.</p>
+      </div>
+    </div>
+    <h3>مصادر البيانات (جمع متعدد القنوات)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">📝</div>استبيان منظم</div><ul><li>مقابلة التهيئة (100-200 سؤال)</li><li>الاختبارات: MBTI، Big Five، أسلوب الارتباط</li><li>ترتيب المتجهات الـ 24 (الأولويات)</li><li>اختبار المخاوف (الواضحة / الضمنية)</li><li>سيناريوهات الأدوار - أسئلة موقفية</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">💬</div>تحليل التواصل</div><ul><li>تاريخ المراسلات (Telegram، WhatsApp، البريد الإلكتروني)</li><li>الرسائل الصوتية ← كتابة النص + التحليل</li><li>تسجيلات المحادثات (بموافقة)</li><li>التحليل اللغوي: الكلمات، الأنماط</li><li>النبرة حسب الموضوعات والمحاورين</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">📱</div>البيانات السلوكية</div><ul><li>محتوى وسائل التواصل الاجتماعي (منشورات، إعجابات)</li><li>أنماط النشاط (الوقت من اليوم، الأيام)</li><li>رد الفعل على الأحداث (التأخير، طول الإجابة)</li><li>عادات وقت الشاشة</li><li>حوارات النسخة بموافقة المحاورين</li></ul></div>
+    </div>
+    <div class="divider"></div>
+    <h3>مسار التدريب</h3>
+    <div class="flow" style="margin-top:20px;">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h4>جمع البيانات الخام</h4><p>جمع البيانات بموافقة. إخفاء الهوية والتشفير. التخزين في مساحة عمل معزولة (لكل مستخدم).</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h4>استخراج الميزات</h4><p>استخراج الميزات لكل من المتجهات الـ 24. الـ NLP للنصوص، تحليل الصوت، السلاسل الزمنية. يتم تشكيل مصفوفة الميزات F ∈ ℝ^(n×24).</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h4>بناء الملف الشخصي (الخوارزمية 1)</h4><p>Строится личностный профиль: вектор W, матрица ролей, эмоциональный базис. Валидация с пользователем. الإصدار v1.0.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h4>ضبط الوكيل</h4><p>ضبط وكيل الصوت على نصوص المستخدم (LoRA/QLoRA). ملء RAG لوكلاء المجال والدور. وكيل الظل - على أنماط الظل.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><h4>التقييم والمحاذاة (RLHF)</h4><p>يتفاعل المستخدم مع النسخة ويقيم الدقة. التفضيلات ← ضبط دقيق. الهدف: درجة محاذاة الشخصية ≥ 0.85.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-content"><h4>التعلم المستمر (الخوارزمية 3)</h4><p>التحديث عبر الإنترنت. رصد الانحراف. إعادة تدريب دورية (كل 30-90 يوماً أو عند حدوث حدث حياتي).</p></div></div>
+    </div>
+    
+    <div class="divider"></div>
+    <h3>مسار استنساخ الصوت (توليف وحماية الصوت)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">🎙️</div>استخراج ميزات الصوت</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">جمع تسجيلات صوتية قصيرة للمستخدم (15-30 دقيقة من الكلام الواضح). تنظيف الضوضاء الخلفية وتقسيمها إلى مقاطع مدتها 2-5 ثوانٍ. استخراج مخططات ميل الطيفية وارتفاع النبرة (F0).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">🧠</div>الضبط الدقيق وZero-Shot TTS</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Дообучение базовой TTS-модели (напр., XTTS v2, Coqui или Bark) с использованием LoRA для адаптации тембра. Генерация голоса с сохранением интонации и стиля (المتجه 13).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🛡️</div>العلامات المائية الصوتية</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">يتم توقيع كل رسالة صوتية من النسخة بعلامة مائية صوتية مخفية. يحمي هذا المنشئ من الاستخدام غير المصرح به لصوته في التزييف العميق.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>التكامل مع الميتافيرس (دمج أفاتار الميتافيرس)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card" style="grid-column: span 2;">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">🌐</div>التكامل مع محركات ثلاثية الأبعاد (Ready Player Me / Unreal Engine)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">
+          24 вектора личности преобразуются в поведенческий движок 3D-аватара. 
+          Вместо статического бота аватар реагирует в реальном времени: вес вектора Emotion (B23) регулирует лицевую анимацию и мимику (blendshapes), 
+          а речевой темп (المتجه 13) синхронизируется с артикуляцией губ (lip-sync).
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(155,81,224,0.1);">🧬</div>المحرك المعرفي للشخصيات غير اللاعب (NPC)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">
+          تحويل نسخة الذكاء الاصطناعي للنجم إلى شخصية غير لاعبة تفاعلية (NPC) في العوالم الافتراضية. يمكن للمستخدمين مقابلة النسخة في الميتافيرس والتواصل معها بالصوت.
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="code-block" style="margin-top:28px;">
+<span class="comment">// بنية بيانات الملف الشخصي (TypeScript)</span>
+
+<span class="key">interface</span> <span class="type">PersonalityProfile</span> {
+  id: <span class="str">string</span>;
+  version: <span class="str">string</span>;                          <span class="comment">// إصدارات دلالية</span>
+  social_type: <span class="str">"extrovert" | "introvert" | "balanced" | "volatile"</span>;
+  volatility_factor: <span class="num">number</span>;                  <span class="comment">// 0–1</span>
+
+  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 24 متجهاً، الوزن 0-1</span>
+  priority_formula: <span class="type">VectorId</span>[];               <span class="comment">// مرتبة تنازلياً</span>
+
+  conscious_roles: <span class="type">RoleProfile</span>[];
+  shadow_roles: <span class="type">ShadowRoleProfile</span>[];          <span class="comment">// مع المحفزات والاحتمالات</span>
+
+  communication_style: <span class="type">CommunicationVector</span>;   <span class="comment">// المتجه 13</span>
+  emotional_map: <span class="type">EmotionalVector</span>;             <span class="comment">// المتجه 14</span>
+  decision_style: <span class="type">DecisionVector</span>;             <span class="comment">// المтجه 16</span>
+  attachment_style: <span class="str">"secure"|"anxious"|"avoidant"|"disorganized"</span>; <span class="comment">// المтجه 22</span>
+  humor_profile: <span class="type">HumorVector</span>;                 <span class="comment">// المتجه 24</span>
+
+  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// المтجه 23 — реальное время</span>
+
+  consent_log: <span class="type">ConsentEntry</span>[];
+  alignment_score: <span class="num">number</span>;                   <span class="comment">// دقة النسخة، 0-1، الهدف ≥ 0.85</span>
+}
+    </div>
+  </div>
+</div>
+
+<!-- S7 -->
+<div class="section" id="s7" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title-wrap">
+        <h2>الأخلاقيات والأمان والخصوصية</h2>
+        <p>هذا القسم ليس اختيارياً. إنه شرط أساسي لوجود النظام.</p>
+      </div>
+    </div>
+    <div class="privacy-section">
+      <h3>⚠️ متطلبات بالغة الأهمية</h3>
+      <div class="card-grid">
+        <div>
+          <h4 style="color:var(--warning);margin-bottom:10px;">🔐 الموافقة والتحكم</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> موافقة صريحة على كل نوع من البيانات</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> موافقة المحاورين على تدريب النسخة</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> يمكن للمستخدم حذف أي متجه</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> الحق في الحذف الكامل للملف الشخصي</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> التحكم في الوصول إلى النسخة</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🛡️ التشفير والعزل</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> تشفير E2E للمتجهات الحساسة</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> مخزن معزول (لكل مستخدم)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Zero-knowledge для Тайн (المتجه 08)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> سجل تدقيق لجميع عمليات الوصول إلى الملف الشخصي</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> الامتثال لـ GDPR / CCPA</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🚫 الحظر الصارم</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> النسخة لا تظهر كبشري دون وسم/إشارة</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> لا يمكن استخدامها لأغراض قانونية</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> يحظر التلاعب دون علم الأصلي</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> بيانات الطرف الثالث - فقط بموافقتهم</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> عدم بيع البيانات لأطراف ثالثة</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    <h3>وكيل الخصوصية وهيكل ذكاء الحافة (Edge-AI)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card" style="grid-column: span 3;">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🔒</div>المعالجة اللامركزية (Ollama والعقدة المحلية)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">
+          Для обеспечения абсолютной безопасности персональных данных (المتجه 08: Тайны, المتجه 11: Страхи) реализован гибридный режим:
+          <br>• <strong>العقدة المحلية (Edge Node):</strong> تتم معالجة جميع المذكرات الحساسة والمراسلات الحميمة والملاحظات محلياً على كمبيوتر أو هاتف المالك عبر نماذج محلية (Llama-3/Qwen) باستخدام Ollama.
+          <br>• <strong>بوابة السحاب (Cloud Gateway):</strong> يتم نقل المعاملات الرياضية غير الحساسة لـ Tone of Voice ومتجهات السلوك فقط إلى قاعدة البيانات السحابية، مما يمنع تسريب نص المراسلات الفعلي.
+          <br>• <strong>دفتر الحسابات للموافقات (Consent Ledger):</strong> يتم فحص كل وصول إلى ذاكرة النسخة بواسطة وكيل الخصوصية عبر سجل موافقة مشفر، مما يضمن الامتثال لـ GDPR (الحق في النسيان).
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>مصفوفة المخاطر</h3>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>الخطر</th><th>الاحتمالية</th><th>الأثر</th><th>الحد من الخطر</th></tr></thead>
+        <tbody>
+          <tr class="risk-row-high"><td>تسريب بيانات الملف الشخصي</td><td><span class="tag yellow">متوسطة</span></td><td><span class="tag red">حرج</span></td><td>E2E، العزل، التدقيق</td></tr>
+          <tr class="risk-row-high"><td>استخدام النسخة للتلاعب</td><td><span class="tag red">مرتفعة</span></td><td><span class="tag red">حرج</span></td><td>وسم الذكاء الاصطناعي، التحكم في الوصول</td></tr>
+          <tr class="risk-row-med"><td>التنشيط الخاطئ لأدوار الظل</td><td><span class="tag yellow">متوسطة</span></td><td><span class="tag yellow">مرتفع</span></td><td>وكيل الظل مع عتبات ورايات</td></tr>
+          <tr class="risk-row-med"><td>الملف الشخصي "يتجمد" ولا يعكس التغييرات</td><td><span class="tag yellow">متوسطة</span></td><td><span class="tag yellow">مرتفع</span></td><td>وكيل التطور، رصد الانحراف</td></tr>
+          <tr class="risk-row-low"><td>بيانات خاطئة عند التهيئة</td><td><span class="tag yellow">متوسطة</span></td><td><span class="tag blue">متوسط</span></td><td>التحقق المتبادل بين المعلن والسلوك</td></tr>
+          <tr class="risk-row-low"><td>اعتماد المستخدم على النسخة</td><td><span class="tag blue">منخفضة</span></td><td><span class="tag yellow">مرتفع</span></td><td>حدود التكرار، الأطر النفسية</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S8 -->
+<div class="section" id="s8">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title-wrap">
+        <h2>خارطة طريق التطوير</h2>
+        <p>أربع مراحل من MVP إلى نظام كامل متعدد الوكلاء مع تعلم مستمر وجميع المتجهات الـ 24.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>المرحلة</th><th>الفترة</th><th>ماذا نفعل</th><th>النتيجة</th><th>المخاطر الرئيسية</th></tr></thead>
+        <tbody>
+          <tr><td><strong>المرحلة 0</strong><br><span class="tag purple">Research</span></td><td>4-6 أسابيع</td><td>إنهاء المواصفات، اختيار حزمة البرمجيات، استبيان التهيئة لـ 24 متجهاً، تصميم مخطط البيانات</td><td>الهيكل، الاستبيان v1.0، الفريق</td><td>تقدير أقل من الواقع لتعقيد متجهات الأسرار والمخاوف</td></tr>
+          <tr><td><strong>المرحلة 1</strong><br><span class="tag blue">MVP</span></td><td>8-12 أسبوعاً</td><td>وكيل المجال (11 مجالاً أساسياً)، وكيل الصوت (أساسي)، الملف الشخصي v1.0، واجهة التهيئة</td><td>النسخة تتواصل بأسلوب المستخدم ضمن المجالات الأساسية</td><td>بيانات غير كافية لوكيل الصوت</td></tr>
+          <tr><td><strong>المرحلة 2</strong><br><span class="tag yellow">Beta</span></td><td>12-16 أسبوعاً</td><td>وكيل الدور (أدوار واعية)، وكيل العاطفة، وكيل الظل (كاربمان)، جميع المتجهات الـ 24، المنسق</td><td>النسخة تغير الأدوار حسب السياق، وتأخذ العواطف والفكاهة في الاعتبار</td><td>صعوبة معايرة وكيل الظل</td></tr>
+          <tr><td><strong>المرحلة 3</strong><br><span class="tag green">V1.0</span></td><td>8-12 أسبوعاً</td><td>وكيل التطور، RLHF عبر جميع المتجهات الـ 24، وكيل الخصوصية، إدارة الإصدارات، موافقة المحاورين</td><td>نسخة رقمية ديناميكية كاملة مع تعلم عبر الإنترنت</td><td>الامتثال لـ GDPR، عبء الحسابات</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight green" style="margin-top:32px;">
+      <div class="highlight-title">معايير النجاح (تعريف الإنجاز)</div>
+      <p>
+        <strong>MVP:</strong> لا يستطيع المستخدم تمييز 3 من أصل 5 إجابات للنسخة عن إجاباته الخاصة.<br>
+        <strong>V1.0:</strong> درجة محاذاة الشخصية ≥ 0.85 بناءً على تقييم مستقل من 3 أشخاص مقربين للمستخدم.<br>
+        <strong>النظام:</strong> التشغيل البارد لملف تعريف جديد - ما لا يزيد عن ساعتين من التهيئة.
+      </p>
+    </div>
+    <div class="highlight yellow" style="margin-top:20px;">
+      <div class="highlight-title">حزمة التقنيات الموصى بها</div>
+      <p>
+        <strong>LLM:</strong> GPT-4o / Claude 3.5 + LoRA/QLoRA fine-tuning ·
+        <strong>Vector DB:</strong> Pinecone / Weaviate / Qdrant ·
+        <strong>Orchestration:</strong> LangGraph / AutoGen / CrewAI ·
+        <strong>NLP:</strong> spaCy + Hugging Face ·
+        <strong>Emotion:</strong> DistilBERT fine-tuned ·
+        <strong>Backend:</strong> FastAPI + Redis ·
+        <strong>Encryption:</strong> AES-256 per-user keys ·
+        <strong>Frontend:</strong> Next.js
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <p>
+    <strong style="color:var(--text2);">AI Human Clone — المواصفات الفنية لهيكل الهندسة v2.0</strong><br>
+    Создан на основе авторской концепции. Для внутреннего использования. Все права сохраняются за автором.<br>يونيو 2026.<br><br>
+    <span style="color:var(--primary);">24 متجهاً للشخصية (ملف موحد) · 8 أنواع من الأدوار · 8 وكلاء ذكاء اصطناعي · 3 خوارزميات · 4 مراحل للتطوير</span>
+  </p>
+</div>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.card, .vector-card, .agent-card, .flow-step, .algo-step, .role-item').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(el);
+});
+</script>
+</body>
+</html>

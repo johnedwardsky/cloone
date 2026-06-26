@@ -6,6 +6,36 @@
   <title>Cloone — 你的数字分身</title>
   <meta name="description" content="将你的人格数字化。Cloone 创造出与你表达风格、思维习惯、价值观高度一致的 AI 数字分身。">
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      const langCodes = ['en', 'ru', 'zh', 'es', 'ar'];
+      const filename = window.location.pathname.split('/').pop() || 'index.html';
+      let pageType = '';
+      let currentLang = 'en';
+      
+      if (filename.startsWith('index')) {
+        pageType = 'index';
+        const suffix = filename.replace('index', '').replace('.html', '');
+        if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+      } else if (filename.startsWith('pitch_deck')) {
+        pageType = 'pitch_deck';
+        const suffix = filename.replace('pitch_deck', '').replace('.html', '');
+        if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+      } else if (filename.startsWith('AI_Clone_Architecture')) {
+        pageType = 'AI_Clone_Architecture';
+        const suffix = filename.replace('AI_Clone_Architecture', '').replace('.html', '');
+        if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+      }
+      
+      if (!pageType) return;
+      
+      const savedLang = localStorage.getItem('cloone_pref_lang');
+      if (savedLang && savedLang !== currentLang && langCodes.includes(savedLang)) {
+        let targetFile = (savedLang === 'en') ? pageType + '.html' : pageType + '-' + savedLang + '.html';
+        window.location.replace(targetFile);
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -21,7 +51,7 @@
       <a href="#mirror">AI镜子</a>
       <a href="pitch_deck.html" style="color: var(--accent); font-weight: 600;">Partners</a>
       <div class="lang-select-wrap">
-        <select class="lang-select" onchange="location = this.value;">
+        <select class="lang-select" onchange="const val = this.value; const lang = val.includes('-') ? val.split('-')[1].split('.')[0] : 'en'; localStorage.setItem('cloone_pref_lang', lang); location = val;">
           <option value="index.html">EN</option>
           <option value="index-ru.html">RU</option>
           <option value="index-zh.html" selected>中文</option>

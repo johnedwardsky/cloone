@@ -1,323 +1,60 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Human Clone — Техническая Спецификация Архитектуры v2.0</title>
+<title>AI Human Clone — Technical Architecture Specification v2.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --primary: #6C63FF;
-    --primary-light: #8A84FF;
-    --primary-dark: #4B44CC;
-    --accent: #E94070;
-    --accent2: #12B76A;
-    --accent3: #9B51E0;
-    --bg: #F7F8FC;
-    --bg2: #EDEEF7;
-    --bg3: #E4E5F0;
-    --card: #FFFFFF;
-    --card2: #F2F3FA;
-    --border: rgba(108,99,255,0.15);
-    --border2: rgba(0,0,0,0.07);
-    --text: #1A1B2E;
-    --text2: #4A4B6A;
-    --text3: #8A8BA8;
-    --success: #12B76A;
-    --warning: #D97706;
-    --danger: #E94070;
-    --info: #0EA5E9;
-    --shadow: 0 4px 24px rgba(108,99,255,0.1);
-    --shadow-glow: 0 0 40px rgba(108,99,255,0.12);
-    --radius: 16px;
-    --radius-sm: 10px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  @media print {
-    :root {
-      --bg: #fff; --bg2: #f8f9ff; --bg3: #f0f1ff;
-      --card: #ffffff; --card2: #f5f5ff;
-      --text: #1a1b2e; --text2: #4a4b6a; --text3: #8a8ba8;
-      --border: rgba(108,99,255,0.2); --border2: rgba(0,0,0,0.07);
-      --shadow: none; --shadow-glow: none;
+<script>
+  (function() {
+    const langCodes = ['en', 'ru', 'zh', 'es', 'ar'];
+    const filename = window.location.pathname.split('/').pop() || 'index.html';
+    let pageType = '';
+    let currentLang = 'en';
+    
+    if (filename.startsWith('index')) {
+      pageType = 'index';
+      const suffix = filename.replace('index', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('pitch_deck')) {
+      pageType = 'pitch_deck';
+      const suffix = filename.replace('pitch_deck', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('AI_Clone_Architecture')) {
+      pageType = 'AI_Clone_Architecture';
+      const suffix = filename.replace('AI_Clone_Architecture', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
     }
-    body { background: #fff !important; }
-    .page-break { page-break-before: always; }
-    .section { break-inside: avoid; }
-    .card { break-inside: avoid; }
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 15px; }
-
-  /* ── Cover ── */
-  .cover {
-    min-height: 100vh;
-    background: radial-gradient(ellipse at 30% 20%, rgba(108,99,255,0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 80%, rgba(155,81,224,0.08) 0%, transparent 50%),
-                linear-gradient(160deg, #f0f1ff 0%, #f7f8fc 60%, #fdf4ff 100%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 60px 40px; position: relative; overflow: hidden;
-  }
-  .cover-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.3);
-    border-radius: 100px; padding: 6px 18px; font-size: 12px; font-weight: 600;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 32px;
-  }
-  .cover-badge::before { content: '◉'; font-size: 10px; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .cover h1 {
-    font-size: clamp(36px, 5vw, 64px); font-weight: 900; line-height: 1.1; letter-spacing: -2px;
-    background: linear-gradient(135deg, #3730a3 0%, var(--primary) 45%, var(--accent3) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;
-  }
-  .cover-sub { font-size: 20px; color: var(--text2); font-weight: 400; margin-bottom: 48px; max-width: 700px; }
-  .cover-stats { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 48px; }
-  .stat-pill {
-    background: var(--card); border: 1px solid var(--border); border-radius: 100px;
-    padding: 10px 24px; display: flex; align-items: center; gap: 10px;
-    font-size: 13px; font-weight: 500; color: var(--text2);
-    box-shadow: 0 2px 12px rgba(108,99,255,0.08);
-  }
-  .stat-pill strong { color: var(--primary); font-size: 15px; }
-  .cover-meta { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; margin-top: 40px; }
-  .cover-meta-item .label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
-  .cover-meta-item .value { font-size: 14px; color: var(--text2); font-weight: 500; }
-
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-
-  /* ── TOC ── */
-  .toc-section { background: var(--bg2); border-bottom: 1px solid var(--border2); padding: 60px 40px; }
-  .toc-grid { max-width: 1100px; margin: 32px auto 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .toc-item {
-    display: flex; align-items: flex-start; gap: 14px;
-    background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius-sm);
-    padding: 18px 20px; text-decoration: none; transition: all 0.2s; color: var(--text);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-  .toc-item:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
-  .toc-num { font-size: 11px; font-weight: 700; color: var(--primary); background: rgba(108,99,255,0.1); border-radius: 6px; padding: 4px 8px; flex-shrink: 0; }
-  .toc-title { font-size: 13px; font-weight: 600; line-height: 1.4; }
-  .toc-desc { font-size: 11px; color: var(--text3); margin-top: 4px; }
-
-  /* ── Sections ── */
-  .section { padding: 80px 0; border-bottom: 1px solid var(--border2); }
-  .section:last-child { border-bottom: none; }
-  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
-  .section-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 48px; }
-  .section-number { font-size: 11px; font-weight: 700; color: var(--primary); background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.2); border-radius: 8px; padding: 6px 12px; white-space: nowrap; margin-top: 6px; }
-  .section-title-wrap h2 { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1.2; }
-  .section-title-wrap p { font-size: 15px; color: var(--text2); margin-top: 8px; max-width: 700px; line-height: 1.6; }
-
-  /* ── Cards ── */
-  .card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius); padding: 28px; position: relative; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--primary) 0%, var(--accent3) 100%); opacity: 0; transition: opacity 0.3s; }
-  .card:hover::before { opacity: 1; }
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-  .card-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-  .card-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-  .card ul li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text2); line-height: 1.5; }
-  .card ul li::before { content: '›'; color: var(--primary); font-weight: 700; flex-shrink: 0; }
-
-  /* ── Highlights ── */
-  .highlight { border-radius: var(--radius); padding: 24px 28px; margin: 24px 0; border-left: 3px solid; }
-  .highlight.purple { background: rgba(108,99,255,0.06); border-color: var(--primary); }
-  .highlight.green { background: rgba(18,183,106,0.06); border-color: var(--success); }
-  .highlight.red { background: rgba(233,64,112,0.06); border-color: var(--danger); }
-  .highlight.yellow { background: rgba(217,119,6,0.06); border-color: var(--warning); }
-  .highlight.blue { background: rgba(14,165,233,0.06); border-color: var(--info); }
-  .highlight-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-  .highlight.purple .highlight-title { color: var(--primary); }
-  .highlight.green .highlight-title { color: var(--success); }
-  .highlight.red .highlight-title { color: var(--danger); }
-  .highlight.yellow .highlight-title { color: var(--warning); }
-  .highlight.blue .highlight-title { color: var(--info); }
-  .highlight p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-
-  /* ── Vector grid ── */
-  .vector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 28px; }
-  .vector-card {
-    background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius-sm);
-    padding: 20px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-  .vector-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
-  .vector-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .vector-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .vector-num { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; }
-  .vector-name { font-size: 14px; font-weight: 700; color: var(--text); }
-  .vector-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
-  .vector-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-  .vector-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px; background: var(--bg3); color: var(--text3); border: 1px solid var(--border2); }
-  .vector-weight { margin-top: 10px; display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text3); }
-  .weight-bar { flex: 1; height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-  .weight-fill { height: 100%; border-radius: 2px; }
-  .vector-group-label {
-    grid-column: 1 / -1; font-size: 12px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--primary); padding: 16px 0 4px;
-    border-top: 1px solid var(--border2); margin-top: 8px;
-  }
-  .vector-group-label:first-child { border-top: none; margin-top: 0; }
-
-  /* ── Central diagram ── */
-  .graph-container { background: linear-gradient(135deg, rgba(108,99,255,0.04) 0%, rgba(155,81,224,0.04) 100%); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; margin: 32px 0; text-align: center; position: relative; overflow: hidden; }
-  .vd-center { width: 160px; height: 160px; border-radius: 50%; background: linear-gradient(135deg, rgba(108,99,255,0.12) 0%, rgba(155,81,224,0.08) 100%); border: 2px solid rgba(108,99,255,0.4); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: 700; color: var(--primary); line-height: 1.4; position: relative; z-index: 2; }
-  .vd-ring { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 900px; }
-  .vector-diagram { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-  .vd-node { background: var(--card); border: 1px solid var(--border2); border-radius: 100px; padding: 8px 18px; font-size: 12px; font-weight: 600; color: var(--text2); white-space: nowrap; transition: all 0.2s; }
-  .vd-node.primary { border-color: var(--primary); color: var(--primary); background: rgba(108,99,255,0.07); }
-  .vd-node.accent { border-color: var(--accent); color: #b8204e; background: rgba(233,64,112,0.07); }
-  .vd-node.green { border-color: var(--success); color: #0a6641; background: rgba(18,183,106,0.07); }
-  .vd-node.violet { border-color: var(--accent3); color: #6b2fa0; background: rgba(155,81,224,0.07); }
-
-  /* ── Tables ── */
-  .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border2); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead { background: var(--card2); }
-  th { padding: 14px 18px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); border-bottom: 1px solid var(--border2); }
-  td { padding: 14px 18px; color: var(--text2); border-bottom: 1px solid var(--border2); vertical-align: top; line-height: 1.5; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(108,99,255,0.03); }
-  .tag { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
-  .tag.purple { background: rgba(108,99,255,0.1); color: var(--primary); border: 1px solid rgba(108,99,255,0.2); }
-  .tag.green { background: rgba(18,183,106,0.1); color: #0a6641; border: 1px solid rgba(18,183,106,0.2); }
-  .tag.red { background: rgba(233,64,112,0.1); color: #b8204e; border: 1px solid rgba(233,64,112,0.2); }
-  .tag.blue { background: rgba(14,165,233,0.1); color: #0369a1; border: 1px solid rgba(14,165,233,0.2); }
-  .tag.yellow { background: rgba(217,119,6,0.1); color: #92400e; border: 1px solid rgba(217,119,6,0.2); }
-
-  /* ── Code block ── */
-  .code-block { background: #f0f1f9; border: 1px solid rgba(108,99,255,0.18); border-radius: var(--radius-sm); padding: 24px; margin: 20px 0; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; color: #2d2e52; }
-  .code-block .key { color: #5c4fd6; }
-  .code-block .val { color: #1a7a4a; }
-  .code-block .str { color: #c0392b; }
-  .code-block .comment { color: #9899b8; font-style: italic; }
-  .code-block .fn { color: #3b5fc2; }
-  .code-block .type { color: #b45309; }
-  .code-block .num { color: #d4501b; }
-
-  /* ── Agents ── */
-  .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 32px; }
-  .agent-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius); padding: 24px; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  .agent-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--border); }
-  .agent-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-  .agent-avatar { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .agent-card-name { font-size: 15px; font-weight: 700; }
-  .agent-card-role { font-size: 11px; color: var(--text3); font-weight: 500; }
-  .agent-card p { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 14px; }
-  .agent-card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-
-  /* ── Flow ── */
-  .flow { display: flex; flex-direction: column; gap: 4px; margin: 24px 0; }
-  .flow-step { display: flex; align-items: flex-start; gap: 16px; padding: 16px 20px; background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius-sm); transition: all 0.2s; }
-  .flow-step:hover { border-color: var(--primary); }
-  .flow-num { width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .flow-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .flow-content p { font-size: 12px; color: var(--text2); line-height: 1.5; }
-  .flow-arrow { text-align: center; color: var(--text3); font-size: 18px; padding: 2px 0; }
-
-  /* ── Algo ── */
-  .algo-box { background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius); padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  .algo-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-  .algo-steps { display: flex; flex-direction: column; gap: 4px; margin-top: 20px; }
-  .algo-step { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; background: var(--bg2); border-radius: var(--radius-sm); }
-  .algo-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .algo-step-content h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-  .algo-step-content p { font-size: 12px; color: var(--text2); line-height: 1.5; }
-
-  /* ── Roles ── */
-  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
-  @media (max-width: 700px) { .role-grid { grid-template-columns: 1fr; } }
-  .role-col-title { font-size: 13px; font-weight: 700; margin-bottom: 16px; }
-  .role-item { display: flex; gap: 12px; padding: 14px; background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius-sm); margin-bottom: 10px; }
-  .role-item-icon { font-size: 20px; flex-shrink: 0; }
-  .role-item-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-  .role-item-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
-
-  /* ── Misc ── */
-  .formula { background: var(--card2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8; color: var(--text2); margin: 20px 0; }
-  .formula .type { color: var(--primary); font-weight: 600; }
-  .formula .var { color: #c0392b; }
-  .formula .op { color: var(--text3); }
-  .formula .comment { color: var(--text3); font-style: italic; }
-  .divider { height: 1px; background: var(--border2); margin: 32px 0; }
-  .privacy-section { padding: 24px; background: var(--card); border-radius: var(--radius); border: 1px solid var(--border2); margin-bottom: 32px; }
-  .privacy-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
-  .privacy-section .card-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .matrix-table th, .matrix-table td { text-align: center; }
-  .matrix-table td:first-child { text-align: left; font-weight: 600; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .dot.high { background: var(--success); }
-  .dot.med { background: var(--warning); }
-  .dot.low { background: var(--danger); }
-  .risk-row-high td { background: rgba(233,64,112,0.03); }
-  .risk-row-med td { background: rgba(217,119,6,0.03); }
-  .risk-row-low td { background: rgba(18,183,106,0.03); }
-  .doc-footer { background: var(--bg2); border-top: 1px solid var(--border2); padding: 40px; text-align: center; font-size: 13px; color: var(--text3); line-height: 1.8; }
-
-  /* Floating Back Navigation Bar */
-  .nav-back-bar {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 10000;
-    display: flex;
-    gap: 12px;
-    pointer-events: none;
-  }
-  .nav-back-link {
-    pointer-events: auto;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 8px 16px;
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.25s ease;
-  }
-  .nav-back-link:hover {
-    background: #fff;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(108, 99, 255, 0.15);
-    border-color: rgba(108, 99, 255, 0.4);
-    color: var(--primary);
-  }
-  .nav-back-link:active {
-    transform: translateY(0);
-  }
-  
-  @media print {
-    .nav-back-bar { display: none !important; }
-  }
-  @media (max-width: 600px) {
-    .nav-back-bar {
-      top: 12px;
-      left: 12px;
-      gap: 8px;
+    
+    if (!pageType) return;
+    
+    const savedLang = localStorage.getItem('cloone_pref_lang');
+    if (savedLang && savedLang !== currentLang && langCodes.includes(savedLang)) {
+      let targetFile = (savedLang === 'en') ? pageType + '.html' : pageType + '-' + savedLang + '.html';
+      window.location.replace(targetFile);
     }
-    .nav-back-link {
-      padding: 6px 12px;
-      font-size: 11px;
-    }
-  }
-</style>
+  })();
+</script>
+<link rel="stylesheet" href="AI_Clone_Architecture.css">
 </head>
 <body>
 
 <div class="nav-back-bar">
-  <a href="index.html" class="nav-back-link">← На главную</a>
-  <a href="pitch_deck.html" class="nav-back-link">← К презентации</a>
+  <a href="index.html" class="nav-back-link">← Back to Home</a>
+  <a href="pitch_deck.html" class="nav-back-link">← To Presentation</a>
+  <div class="lang-select-wrap" style="pointer-events: auto;">
+    <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'AI_Clone_Architecture.html' : 'AI_Clone_Architecture-' + this.value + '.html');">
+      <option value="en" selected>EN</option>
+      <option value="ru">RU</option>
+      <option value="zh">中文</option>
+      <option value="es">ES</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
 </div>
 
 <div class="cover">
-  <div class="cover-badge">Версия 2.0 · Техническая Спецификация</div>
+  <div class="cover-badge">Version 2.0 · Technical Specification</div>
   <div style="margin-bottom: 24px; max-width: 280px; width: 100%; display: flex; align-items: center; justify-content: center;">
     <svg width="100%" height="auto" viewBox="0 0 409 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
@@ -341,37 +78,37 @@
         </g>
     </svg>
   </div>
-  <p class="cover-sub">Формальная архитектурная спецификация мультиагентной системы для создания персонализированной цифровой копии человека</p>
+  <p class="cover-sub">Formal architectural specification of a multi-agent system for creating a personalized digital twin of a human</p>
   <div class="cover-stats">
-    <div class="stat-pill"><strong>24</strong> вектора личности</div>
-    <div class="stat-pill"><strong>8</strong> типов ролей</div>
-    <div class="stat-pill"><strong>8</strong> ИИ-агентов</div>
-    <div class="stat-pill"><strong>3</strong> алгоритма</div>
-    <div class="stat-pill"><strong>4</strong> фазы разработки</div>
+    <div class="stat-pill"><strong>24</strong> personality vectors</div>
+    <div class="stat-pill"><strong>8</strong> role types</div>
+    <div class="stat-pill"><strong>8</strong> AI agents</div>
+    <div class="stat-pill"><strong>3</strong> algorithms</div>
+    <div class="stat-pill"><strong>4</strong> development phases</div>
   </div>
   <div class="cover-meta">
-    <div class="cover-meta-item"><div class="label">Тип документа</div><div class="value">Техническая Спецификация</div></div>
-    <div class="cover-meta-item"><div class="label">Аудитория</div><div class="value">PM · Lead Dev · ML Engineers</div></div>
-    <div class="cover-meta-item"><div class="label">Дата</div><div class="value">Июнь 2026</div></div>
-    <div class="cover-meta-item"><div class="label">Статус</div><div class="value">✦ В разработке</div></div>
-    <div class="cover-meta-item"><div class="label">Версия</div><div class="value">2.0 (Unified Vectors)</div></div>
+    <div class="cover-meta-item"><div class="label">Document Type</div><div class="value">Technical Specification</div></div>
+    <div class="cover-meta-item"><div class="label">Audience</div><div class="value">PM · Lead Dev · ML Engineers</div></div>
+    <div class="cover-meta-item"><div class="label">Date</div><div class="value">June 2026</div></div>
+    <div class="cover-meta-item"><div class="label">Status</div><div class="value">✦ In Development</div></div>
+    <div class="cover-meta-item"><div class="label">Version</div><div class="value">2.0 (Unified Vectors)</div></div>
   </div>
 </div>
 
 <!-- TOC -->
 <div class="toc-section">
   <div class="container">
-    <div class="section-label">Содержание</div>
-    <h2 style="font-size:28px;font-weight:800;">Структура документа</h2>
+    <div class="section-label">Table of Contents</div>
+    <h2 style="font-size:28px;font-weight:800;">Document Structure</h2>
     <div class="toc-grid">
-      <a class="toc-item" href="#s1"><div class="toc-num">01</div><div><div class="toc-title">Концепция и цель системы</div><div class="toc-desc">Что строим, зачем и как</div></div></a>
-      <a class="toc-item" href="#s2"><div class="toc-num">02</div><div><div class="toc-title">Профиль личности — 24 вектора</div><div class="toc-desc">Полный единый каталог всех векторов</div></div></a>
-      <a class="toc-item" href="#s3"><div class="toc-num">03</div><div><div class="toc-title">Ролевая система</div><div class="toc-desc">Осознанные и теневые роли</div></div></a>
-      <a class="toc-item" href="#s4"><div class="toc-num">04</div><div><div class="toc-title">Алгоритмы связи векторов</div><div class="toc-desc">3 алгоритма единой модели</div></div></a>
-      <a class="toc-item" href="#s5"><div class="toc-num">05</div><div><div class="toc-title">Мультиагентная архитектура</div><div class="toc-desc">8 агентов и их взаимодействие</div></div></a>
-      <a class="toc-item" href="#s6"><div class="toc-num">06</div><div><div class="toc-title">Сбор данных и обучение</div><div class="toc-desc">Пайплайн и схема данных</div></div></a>
-      <a class="toc-item" href="#s7"><div class="toc-num">07</div><div><div class="toc-title">Этика и безопасность</div><div class="toc-desc">Обязательные ограничения системы</div></div></a>
-      <a class="toc-item" href="#s8"><div class="toc-num">08</div><div><div class="toc-title">Роадмап разработки</div><div class="toc-desc">4 фазы, MVP и Definition of Done</div></div></a>
+      <a class="toc-item" href="#s1"><div class="toc-num">01</div><div><div class="toc-title">Concept & System Goal</div><div class="toc-desc">What we are building, why, and how</div></div></a>
+      <a class="toc-item" href="#s2"><div class="toc-num">02</div><div><div class="toc-title">Personality Profile — 24 Vectors</div><div class="toc-desc">Complete unified catalog of all vectors</div></div></a>
+      <a class="toc-item" href="#s3"><div class="toc-num">03</div><div><div class="toc-title">Role System</div><div class="toc-desc">Conscious and shadow roles</div></div></a>
+      <a class="toc-item" href="#s4"><div class="toc-num">04</div><div><div class="toc-title">Vector Connection Algorithms</div><div class="toc-desc">3 algorithms of the unified model</div></div></a>
+      <a class="toc-item" href="#s5"><div class="toc-num">05</div><div><div class="toc-title">Multi-Agent Architecture</div><div class="toc-desc">8 agents and their interaction</div></div></a>
+      <a class="toc-item" href="#s6"><div class="toc-num">06</div><div><div class="toc-title">Data Collection & Training</div><div class="toc-desc">Pipeline and data schema</div></div></a>
+      <a class="toc-item" href="#s7"><div class="toc-num">07</div><div><div class="toc-title">Ethics & Security</div><div class="toc-desc">Mandatory system limitations</div></div></a>
+      <a class="toc-item" href="#s8"><div class="toc-num">08</div><div><div class="toc-title">Development Roadmap</div><div class="toc-desc">4 phases, MVP, and Definition of Done</div></div></a>
     </div>
   </div>
 </div>
@@ -382,41 +119,41 @@
     <div class="section-header">
       <div class="section-number">01</div>
       <div class="section-title-wrap">
-        <h2>Концепция и цель системы</h2>
-        <p>Система создаёт ИИ-агента, который формирует цифровую копию конкретного человека — не имитацию речи, а многоуровневую динамическую модель личности с уникальной формулой приоритетов, ролевым репертуаром и поведенческими паттернами.</p>
+        <h2>Concept & System Goal</h2>
+        <p>The system creates an AI agent that forms a digital twin of a specific person — not a speech imitation, but a multi-level dynamic model of personality with a unique priority formula, role repertoire, and behavioral patterns.</p>
       </div>
     </div>
     <div class="highlight purple">
-      <div class="highlight-title">Ключевой принцип</div>
-      <p>Человек — динамическая система с <strong>формулой приоритетов</strong>, сложившейся под воздействием генетического кода рода, социума, ролевых моделей, страхов и жизненного опыта. Цифровая копия воспроизводит эту формулу, а не просто речевые паттерны. Личность описывается единым вектором из <strong>24 измерений</strong>.</p>
+      <div class="highlight-title">Key Principle</div>
+      <p>A human is a dynamic system with a <strong>priority formula</strong> shaped by genetic code, society, role models, fears, and life experience. The digital twin reproduces this formula, not just speech patterns. Personality is described by a single vector of <strong>24 dimensions</strong>.</p>
     </div>
     <div class="card-grid" style="margin-top:32px;">
       <div class="card">
         <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.12);">🎯</div>Что система умеет</div>
         <ul>
-          <li>Воспроизводить стиль коммуникации и принятия решений</li>
+          <li>Reproduce communication and decision-making style</li>
           <li>Предсказывать поведение в разных ситуациях</li>
-          <li>Переключаться между ролями в зависимости от контекста</li>
-          <li>Учитывать теневые и бессознательные паттерны</li>
-          <li>Эволюционировать вместе с человеком (онлайн-обучение)</li>
-          <li>Передавать управление реальному создателю в диалоге</li>
+          <li>Switch between roles based on context</li>
+          <li>Account for shadow and unconscious patterns</li>
+          <li>Evolve together with the person (online learning)</li>
+          <li>Transfer control to the real creator in the dialogue</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🚫</div>Что система НЕ делает</div>
         <ul>
-          <li>Не заменяет реального человека в правовом смысле</li>
-          <li>Не принимает решения без согласия оригинала</li>
-          <li>Не хранит биометрические данные без шифрования</li>
-          <li>Не действует в деструктивных теневых ролях без флага</li>
-          <li>Не обучается на данных третьих лиц без согласия</li>
+          <li>Does not replace a real human in a legal sense</li>
+          <li>Does not make decisions without the consent of the original</li>
+          <li>Does not store biometric data without encryption</li>
+          <li>Does not act in destructive shadow roles without a flag</li>
+          <li>Does not train on third-party data without consent</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">📐</div>Базовая модель человека</div>
         <ul>
           <li><strong>4 типа:</strong> Экстраверт / Интроверт / Баланс / Непредсказуемый</li>
-          <li><strong>Приоритеты:</strong> Уникальный вектор весов W из 24 измерений</li>
+          <li><strong>Priorityы:</strong> Уникальный вектор весов W из 24 измерений</li>
           <li><strong>Роли:</strong> Осознанные + Теневые (Карпман, ТА)</li>
           <li><strong>Состояние:</strong> Динамический эмоциональный фон</li>
           <li><strong>Эволюция:</strong> Живой, обновляемый профиль</li>
@@ -424,8 +161,8 @@
       </div>
     </div>
     <div class="highlight green" style="margin-top:32px;">
-      <div class="highlight-title">Архитектурный принцип</div>
-      <p>Система строится как <strong>мультиагентная сеть</strong>: каждый агент отвечает за отдельную сферу или слой личности. Центральный оркестратор (Master Agent) координирует агентов и формирует итоговый ответ с учётом текущего контекста, эмоционального состояния и активной роли.</p>
+      <div class="highlight-title">Architectural Principle</div>
+      <p>The system is built as a <strong>multi-agent network</strong>: each agent is responsible for a separate sphere or layer of personality. The central orchestrator (Master Agent) coordinates the agents and forms the final response, taking into account the current context, emotional state, and active role.</p>
     </div>
   </div>
 </div>
@@ -436,227 +173,227 @@
     <div class="section-header">
       <div class="section-number">02</div>
       <div class="section-title-wrap">
-        <h2>Профиль личности — 24 вектора</h2>
+        <h2>Personality Profile — 24 Vectors</h2>
         <p>Полный унифицированный каталог всех измерений личностного профиля. 24 вектора объединены в единую спецификацию: каждый имеет вес (приоритет), набор маркеров для сбора данных и связь с соответствующим агентом системы.</p>
       </div>
     </div>
 
     <div class="graph-container">
-      <div class="section-label" style="margin-bottom:16px;">Архитектура профиля: 24 вектора</div>
+      <div class="section-label" style="margin-bottom:16px;">Profile Architecture: 24 Vectors</div>
       <div class="vector-diagram">
-        <div class="vd-center">ПРОФИЛЬ<br>ЛИЧНОСТИ<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₄]</span></div>
+        <div class="vd-center">PERSONALITY<br>PROFILE<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₄]</span></div>
         <div class="vd-ring">
-          <div class="vd-node primary">👥 Друзья</div>
-          <div class="vd-node primary">👨‍👩‍👧 Семья</div>
-          <div class="vd-node primary">🏆 Достижения</div>
-          <div class="vd-node primary">⭐ Ролевые модели</div>
-          <div class="vd-node primary">💼 Карьера</div>
-          <div class="vd-node primary">🎮 Хобби</div>
-          <div class="vd-node primary">🌍 Окружение</div>
-          <div class="vd-node accent">🔒 Тайны</div>
-          <div class="vd-node green">📚 Образование</div>
-          <div class="vd-node green">🔄 Привычки</div>
-          <div class="vd-node accent">😨 Страхи</div>
-          <div class="vd-node violet">🧬 Телесный интеллект</div>
-          <div class="vd-node violet">💬 Стиль коммуникации</div>
-          <div class="vd-node violet">🎭 Эмоциональная карта</div>
-          <div class="vd-node violet">🔭 Мировоззрение</div>
-          <div class="vd-node violet">⚡ Решения</div>
-          <div class="vd-node violet">💰 Финансовый паттерн</div>
-          <div class="vd-node violet">🕐 Время</div>
-          <div class="vd-node violet">🎨 Эстетика</div>
-          <div class="vd-node violet">😤 Конфликт</div>
-          <div class="vd-node violet">📖 Нарратив</div>
-          <div class="vd-node violet">🤝 Привязанность</div>
-          <div class="vd-node violet">🌡️ Состояния</div>
-          <div class="vd-node accent">😄 Юмор</div>
+          <div class="vd-node primary">👥 Friends</div>
+          <div class="vd-node primary">👨‍👩‍👧 Family</div>
+          <div class="vd-node primary">🏆 Achievements</div>
+          <div class="vd-node primary">⭐ Role Models</div>
+          <div class="vd-node primary">💼 Career</div>
+          <div class="vd-node primary">🎮 Hobbies</div>
+          <div class="vd-node primary">🌍 Environment</div>
+          <div class="vd-node accent">🔒 Secrets</div>
+          <div class="vd-node green">📚 Education</div>
+          <div class="vd-node green">🔄 Habits</div>
+          <div class="vd-node accent">😨 Fears</div>
+          <div class="vd-node violet">🧬 Body Intelligence</div>
+          <div class="vd-node violet">💬 Communication Style</div>
+          <div class="vd-node violet">🎭 Emotional Map</div>
+          <div class="vd-node violet">🔭 Worldview</div>
+          <div class="vd-node violet">⚡ Decisions</div>
+          <div class="vd-node violet">💰 Financial Pattern</div>
+          <div class="vd-node violet">🕐 Time</div>
+          <div class="vd-node violet">🎨 Aesthetics</div>
+          <div class="vd-node violet">😤 Conflict</div>
+          <div class="vd-node violet">📖 Narrative</div>
+          <div class="vd-node violet">🤝 Attachment</div>
+          <div class="vd-node violet">🌡️ States</div>
+          <div class="vd-node accent">😄 Humor</div>
         </div>
       </div>
     </div>
 
     <div class="highlight yellow">
-      <div class="highlight-title">Формула профиля</div>
-      <p>Каждый человек имеет уникальный <strong>вектор весов W = [w₁, w₂, …, w₂₄]</strong>, где wᵢ ∈ [0, 1]. Веса не постоянны — они изменяются под действием жизненных событий, возраста и внешнего давления. Система обновляет веса в реальном времени и версионирует каждое изменение.</p>
+      <div class="highlight-title">Profile Formula</div>
+      <p>Each person has a unique <strong>weight vector W = [w₁, w₂, …, w₂₄]</strong>, where wᵢ ∈ [0, 1]. The weights are not constant — they change under the influence of life events, age, and external pressure. The system updates weights in real time and versions each change.</p>
     </div>
 
     <!-- VECTOR GRID -->
     <div class="vector-grid">
 
-      <div class="vector-group-label">— Блок I: Сферы жизни (Векторы 01–11)</div>
+      <div class="vector-group-label">— Block I: Life Spheres (Vectors 01–11)</div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">👥</div><div><div class="vector-num">Вектор 01</div><div class="vector-name">Друзья</div></div></div>
-        <div class="vector-desc">Отражение личности: что притягивает, что скрываем. Досуг, взаимоподдержка, зеркало социального самовосприятия.</div>
-        <div class="vector-tags"><span class="vector-tag">Досуг</span><span class="vector-tag">Взаимоподдержка</span><span class="vector-tag">Отражение себя</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--primary);"></div></div><span>~70%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">👥</div><div><div class="vector-num">Vector 01</div><div class="vector-name">Друзья</div></div></div>
+        <div class="vector-desc">Reflecting personality: what attracts us, what we hide. Leisure, mutual support, a mirror of social self-perception.</div>
+        <div class="vector-tags"><span class="vector-tag">Leisure</span><span class="vector-tag">Mutual Support</span><span class="vector-tag">Self-Reflection</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--primary);"></div></div><span>~70%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👨‍👩‍👧</div><div><div class="vector-num">Вектор 02</div><div class="vector-name">Семья</div></div></div>
-        <div class="vector-desc">Ценности, первый социум, учителя. Предки, партнёр, дети — источник первичных моделей поведения и привязанности.</div>
-        <div class="vector-tags"><span class="vector-tag">Ценности</span><span class="vector-tag">Традиции</span><span class="vector-tag">Первые модели</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👨‍👩‍👧</div><div><div class="vector-num">Vector 02</div><div class="vector-name">Семья</div></div></div>
+        <div class="vector-desc">Values, the first social circle, teachers. Ancestors, partner, children — the source of primary behavior and attachment models.</div>
+        <div class="vector-tags"><span class="vector-tag">Values</span><span class="vector-tag">Traditions</span><span class="vector-tag">Primary Models</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🏆</div><div><div class="vector-num">Вектор 03</div><div class="vector-name">Достижения</div></div></div>
-        <div class="vector-desc">Социальная позиция. Социальные, спортивные, карьерные, академические и семейные достижения как маркеры самоценности.</div>
-        <div class="vector-tags"><span class="vector-tag">Социальные</span><span class="vector-tag">Карьерные</span><span class="vector-tag">Академические</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--warning);"></div></div><span>~60%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🏆</div><div><div class="vector-num">Vector 03</div><div class="vector-name">Достижения</div></div></div>
+        <div class="vector-desc">Social position. Social, sports, career, academic, and family achievements as markers of self-worth.</div>
+        <div class="vector-tags"><span class="vector-tag">Social</span><span class="vector-tag">Career</span><span class="vector-tag">Academic</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--warning);"></div></div><span>~60%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">⭐</div><div><div class="vector-num">Вектор 04</div><div class="vector-name">Ролевые модели</div></div></div>
-        <div class="vector-desc">Кумиры и ориентиры: родители, бизнесмены, духовные учителя. Определяют ценностный горизонт и мотивационный профиль.</div>
-        <div class="vector-tags"><span class="vector-tag">Родители</span><span class="vector-tag">Бизнесмены</span><span class="vector-tag">Учителя</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">⭐</div><div><div class="vector-num">Vector 04</div><div class="vector-name">Ролевые модели</div></div></div>
+        <div class="vector-desc">Idols and landmarks: parents, business leaders, spiritual mentors. Define the value horizon and motivational profile.</div>
+        <div class="vector-tags"><span class="vector-tag">Parents</span><span class="vector-tag">Businessmen</span><span class="vector-tag">Teachers</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">💼</div><div><div class="vector-num">Вектор 05</div><div class="vector-name">Карьера</div></div></div>
-        <div class="vector-desc">Использование талантов для заработка. Профессиональные стремления, дисциплина, достижения и отношение к финансовому успеху.</div>
-        <div class="vector-tags"><span class="vector-tag">Стремления</span><span class="vector-tag">Дисциплина</span><span class="vector-tag">Финансы</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--info);"></div></div><span>~75%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">💼</div><div><div class="vector-num">Vector 05</div><div class="vector-name">Карьера</div></div></div>
+        <div class="vector-desc">Using talents to earn. Professional aspirations, discipline, achievements, and attitude towards financial success.</div>
+        <div class="vector-tags"><span class="vector-tag">Aspirations</span><span class="vector-tag">Discipline</span><span class="vector-tag">Financials</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--info);"></div></div><span>~75%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🎮</div><div><div class="vector-num">Вектор 06</div><div class="vector-name">Хобби / Досуг</div></div></div>
-        <div class="vector-desc">Способ восстановления и отдыха. С кем и как проводит свободное время — ключ к энергетическому балансу личности.</div>
-        <div class="vector-tags"><span class="vector-tag">Спорт</span><span class="vector-tag">Творчество</span><span class="vector-tag">Путешествия</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:45%;background:var(--primary);"></div></div><span>~45%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🎮</div><div><div class="vector-num">Vector 06</div><div class="vector-name">Хобби / Leisure</div></div></div>
+        <div class="vector-desc">Way of recovery and rest. With whom and how free time is spent is the key to the energy balance of personality.</div>
+        <div class="vector-tags"><span class="vector-tag">Sports</span><span class="vector-tag">Creativity</span><span class="vector-tag">Travel</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:45%;background:var(--primary);"></div></div><span>~45%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.08);">🌍</div><div><div class="vector-num">Вектор 07</div><div class="vector-name">Люди / Окружение</div></div></div>
-        <div class="vector-desc">Отношение ко всем людям: встречным, незнакомым, коллегам. Уровень социального доверия и открытости к нетворкингу.</div>
-        <div class="vector-tags"><span class="vector-tag">Коллеги</span><span class="vector-tag">Незнакомые</span><span class="vector-tag">Нетворкинг</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--success);"></div></div><span>~50%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.08);">🌍</div><div><div class="vector-num">Vector 07</div><div class="vector-name">People / Environment</div></div></div>
+        <div class="vector-desc">Attitude to all people: passersby, strangers, colleagues. The level of social trust and openness to networking.</div>
+        <div class="vector-tags"><span class="vector-tag">Colleagues</span><span class="vector-tag">Strangers</span><span class="vector-tag">Networking</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--success);"></div></div><span>~50%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🔒</div><div><div class="vector-num">Вектор 08</div><div class="vector-name">Тайны</div></div></div>
-        <div class="vector-desc">Скрытое: недооценка себя, здоровье, мечты, совесть, зависимость, эго, детские травмы, навязанные установки. Самый чувствительный вектор. Хранится с Zero-knowledge шифрованием.</div>
-        <div class="vector-tags"><span class="vector-tag">Детские травмы</span><span class="vector-tag">Зависимости</span><span class="vector-tag">Мечты</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--danger);"></div></div><span>~90%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🔒</div><div><div class="vector-num">Vector 08</div><div class="vector-name">Secrets</div></div></div>
+        <div class="vector-desc">The hidden: self-underestimation, health, dreams, conscience, addiction, ego, childhood trauma, imposed beliefs. The most sensitive vector. Stored with Zero-knowledge encryption.</div>
+        <div class="vector-tags"><span class="vector-tag">Childhood Trauma</span><span class="vector-tag">Addictions</span><span class="vector-tag">Dreams</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--danger);"></div></div><span>~90%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📚</div><div><div class="vector-num">Вектор 09</div><div class="vector-name">Образование</div></div></div>
-        <div class="vector-desc">Накопленный опыт, самообучение, личные исследования, самодисциплина и самоанализ. Когнитивная база для принятия решений.</div>
-        <div class="vector-tags"><span class="vector-tag">Самообучение</span><span class="vector-tag">Опыт</span><span class="vector-tag">Самоанализ</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📚</div><div><div class="vector-num">Vector 09</div><div class="vector-name">Education</div></div></div>
+        <div class="vector-desc">Accumulated experience, self-education, personal research, self-discipline, and self-analysis. Cognitive base for decision-making.</div>
+        <div class="vector-tags"><span class="vector-tag">Self-Education</span><span class="vector-tag">Experience</span><span class="vector-tag">Self-Analysis</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🔄</div><div><div class="vector-num">Вектор 10</div><div class="vector-name">Привычки / Удовольствия</div></div></div>
-        <div class="vector-desc">Автономность через привычки (хорошие/плохие), дофаминовые паттерны. Ежедневные ритуалы определяют предсказуемость поведения.</div>
-        <div class="vector-tags"><span class="vector-tag">Ритуалы</span><span class="vector-tag">Дофамин</span><span class="vector-tag">Автоматизмы</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--warning);"></div></div><span>~80%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🔄</div><div><div class="vector-num">Vector 10</div><div class="vector-name">Habits / Pleasures</div></div></div>
+        <div class="vector-desc">Autonomy through habits (good/bad), dopamine patterns. Daily rituals determine the predictability of behavior.</div>
+        <div class="vector-tags"><span class="vector-tag">Rituals</span><span class="vector-tag">Dopamine</span><span class="vector-tag">Automatisms</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--warning);"></div></div><span>~80%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😨</div><div><div class="vector-num">Вектор 11</div><div class="vector-name">Страхи</div></div></div>
-        <div class="vector-desc">Явные и неявные. Главный страх — неопределённость. Ум всегда защищает человека, создавая комфортную среду. Влияет на все остальные векторы.</div>
-        <div class="vector-tags"><span class="vector-tag">Тайные</span><span class="vector-tag">Явные</span><span class="vector-tag">Психологические</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😨</div><div><div class="vector-num">Vector 11</div><div class="vector-name">Страхи</div></div></div>
+        <div class="vector-desc">Explicit and implicit. The main fear is uncertainty. The mind always protects the human, creating a comfortable environment. Affects all other vectors.</div>
+        <div class="vector-tags"><span class="vector-tag">Secretsе</span><span class="vector-tag">Explicit</span><span class="vector-tag">Psychological</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
       </div>
 
-      <div class="vector-group-label">— Блок II: Психологические и когнитивные измерения (Векторы 12–23)</div>
+      <div class="vector-group-label">— Блок II: Psychological и когнитивные измерения (Векторы 12–23)</div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🧬</div><div><div class="vector-num">Вектор 12</div><div class="vector-name">Телесный интеллект</div></div></div>
-        <div class="vector-desc">Отношение к телу, физическая активность, биоритмы, соматические паттерны стресса. Биоритм определяет доступность и качество ответов в разное время суток.</div>
-        <div class="vector-tags"><span class="vector-tag">Биоритм</span><span class="vector-tag">Стресс-соматика</span><span class="vector-tag">Здоровье</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
-      </div>
-
-      <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">💬</div><div><div class="vector-num">Вектор 13</div><div class="vector-name">Стиль коммуникации</div></div></div>
-        <div class="vector-desc">Детальный лингвистический профиль: речевые паттерны, темп, словарный запас, метафоры. Является входом для Voice Agent и определяет «голос» клона.</div>
-        <div class="vector-tags"><span class="vector-tag">Регистр</span><span class="vector-tag">Длина ответов</span><span class="vector-tag">Метафоры</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--primary);"></div></div><span>~90%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🧬</div><div><div class="vector-num">Vector 12</div><div class="vector-name">Телесный интеллект</div></div></div>
+        <div class="vector-desc">Attitude to body, physical activity, biorhythms, somatic stress patterns. Biorhythm determines the availability and quality of responses at different times of day.</div>
+        <div class="vector-tags"><span class="vector-tag">Biorhythm</span><span class="vector-tag">Stress Somatics</span><span class="vector-tag">Health</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🎭</div><div><div class="vector-num">Вектор 14</div><div class="vector-name">Эмоциональная карта</div></div></div>
-        <div class="vector-desc">Спектр переживаемых и выражаемых эмоций vs те, что подавляются. Эмоциональная регуляция по модели Plutchik. Скорость восстановления.</div>
-        <div class="vector-tags"><span class="vector-tag">Plutchik</span><span class="vector-tag">Регуляция</span><span class="vector-tag">Запрещённые эмоции</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">💬</div><div><div class="vector-num">Vector 13</div><div class="vector-name">Стиль коммуникации</div></div></div>
+        <div class="vector-desc">Detailed linguistic profile: speech patterns, pace, vocabulary, metaphors. It is the input for the Voice Agent and determines the "voice" of the clone.</div>
+        <div class="vector-tags"><span class="vector-tag">Register</span><span class="vector-tag">Response Length</span><span class="vector-tag">Metaphors</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--primary);"></div></div><span>~90%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">🔭</div><div><div class="vector-num">Вектор 15</div><div class="vector-name">Мировоззрение и философия</div></div></div>
-        <div class="vector-desc">Картина мира, убеждения о природе реальности, политические взгляды, духовность. Базовые убеждения о людях (доверие/недоверие), отношение к судьбе и случаю.</div>
-        <div class="vector-tags"><span class="vector-tag">Убеждения</span><span class="vector-tag">Духовность</span><span class="vector-tag">Картина мира</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--info);"></div></div><span>~70%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🎭</div><div><div class="vector-num">Vector 14</div><div class="vector-name">Эмоциональная карта</div></div></div>
+        <div class="vector-desc">Spectrum of experienced and expressed emotions vs those suppressed. Emotional regulation based on Plutchik model. Recovery speed.</div>
+        <div class="vector-tags"><span class="vector-tag">Plutchik</span><span class="vector-tag">Regulation</span><span class="vector-tag">Suppressed Emotions</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚡</div><div><div class="vector-num">Вектор 16</div><div class="vector-name">Стиль принятия решений</div></div></div>
-        <div class="vector-desc">Как принимает решения: рационально, интуитивно, откладывает, советуется. Скорость принятия решений, роль интуиции vs аналитики, реакция на ошибки.</div>
-        <div class="vector-tags"><span class="vector-tag">Скорость</span><span class="vector-tag">Интуиция</span><span class="vector-tag">Аналитика</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--warning);"></div></div><span>~75%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">🔭</div><div><div class="vector-num">Vector 15</div><div class="vector-name">Worldview & Philosophy</div></div></div>
+        <div class="vector-desc">Picture of the world, beliefs about the nature of reality, political views, spirituality. Basic beliefs about people (trust/distrust), attitude to fate and chance.</div>
+        <div class="vector-tags"><span class="vector-tag">Beliefs</span><span class="vector-tag">Spirituality</span><span class="vector-tag">Worldview</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--info);"></div></div><span>~70%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">💰</div><div><div class="vector-num">Вектор 17</div><div class="vector-name">Финансовый паттерн</div></div></div>
-        <div class="vector-desc">Отношение к деньгам, риску, инвестициям. Деньги как безопасность, статус или свобода. Модель трат: импульсивный / рациональный.</div>
-        <div class="vector-tags"><span class="vector-tag">Траты</span><span class="vector-tag">Риск</span><span class="vector-tag">Метафора денег</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--success);"></div></div><span>~60%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚡</div><div><div class="vector-num">Vector 16</div><div class="vector-name">Decision-Making Style</div></div></div>
+        <div class="vector-desc">How decisions are made: rationally, intuitively, delaying, consulting. Speed of decision-making, role of intuition vs analytics, reaction to errors.</div>
+        <div class="vector-tags"><span class="vector-tag">Speed</span><span class="vector-tag">Intuition</span><span class="vector-tag">Analytics</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--warning);"></div></div><span>~75%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🕐</div><div><div class="vector-num">Вектор 18</div><div class="vector-name">Отношение ко времени</div></div></div>
-        <div class="vector-desc">Ориентация на прошлое, настоящее или будущее (Zimbardo). Горизонт планирования. Реакция на дедлайны, прокрастинация.</div>
-        <div class="vector-tags"><span class="vector-tag">Zimbardo</span><span class="vector-tag">Планирование</span><span class="vector-tag">Прокрастинация</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--primary);"></div></div><span>~50%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">💰</div><div><div class="vector-num">Vector 17</div><div class="vector-name">Финансовый паттерн</div></div></div>
+        <div class="vector-desc">Attitude to money, risk, investments. Money as safety, status, or freedom. Spending model: impulsive / rational.</div>
+        <div class="vector-tags"><span class="vector-tag">Spending</span><span class="vector-tag">Risk</span><span class="vector-tag">Money Metaphor</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--success);"></div></div><span>~60%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🎨</div><div><div class="vector-num">Вектор 19</div><div class="vector-name">Эстетический код</div></div></div>
-        <div class="vector-desc">Визуальные, звуковые, тактильные предпочтения. Ведущий сенсорный канал (VAK). Эстетические предпочтения (стиль, цвет), реакция на порядок/хаос.</div>
-        <div class="vector-tags"><span class="vector-tag">VAK</span><span class="vector-tag">Эстетика</span><span class="vector-tag">Пространство</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:40%;background:var(--accent3);"></div></div><span>~40%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🕐</div><div><div class="vector-num">Vector 18</div><div class="vector-name">Relation to Time</div></div></div>
+        <div class="vector-desc">Orientation to past, present, or future (Zimbardo). Planning horizon. Reaction to deadlines, procrastination.</div>
+        <div class="vector-tags"><span class="vector-tag">Zimbardo</span><span class="vector-tag">Planning</span><span class="vector-tag">Procrastination</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--primary);"></div></div><span>~50%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😤</div><div><div class="vector-num">Вектор 20</div><div class="vector-name">Конфликтный паттерн</div></div></div>
-        <div class="vector-desc">Поведение в конфликте по модели Томаса-Килмана: избегает, нападает, уступает, ищет компромисс. Реакция на критику. Скорость прощения.</div>
-        <div class="vector-tags"><span class="vector-tag">Томас-Килман</span><span class="vector-tag">Критика</span><span class="vector-tag">Прощение</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--danger);"></div></div><span>~70%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🎨</div><div><div class="vector-num">Vector 19</div><div class="vector-name">Aesthetic Code</div></div></div>
+        <div class="vector-desc">Visual, auditory, tactile preferences. Leading sensory channel (VAK). Aesthetic preferences (style, color), reaction to order/chaos.</div>
+        <div class="vector-tags"><span class="vector-tag">VAK</span><span class="vector-tag">Aesthetics</span><span class="vector-tag">Space</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:40%;background:var(--accent3);"></div></div><span>~40%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📖</div><div><div class="vector-num">Вектор 21</div><div class="vector-name">Нарративная идентичность</div></div></div>
-        <div class="vector-desc">Как рассказывает историю своей жизни: герой, жертва, странник. Ключевые поворотные точки. Образ себя в прошлом, настоящем, будущем.</div>
-        <div class="vector-tags"><span class="vector-tag">Нарратив</span><span class="vector-tag">Переломные точки</span><span class="vector-tag">Самообраз</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😤</div><div><div class="vector-num">Vector 20</div><div class="vector-name">Conflict Pattern</div></div></div>
+        <div class="vector-desc">Поведение в конфликте по модели Томаса-Килмана: избегает, нападает, уступает, ищет компромисс. Реакция на критику. Speed прощения.</div>
+        <div class="vector-tags"><span class="vector-tag">Thomas-Kilmann</span><span class="vector-tag">Criticism</span><span class="vector-tag">Forgiveness</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--danger);"></div></div><span>~70%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">🤝</div><div><div class="vector-num">Вектор 22</div><div class="vector-name">Стиль привязанности</div></div></div>
-        <div class="vector-desc">Теория Боулби: надёжный, тревожный, избегающий, дезорганизованный. Критически влияет на все отношения. Паттерн реакции на разлуку и близость.</div>
-        <div class="vector-tags"><span class="vector-tag">Боулби</span><span class="vector-tag">Близость</span><span class="vector-tag">Автономия</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📖</div><div><div class="vector-num">Vector 21</div><div class="vector-name">Narrative Identity</div></div></div>
+        <div class="vector-desc">How they tell their life story: hero, victim, wanderer. Key turning points. Self-image in past, present, future.</div>
+        <div class="vector-tags"><span class="vector-tag">Narrative</span><span class="vector-tag">Turning Points</span><span class="vector-tag">Self-Image</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
       </div>
 
       <div class="vector-card">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="vector-num">Вектор 23</div><div class="vector-name">Динамика состояний</div></div></div>
-        <div class="vector-desc">Текущий эмоциональный фон, уровень стресса, энергия. Анализируется в реальном времени Emotion Agent. Ключевой для «Непредсказуемого» типа.</div>
-        <div class="vector-tags"><span class="vector-tag">Real-time</span><span class="vector-tag">Триггеры</span><span class="vector-tag">Выгорание</span></div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">🤝</div><div><div class="vector-num">Vector 22</div><div class="vector-name">Стиль привязанности</div></div></div>
+        <div class="vector-desc">Bowlby's theory: secure, anxious, avoidant, disorganized. Critically affects all relationships. Pattern of reaction to separation and closeness.</div>
+        <div class="vector-tags"><span class="vector-tag">Bowlby</span><span class="vector-tag">Closeness</span><span class="vector-tag">Autonomy</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
       </div>
 
-      <div class="vector-group-label">— Блок III: Интеллектуальные маркеры (Вектор 24)</div>
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="vector-num">Vector 23</div><div class="vector-name">State Dynamics</div></div></div>
+        <div class="vector-desc">Current emotional background, stress level, energy. Analyzed in real time by the Emotion Agent. Key for the "Volatile" type.</div>
+        <div class="vector-tags"><span class="vector-tag">Real-time</span><span class="vector-tag">Triggers</span><span class="vector-tag">Burnout</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— Block III: Intellectual Markers (Vector 24)</div>
 
       <div class="vector-card" style="border-color:rgba(155,81,224,0.3);background:linear-gradient(135deg,#fff 0%,rgba(155,81,224,0.04) 100%);">
-        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.12);">😄</div><div><div class="vector-num">Вектор 24 · Маркер интеллекта</div><div class="vector-name" style="color:var(--accent3);">Наличие юмора</div></div></div>
-        <div class="vector-desc">Юмор — не просто черта характера, а <strong>маркер интеллекта</strong>: способность видеть несоответствия, переключать контексты и создавать неожиданные связи. Тип и плотность юмора раскрывают когнитивный стиль, уровень психологической безопасности и способ взаимодействия с реальностью.</div>
-        <div class="vector-tags"><span class="vector-tag">Самоирония</span><span class="vector-tag">Абсурд</span><span class="vector-tag">Сарказм</span><span class="vector-tag">Наблюдательный</span><span class="vector-tag">Чёрный юмор</span></div>
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.12);">😄</div><div><div class="vector-num">Vector 24 · Intelligence Marker</div><div class="vector-name" style="color:var(--accent3);">Sense of Humor</div></div></div>
+        <div class="vector-desc">Humor is not just a character trait, but an <strong>intelligence marker</strong>: the ability to spot inconsistencies, switch contexts, and build unexpected connections. The type and density of humor reveal cognitive style, psychological safety level, and way of interacting with reality.</div>
+        <div class="vector-tags"><span class="vector-tag">Self-Irony</span><span class="vector-tag">Absurd</span><span class="vector-tag">Sarcasm</span><span class="vector-tag">Observational</span><span class="vector-tag">Dark Humor</span></div>
         <div class="vector-desc" style="margin-top:10px;font-size:11px;color:var(--text3);">
-          Связан с Вектором 13 (стиль коммуникации) и Ролью «Шут/Трикстер» (Граф ролей). Реакция на чужой юмор — маркер психологической зрелости. Способность смеяться над собой — показатель зрелости эго.
+          Associated with Vector 13 (communication style) and the "Jester/Trickster" Role (Role Graph). Reaction to others' humor is a marker of psychological maturity. Ability to laugh at oneself is an indicator of ego maturity.
         </div>
-        <div class="vector-weight"><span>Вес</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
       </div>
 
     </div><!-- end vector-grid -->
@@ -665,9 +402,9 @@
       <span class="type">PersonalityProfile</span> <span class="op">=</span> {<br>
       &nbsp;&nbsp;social_type: <span class="var">"extrovert" | "introvert" | "balanced" | "volatile"</span>,<br>
       &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 24 вектора</span><br>
-      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// упорядочен по убыванию веса</span><br>
+      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// ordered descending веса</span><br>
       &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// чувствительность к давлению</span><br>
-      &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// семантическое версионирование</span><br>
+      &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// semantic versioning</span><br>
       &nbsp;&nbsp;alignment_score: <span class="var">0..1</span> <span class="comment">// точность копии, цель ≥ 0.85</span><br>
       }
     </div>
@@ -680,39 +417,39 @@
     <div class="section-header">
       <div class="section-number">03</div>
       <div class="section-title-wrap">
-        <h2>Ролевая система</h2>
-        <p>Двухуровневая система ролей: осознанные / социальные (видны всем) и теневые / бессознательные (сам человек не замечает). Для полноценной копии критически важен второй уровень.</p>
+        <h2>Role System</h2>
+        <p>Two-level role system: conscious / social (visible to everyone) and shadow / unconscious (not noticed by the person themselves). For a full copy, the second level is critically important.</p>
       </div>
     </div>
     <div class="role-grid">
       <div class="role-col">
-        <div class="role-col-title" style="color:var(--success);">✓ Осознанные роли (Социальный каркас)</div>
-        <div class="role-item"><div class="role-item-icon">👨‍👩‍👧</div><div><div class="role-item-name">Семейные роли</div><div class="role-item-desc">Сын/Дочь, Брат/Сестра, Партнёр, Родитель — первый опыт любви, ответственности, компромиссов</div></div></div>
-        <div class="role-item"><div class="role-item-icon">💼</div><div><div class="role-item-name">Профессиональные роли</div><div class="role-item-desc">Специалист, Наставник/Ученик, Гражданин, Друг — реализация в социуме</div></div></div>
-        <div class="role-item"><div class="role-item-icon">🧠</div><div><div class="role-item-name">Личностные / экзистенциальные</div><div class="role-item-desc">Творец жизни, Наблюдатель/Мыслитель, Хранитель внутреннего ребёнка</div></div></div>
-        <div class="role-item"><div class="role-item-icon">🏠</div><div><div class="role-item-name">Социально-бытовые</div><div class="role-item-desc">Хозяин жизни, Сосед/Член сообщества — повседневная независимость</div></div></div>
+        <div class="role-col-title" style="color:var(--success);">✓ Conscious Roles (Social Framework)</div>
+        <div class="role-item"><div class="role-item-icon">👨‍👩‍👧</div><div><div class="role-item-name">Family Roles</div><div class="role-item-desc">Son/Daughter, Brother/Sister, Partner, Parent — the first experience of love, responsibility, compromises</div></div></div>
+        <div class="role-item"><div class="role-item-icon">💼</div><div><div class="role-item-name">Professional Roles</div><div class="role-item-desc">Specialist, Mentor/Apprentice, Citizen, Friend — realization in society</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧠</div><div><div class="role-item-name">Personal / Existential</div><div class="role-item-desc">Creator of life, Observer/Thinker, Guardian of the inner child</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🏠</div><div><div class="role-item-name">Social & Everyday</div><div class="role-item-desc">Master of life, Neighbor/Community member — daily independence</div></div></div>
       </div>
       <div class="role-col">
-        <div class="role-col-title" style="color:var(--danger);">⚠ Теневые роли (Бессознательные сценарии)</div>
-        <div class="role-item"><div class="role-item-icon">🎭</div><div><div class="role-item-name">Треугольник Карпмана</div><div class="role-item-desc"><strong>Жертва</strong> (перекладывает ответственность), <strong>Тиран</strong> (контроль через страх), <strong>Спасатель</strong> (скрытая потребность в нужности)</div></div></div>
-        <div class="role-item"><div class="role-item-icon">🧛</div><div><div class="role-item-name">Деструктивные роли</div><div class="role-item-desc"><strong>Вампир/Паразит</strong> (питается эмоциями), <strong>Любовник-маска</strong> (компульсивная погоня за валидацией)</div></div></div>
-        <div class="role-item"><div class="role-item-icon">👶</div><div><div class="role-item-name">Транзактный анализ (ТА)</div><div class="role-item-desc"><strong>Вечный Ребёнок</strong> (инфантилизм), <strong>Критикующий Родитель</strong> (моралист), <strong>Шут/Трикстер</strong> (уход от близости)</div></div></div>
+        <div class="role-col-title" style="color:var(--danger);">⚠ Shadow Roles (Unconscious Scenarios)</div>
+        <div class="role-item"><div class="role-item-icon">🎭</div><div><div class="role-item-name">Karpman Triangle</div><div class="role-item-desc"><strong>Victim</strong> (shifts responsibility), <strong>Tyrant</strong> (control through fear), <strong>Rescuer</strong> (hidden need to be needed)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧛</div><div><div class="role-item-name">Destructive Roles</div><div class="role-item-desc"><strong>Vampire/Parasite</strong> (feeds on emotions), <strong>Mask-Lover</strong> (compulsive chase for validation)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">👶</div><div><div class="role-item-name">Transactional Analysis (TA)</div><div class="role-item-desc"><strong>Eternal Child</strong> (infantilism), <strong>Critical Parent</strong> (moralist), <strong>Jester/Trickster</strong> (avoidance of closeness)</div></div></div>
       </div>
     </div>
     <div class="divider"></div>
-    <h3>Матрица: Теневая роль → Здоровый аналог</h3>
+    <h3>Matrix: Shadow Role → Healthy Counterpart</h3>
     <div class="table-wrap" style="margin-top:20px;">
       <table>
-        <thead><tr><th>Теневая роль</th><th>Скрытая потребность</th><th>Здоровый аналог</th><th>Триггер активации</th><th>Приоритет</th></tr></thead>
+        <thead><tr><th>Shadow Role</th><th>Hidden Need</th><th>Healthy Counterpart</th><th>Activation Trigger</th><th>Priority</th></tr></thead>
         <tbody>
-          <tr><td><span class="tag red">Жертва</span></td><td>Внимание, снятие ответственности</td><td><span class="tag green">Творец / Автор жизни</span></td><td>Стресс, конфликт</td><td><span class="tag purple">Высокий</span></td></tr>
-          <tr><td><span class="tag red">Тиран</span></td><td>Контроль, власть</td><td><span class="tag green">Лидер / Наставник</span></td><td>Угроза авторитету</td><td><span class="tag purple">Высокий</span></td></tr>
-          <tr><td><span class="tag yellow">Спасатель</span></td><td>Значимость, нужность</td><td><span class="tag green">Друг (по запросу)</span></td><td>Чужой кризис</td><td><span class="tag blue">Средний</span></td></tr>
-          <tr><td><span class="tag red">Вампир</span></td><td>Энергия, ресурс</td><td><span class="tag green">Наблюдатель / Мыслитель</span></td><td>Истощение, скука</td><td><span class="tag blue">Средний</span></td></tr>
-          <tr><td><span class="tag yellow">Любовник-маска</span></td><td>Адреналин, валидация</td><td><span class="tag green">Партнёр / Супруг</span></td><td>Рутина, потеря смысла</td><td><span class="tag blue">Средний</span></td></tr>
-          <tr><td><span class="tag yellow">Вечный ребёнок</span></td><td>Безопасность</td><td><span class="tag green">Хозяин жизни</span></td><td>Страх провала</td><td><span class="tag blue">Средний</span></td></tr>
-          <tr><td><span class="tag red">Критикующий Родитель</span></td><td>Правота, предсказуемость</td><td><span class="tag green">Наставник (с поддержкой)</span></td><td>Чужие ошибки</td><td><span class="tag blue">Средний</span></td></tr>
-          <tr><td><span class="tag yellow">Шут / Трикстер</span></td><td>Уход от близости</td><td><span class="tag green">Хранитель внутр. ребёнка</span></td><td>Эмоциональная уязвимость</td><td><span class="tag blue">Средний</span></td></tr>
+          <tr><td><span class="tag red">Victim</span></td><td>Attention, shifting responsibility</td><td><span class="tag green">Creator / Author of life</span></td><td>Stress, conflict</td><td><span class="tag purple">High</span></td></tr>
+          <tr><td><span class="tag red">Tyrant</span></td><td>Control, power</td><td><span class="tag green">Leader / Mentor</span></td><td>Threat to authority</td><td><span class="tag purple">High</span></td></tr>
+          <tr><td><span class="tag yellow">Rescuer</span></td><td>Significance, being needed</td><td><span class="tag green">Friend (on request)</span></td><td>Someone else's crisis</td><td><span class="tag blue">Medium</span></td></tr>
+          <tr><td><span class="tag red">Vampire</span></td><td>Energy, resource</td><td><span class="tag green">Observer / Thinker</span></td><td>Depletion, boredom</td><td><span class="tag blue">Medium</span></td></tr>
+          <tr><td><span class="tag yellow">Mask-Lover</span></td><td>Adrenaline, validation</td><td><span class="tag green">Partner / Spouse</span></td><td>Routine, loss of meaning</td><td><span class="tag blue">Medium</span></td></tr>
+          <tr><td><span class="tag yellow">Eternal child</span></td><td>Safety</td><td><span class="tag green">Master of life</span></td><td>Fear of failure</td><td><span class="tag blue">Medium</span></td></tr>
+          <tr><td><span class="tag red">Critical Parent</span></td><td>Rightness, predictability</td><td><span class="tag green">Mentor (with support)</span></td><td>Others' mistakes</td><td><span class="tag blue">Medium</span></td></tr>
+          <tr><td><span class="tag yellow">Jester / Trickster</span></td><td>Avoidance of closeness</td><td><span class="tag green">Guardian of inner child</span></td><td>Emotional vulnerability</td><td><span class="tag blue">Medium</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -725,58 +462,58 @@
     <div class="section-header">
       <div class="section-number">04</div>
       <div class="section-title-wrap">
-        <h2>Алгоритмы связи векторов</h2>
-        <p>Три алгоритма, которые соединяют 24 вектора в единую динамическую модель личности. Алгоритмы работают последовательно и в режиме реального времени.</p>
+        <h2>Vector Connection Algorithms</h2>
+        <p>Three algorithms that connect 24 vectors into a single dynamic personality model. The algorithms work sequentially and in real time.</p>
       </div>
     </div>
 
     <div class="algo-box">
-      <h3>🧮 Алгоритм 1: Построение Личностного Профиля (Onboarding)</h3>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Выполняется один раз при инициализации + регулярно обновляется.</p>
+      <h3>🧮 Algorithm 1: Personality Profile Construction (Onboarding)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Executed once at initialization + regularly updated.</p>
       <div class="algo-steps">
-        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Сбор сырых данных</h4><p>Интервью-опросник (100–200 вопросов), анализ переписки/голоса/контента, поведенческие паттерны. Каждый из 24 векторов имеет набор вопросов и маркеров для сбора.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Классификация социального типа</h4><p>Классификатор определяет: Экстраверт / Интроверт / Баланс / Непредсказуемый. Для 4-го типа вычисляется <em>volatility_factor</em> — чувствительность к стрессорам.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Вычисление весового вектора W</h4><p>Для каждого из 24 векторов вычисляется вес w ∈ [0, 1] через: прямую оценку пользователя + косвенные маркеры поведения + анализ противоречий (декларируемое vs фактическое).</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Построение матрицы ролей</h4><p>Для каждой осознанной роли: частота активации + контекст. Для теневых: вероятность активации в стрессе. Каждая теневая роль привязана к триггерам из векторов 11, 14, 23.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">5</div><div class="algo-step-content"><h4>Валидация профиля с пользователем</h4><p>Профиль предъявляется как «зеркало». Пользователь корректирует. Итерация 3–5 раз до сходимости. Фиксируется версия v1.0.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Raw Data Collection</h4><p>Interview questionnaire (100–200 questions), correspondence/voice/content analysis, behavioral patterns. Each of the 24 vectors has a set of questions and collection markers.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Social Type Classification</h4><p>Classifier determines: Extrovert / Introvert / Balanced / Volatile. For the 4th type, <em>volatility_factor</em> — sensitivity to stressors — is calculated.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Calculation of Weight Vector W</h4><p>For each of the 24 vectors, weight w ∈ [0, 1] is calculated via: direct user assessment + indirect behavioral markers + contradiction analysis (declared vs actual).</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Role Matrix Construction</h4><p>For each conscious role: activation frequency + context. For shadow ones: activation probability under stress. Each shadow role is bound to triggers from vectors 11, 14, 23.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">5</div><div class="algo-step-content"><h4>Profile Validation with User</h4><p>The profile is presented as a "mirror." The user adjusts it. Iteration 3–5 times until convergence. Version v1.0 is finalized.</p></div></div>
       </div>
     </div>
 
     <div class="algo-box" style="margin-top:24px;">
-      <h3>⚡ Алгоритм 2: Контекстная Активация (Runtime)</h3>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Выполняется при каждом запросе. Определяет: вектор, роль, эмоциональный фон.</p>
+      <h3>⚡ Algorithm 2: Contextual Activation (Runtime)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Executed on each request. Determines: vector, role, emotional background.</p>
       <div class="algo-steps">
-        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Классификация контекста запроса</h4><p>NLP-классификатор определяет, к какому из 24 векторов относится запрос → активируется соответствующий агент.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Детекция эмоционального фона</h4><p>Вектор 23 анализируется в реальном времени: тональность, время суток, история, маркеры стресса → вычисляется <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …}</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Выбор активной роли</h4><p>Если stressed → повышается вероятность теневых ролей. P(роль | вектор, состояние, история). При теневой роли — система либо воспроизводит её, либо переключает на здоровый аналог.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Взвешенная компиляция ответа</h4><p>Ответ = Σ(вес_агента × ответ_агента). Каждый из 8 агентов даёт версию, взвешенную по активным векторам и роли. Voice Agent применяет лингвистический стиль (Вектор 13).</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Request Context Classification</h4><p>NLP classifier determines which of the 24 vectors the request belongs to → the corresponding agent is activated.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Emotional Background Detection</h4><p>Vector 23 анализируется в реальном времени: тональность, время суток, история, маркеры стресса → вычисляется <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …}</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Active Role Selection</h4><p>If stressed → the probability of shadow roles increases: P(role | vector, state, history). Under a shadow role, the system either reproduces it or switches to a healthy counterpart.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Weighted Response Compilation</h4><p>Ответ = Σ(вес_агента × ответ_агента). Каждый из 8 агентов даёт версию, взвешенную по активным векторам и роли. Voice Agent применяет лингвистический стиль (Vector 13).</p></div></div>
       </div>
     </div>
 
     <div class="algo-box" style="margin-top:24px;">
-      <h3>🔄 Алгоритм 3: Эволюционное Обновление (Continuous Learning)</h3>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Профиль — живая система. Алгоритм обновляет модель по мере накопления данных.</p>
+      <h3>🔄 Algorithm 3: Evolutionary Update (Continuous Learning)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">The profile is a living system. The algorithm updates the model as data accumulates.</p>
       <div class="algo-steps">
-        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Накопление дельт</h4><p>Каждое взаимодействие фиксируется: вектор, роль, состояние, исход. Дельты накапливаются в буфере. Согласие собеседника хранится в consent_log.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Обнаружение дрейфа</h4><p>Если вес вектора изменился на ±0.15 за 30 дней → фиксируется «жизненное событие» и пользователю предлагается уточнить контекст.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Обновление матрицы ролей</h4><p>Рост частоты теневых ролей = маркер ухудшения состояния. Система формирует insight-отчёт для пользователя через Shadow Agent.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Версионирование профиля</h4><p>Каждое обновление сохраняется как версия. Возможен анализ динамики и «откат» к предыдущему состоянию.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Delta Accumulation</h4><p>Каждое взаимодействие фиксируется: вектор, роль, состояние, исход. Дельты накапливаются в буфере. Согласие собеседника хранится в consent_log.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Drift Detection</h4><p>If a vector weight changes by ±0.15 in 30 days → a "life event" is recorded, and the user is prompted to clarify context.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Role Matrix Update</h4><p>An increase in the frequency of shadow roles = a marker of state deterioration. The system generates an insight report for the user via the Shadow Agent.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Profile Versioning</h4><p>Each update is saved as a version. Dynamics analysis and "rollback" to a previous state are possible.</p></div></div>
       </div>
     </div>
 
     <div class="highlight blue" style="margin-top:28px;">
-      <div class="highlight-title">Матрица взаимовлияния векторов</div>
-      <p>Векторы не независимы. Высокие Страхи (В11) подавляют Карьеру (В05) и искажают Достижения (В03). Юмор (В24) смягчает Конфликтный паттерн (В20). Система хранит матрицу корреляций и обновляет её по мере обучения.</p>
+      <div class="highlight-title">Vector Interdependence Matrix</div>
+      <p>Векторы не независимы. Высокие Fears (V11) подавляют Карьеру (В05) и искажают Достижения (В03). Humor (V24) смягчает Conflict Pattern (В20). Система хранит матрицу корреляций и обновляет её по мере обучения.</p>
     </div>
     <div class="table-wrap" style="margin-top:20px;">
       <table class="matrix-table">
-        <thead><tr><th>Влияет на →</th><th>Семья (В02)</th><th>Карьера (В05)</th><th>Страхи (В11)</th><th>Привычки (В10)</th><th>Юмор (В24)</th></tr></thead>
+        <thead><tr><th>Affects →</th><th>Family (V02)</th><th>Career (V05)</th><th>Fears (V11)</th><th>Habits (V10)</th><th>Humor (V24)</th></tr></thead>
         <tbody>
-          <tr><td>Страхи (В11)</td><td><span class="dot high"></span> Высокое</td><td><span class="dot high"></span> Высокое</td><td>—</td><td><span class="dot med"></span> Среднее</td><td><span class="dot high"></span> Высокое</td></tr>
-          <tr><td>Семья (В02)</td><td>—</td><td><span class="dot med"></span> Среднее</td><td><span class="dot high"></span> Высокое</td><td><span class="dot med"></span> Среднее</td><td><span class="dot med"></span> Среднее</td></tr>
-          <tr><td>Образование (В09)</td><td><span class="dot low"></span> Низкое</td><td><span class="dot high"></span> Высокое</td><td><span class="dot med"></span> Среднее</td><td><span class="dot med"></span> Среднее</td><td><span class="dot med"></span> Среднее</td></tr>
-          <tr><td>Коммуникация (В13)</td><td><span class="dot med"></span> Среднее</td><td><span class="dot med"></span> Среднее</td><td><span class="dot low"></span> Низкое</td><td><span class="dot low"></span> Низкое</td><td><span class="dot high"></span> Высокое</td></tr>
-          <tr><td>Юмор (В24)</td><td><span class="dot med"></span> Среднее</td><td><span class="dot med"></span> Среднее</td><td><span class="dot med"></span> Среднее</td><td><span class="dot low"></span> Низкое</td><td>—</td></tr>
+          <tr><td>Fears (V11)</td><td><span class="dot high"></span> High</td><td><span class="dot high"></span> High</td><td>—</td><td><span class="dot med"></span> Medium</td><td><span class="dot high"></span> High</td></tr>
+          <tr><td>Family (V02)</td><td>—</td><td><span class="dot med"></span> Medium</td><td><span class="dot high"></span> High</td><td><span class="dot med"></span> Medium</td><td><span class="dot med"></span> Medium</td></tr>
+          <tr><td>Education (В09)</td><td><span class="dot low"></span> Low</td><td><span class="dot high"></span> High</td><td><span class="dot med"></span> Medium</td><td><span class="dot med"></span> Medium</td><td><span class="dot med"></span> Medium</td></tr>
+          <tr><td>Communication (V13)</td><td><span class="dot med"></span> Medium</td><td><span class="dot med"></span> Medium</td><td><span class="dot low"></span> Low</td><td><span class="dot low"></span> Low</td><td><span class="dot high"></span> High</td></tr>
+          <tr><td>Humor (V24)</td><td><span class="dot med"></span> Medium</td><td><span class="dot med"></span> Medium</td><td><span class="dot med"></span> Medium</td><td><span class="dot low"></span> Low</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
@@ -789,14 +526,14 @@
     <div class="section-header">
       <div class="section-number">05</div>
       <div class="section-title-wrap">
-        <h2>Мультиагентная архитектура</h2>
-        <p>8 специализированных агентов. Каждый агент отвечает за отдельный слой личности, работает независимо и взаимодействует через шину событий.</p>
+        <h2>Multi-Agent Architecture</h2>
+        <p>8 specialized agents. Each agent is responsible for a separate personality layer, works independently, and interacts via an event bus.</p>
       </div>
     </div>
     <div class="graph-container">
-      <div class="section-label" style="margin-bottom:20px;">Схема взаимодействия агентов</div>
+      <div class="section-label" style="margin-bottom:20px;">Agent Interaction Diagram</div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
-        <div style="background:rgba(108,99,255,0.1);border:2px solid rgba(108,99,255,0.4);border-radius:14px;padding:18px 40px;font-weight:700;color:var(--primary);font-size:15px;">🎯 MASTER AGENT (Оркестратор)</div>
+        <div style="background:rgba(108,99,255,0.1);border:2px solid rgba(108,99,255,0.4);border-radius:14px;padding:18px 40px;font-weight:700;color:var(--primary);font-size:15px;">🎯 MASTER AGENT (Orchestrator)</div>
         <div style="color:var(--text3);font-size:24px;">↕</div>
         <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:900px;">
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌍 Sphere Agent</div>
@@ -812,14 +549,14 @@
       </div>
     </div>
     <div class="agent-grid">
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">Оркестратор</div></div></div><p>Центральный координатор. Распределяет по агентам, собирает ответы, взвешивает, формирует итоговый ответ. Единственная точка входа/выхода.</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">Контекст 24 векторов</div></div></div><p>Хранит и обновляет весовой вектор W по 24 измерениям. Классифицирует запрос по вектору и возвращает релевантный контекст профиля.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">Управление ролями</div></div></div><p>Управляет матрицей ролей: осознанные + теневые. Определяет активную роль на основе контекста и состояния.</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">Эмоциональный фон</div></div></div><p>Определяет текущее эмоциональное состояние в реальном времени (Вектор 23). Тональность, время, история, биомаркеры.</p><div class="agent-card-tags"><span class="tag red">Plutchik</span><span class="tag yellow">NLP Tone</span><span class="tag blue">Real-time</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">Лингвистический стиль</div></div></div><p>Хранит и применяет лингвистический профиль (Вектор 13 + Вектор 24). «Окрашивает» ответ под стиль конкретного человека, включая юмор.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">Теневые паттерны</div></div></div><p>Детектирует активацию теневых ролей, формирует insight-отчёты, предлагает «здоровые альтернативы».</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">Непрерывное обучение</div></div></div><p>Отслеживает дрейф профиля, обновляет W, версионирует, детектирует жизненные события, инициирует переобучение.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Безопасность и этика</div></div></div><p>Контролирует доступ к данным. Шифрует чувствительные векторы (Тайны В08, Страхи В11). Ведёт consent_log. Право на забвение. Аудит-лог.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">Orchestrator</div></div></div><p>Central coordinator. Distributes to agents, gathers responses, weights them, forms the final response. The single point of entry/exit.</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">24 Vectors Context</div></div></div><p>Stores and updates the weight vector W for 24 dimensions. Classifies the request by vector and returns the relevant profile context.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">Role Management</div></div></div><p>Manages the matrix of roles: conscious + shadow. Determines the active role based on context and state.</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">Emotional Background</div></div></div><p>Определяет текущее эмоциональное состояние в реальном времени (Vector 23). Тональность, время, история, биомаркеры.</p><div class="agent-card-tags"><span class="tag red">Plutchik</span><span class="tag yellow">NLP Tone</span><span class="tag blue">Real-time</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">Linguistic Style</div></div></div><p>Хранит и применяет лингвистический профиль (Vector 13 + Вектор 24). «Окрашивает» ответ под стиль конкретного человека, включая юмор.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">Shadow Patterns</div></div></div><p>Detects the activation of shadow roles, generates insight reports, suggests "healthy alternatives."</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">Continuous Learning</div></div></div><p>Tracks profile drift, updates W, versions, detects life events, initiates retraining.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Safety и этика</div></div></div><p>Контролирует доступ к данным. Шифрует чувствительные векторы (Secrets В08, Страхи В11). Ведёт consent_log. Право на забвение. Аудит-лог.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
     </div>
   </div>
 </div>
@@ -834,91 +571,90 @@
         <p>Источники данных и процесс превращения сырых данных в обученную модель с Personality Alignment Score ≥ 0.85.</p>
       </div>
     </div>
-    <h3>Источники данных (многоканальный сбор)</h3>
+    <h3>Data Sources (Multi-Channel Collection)</h3>
     <div class="card-grid" style="margin-top:20px;">
-      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">📝</div>Структурированный опросник</div><ul><li>Онбординг-интервью (100–200 вопросов)</li><li>Тесты: MBTI, Big Five, Attachment Style</li><li>Ранжирование 24 векторов (приоритеты)</li><li>Тест на страхи (явные / неявные)</li><li>Ролевые сценарии — ситуационные вопросы</li></ul></div>
-      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">💬</div>Анализ коммуникации</div><ul><li>История переписки (Telegram, WhatsApp, Email)</li><li>Голосовые сообщения → транскрипция + анализ</li><li>Записи разговоров (с согласия)</li><li>Лингвистический анализ: слова, паттерны</li><li>Тональность по темам и собеседникам</li></ul></div>
-      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">📱</div>Поведенческие данные</div><ul><li>Контент в соцсетях (посты, лайки)</li><li>Паттерны активности (время суток, дни)</li><li>Реакция на события (задержка, длина ответа)</li><li>Привычки экранного времени</li><li>Диалоги клона с согласия собеседников</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">📝</div>Structured Questionnaire</div><ul><li>Onboarding interview (100–200 questions)</li><li>Tests: MBTI, Big Five, Attachment Style</li><li>Ranking of 24 vectors (priorities)</li><li>Fears test (explicit / implicit)</li><li>Role scenarios — situational questions</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">💬</div>Communication Analysis</div><ul><li>Correspondence history (Telegram, WhatsApp, Email)</li><li>Voice messages → transcription + analysis</li><li>Call recordings (with consent)</li><li>Linguistic analysis: words, patterns</li><li>Sentiment by topic and interlocutor</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">📱</div>Behavioral Data</div><ul><li>Social media content (posts, likes)</li><li>Activity patterns (time of day, days)</li><li>Reaction to events (delay, response length)</li><li>Screen time habits</li><li>Clone dialogues with interlocutors' consent</li></ul></div>
     </div>
     <div class="divider"></div>
-    <h3>Пайплайн обучения</h3>
+    <h3>Training Pipeline</h3>
     <div class="flow" style="margin-top:20px;">
-      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h4>Raw Data Collection</h4><p>Сбор данных с согласия. Обезличивание и шифрование. Хранение в изолированном namespace (per-user).</p></div></div>
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h4>Raw Data Collection</h4><p>Data collection with consent. Anonymization and encryption. Storage in an isolated namespace (per-user).</p></div></div>
       <div class="flow-arrow">↓</div>
-      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h4>Feature Extraction</h4><p>Извлечение признаков по каждому из 24 векторов. NLP для текстов, аудио-анализ, временные ряды. Формируется Feature Matrix F ∈ ℝ^(n×24).</p></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h4>Feature Extraction</h4><p>Feature extraction for each of the 24 vectors. NLP for texts, audio analysis, time series. A Feature Matrix F ∈ ℝ^(n×24) is formed.</p></div></div>
       <div class="flow-arrow">↓</div>
-      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h4>Profile Construction (Алгоритм 1)</h4><p>Строится личностный профиль: вектор W, матрица ролей, эмоциональный базис. Валидация с пользователем. Версия v1.0.</p></div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h4>Profile Construction (Algorithm 1)</h4><p>Строится личностный профиль: вектор W, матрица ролей, эмоциональный базис. Валидация с пользователем. Version v1.0.</p></div></div>
       <div class="flow-arrow">↓</div>
-      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h4>Agent Fine-tuning</h4><p>Fine-tuning Voice Agent на корпусе пользователя (LoRA/QLoRA). RAG-наполнение Sphere и Role Agent. Shadow Agent — на теневых паттернах.</p></div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h4>Agent Fine-tuning</h4><p>Fine-tuning Voice Agent on the user's corpus (LoRA/QLoRA). RAG filling of Sphere and Role Agent. Shadow Agent — on shadow patterns.</p></div></div>
       <div class="flow-arrow">↓</div>
-      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><h4>Evaluation &amp; Alignment (RLHF)</h4><p>Пользователь взаимодействует с клоном и оценивает точность. Предпочтения → дообучение. Цель: Personality Alignment Score ≥ 0.85.</p></div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><h4>Evaluation & Alignment (RLHF)</h4><p>The user interacts with the clone and rates the accuracy. Preferences → training. Goal: Personality Alignment Score ≥ 0.85.</p></div></div>
       <div class="flow-arrow">↓</div>
-      <div class="flow-step"><div class="flow-num">6</div><div class="flow-content"><h4>Continuous Learning (Алгоритм 3)</h4><p>Онлайн-обновление. Детекция дрейфа. Периодическое переобучение (раз в 30–90 дней или при жизненном событии).</p></div></div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-content"><h4>Continuous Learning (Algorithm 3)</h4><p>Online update. Drift detection. Periodic retraining (every 30–90 days or upon a life event).</p></div></div>
     </div>
     
     <div class="divider"></div>
-    <h3>Voice Clone Pipeline (Синтез и Защита Голоса)</h3>
+    <h3>Voice Clone Pipeline (Voice Synthesis & Protection)</h3>
     <div class="card-grid" style="margin-top:20px;">
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">🎙️</div>Экстракция аудио-признаков</div>
-        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Сбор коротких аудиозаписей пользователя (15-30 минут чистой речи). Очистка от фонового шума и разделение на чанки по 2-5 секунд. Экстракция мел-спектрограмм и высоты тона (F0).</p>
+        <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">🎙️</div>Audio Feature Extraction</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Collection of short audio recordings from the user (15-30 minutes of clean speech). Removal of background noise and division into 2-5 second chunks. Extraction of mel-spectrograms and pitch (F0).</p>
       </div>
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">🧠</div>Fine-tuning &amp; Zero-Shot TTS</div>
-        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Дообучение базовой TTS-модели (напр., XTTS v2, Coqui или Bark) с использованием LoRA для адаптации тембра. Генерация голоса с сохранением интонации и стиля (Вектор 13).</p>
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">🧠</div>Fine-tuning & Zero-Shot TTS</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Дообучение базовой TTS-модели (напр., XTTS v2, Coqui или Bark) с использованием LoRA для адаптации тембра. Генерация голоса с сохранением интонации и стиля (Vector 13).</p>
       </div>
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🛡️</div>Аудио-вотермаркинг</div>
-        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Каждое аудиосообщение клона подписывается стеганографической аудио-меткой (Watermark). Это защищает создателя от несанкционированного использования его голоса в качестве дипфейка.</p>
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🛡️</div>Audio Watermarking</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Each audio message from the clone is signed with a steganographic audio watermark. This protects the creator from unauthorized use of their voice as a deepfake.</p>
       </div>
     </div>
 
     <div class="divider"></div>
-    <h3>Интеграция с Метавселенной (Metaverse Avatar Integration)</h3>
+    <h3>Metaverse Integration (Metaverse Avatar Integration)</h3>
     <div class="card-grid" style="margin-top:20px;">
       <div class="card" style="grid-column: span 2;">
-        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">🌐</div>Интеграция с 3D-движками (Ready Player Me / Unreal Engine)</div>
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">🌐</div>Integration with 3D Engines (Ready Player Me / Unreal Engine)</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.6;">
           24 вектора личности преобразуются в поведенческий движок 3D-аватара. 
           Вместо статического бота аватар реагирует в реальном времени: вес вектора Emotion (B23) регулирует лицевую анимацию и мимику (blendshapes), 
-          а речевой темп (Вектор 13) синхронизируется с артикуляцией губ (lip-sync).
+          а речевой темп (Vector 13) синхронизируется с артикуляцией губ (lip-sync).
         </p>
       </div>
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:rgba(155,81,224,0.1);">🧬</div>Cognitive Engine для NPC</div>
+        <div class="card-title"><div class="card-icon" style="background:rgba(155,81,224,0.1);">🧬</div>Cognitive Engine for NPCs</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.5;">
-          Превращение ИИ-клона звезды в интерактивного неигрового персонажа (NPC) в виртуальных мирах. 
-          Пользователи могут встретить клона в метавселенной и общаться с ним голосом.
+          Turning the star's AI clone into an interactive non-player character (NPC) in virtual worlds. Users can meet the clone in the metaverse and communicate with them via voice.
         </p>
       </div>
     </div>
 
     <div class="divider"></div>
     <div class="code-block" style="margin-top:28px;">
-<span class="comment">// Структура данных профиля (TypeScript)</span>
+<span class="comment">// Profile data structure (TypeScript)</span>
 
 <span class="key">interface</span> <span class="type">PersonalityProfile</span> {
   id: <span class="str">string</span>;
-  version: <span class="str">string</span>;                          <span class="comment">// семантическое версионирование</span>
+  version: <span class="str">string</span>;                          <span class="comment">// semantic versioning</span>
   social_type: <span class="str">"extrovert" | "introvert" | "balanced" | "volatile"</span>;
   volatility_factor: <span class="num">number</span>;                  <span class="comment">// 0–1</span>
 
-  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 24 вектора, вес 0–1</span>
-  priority_formula: <span class="type">VectorId</span>[];               <span class="comment">// упорядочен по убыванию</span>
+  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 24 vectors, weight 0-1</span>
+  priority_formula: <span class="type">VectorId</span>[];               <span class="comment">// ordered descending</span>
 
   conscious_roles: <span class="type">RoleProfile</span>[];
-  shadow_roles: <span class="type">ShadowRoleProfile</span>[];          <span class="comment">// с триггерами и вероятностью</span>
+  shadow_roles: <span class="type">ShadowRoleProfile</span>[];          <span class="comment">// with triggers and probability</span>
 
-  communication_style: <span class="type">CommunicationVector</span>;   <span class="comment">// Вектор 13</span>
-  emotional_map: <span class="type">EmotionalVector</span>;             <span class="comment">// Вектор 14</span>
-  decision_style: <span class="type">DecisionVector</span>;             <span class="comment">// Вектор 16</span>
-  attachment_style: <span class="str">"secure"|"anxious"|"avoidant"|"disorganized"</span>; <span class="comment">// Вектор 22</span>
-  humor_profile: <span class="type">HumorVector</span>;                 <span class="comment">// Вектор 24</span>
+  communication_style: <span class="type">CommunicationVector</span>;   <span class="comment">// Vector 13</span>
+  emotional_map: <span class="type">EmotionalVector</span>;             <span class="comment">// Vector 14</span>
+  decision_style: <span class="type">DecisionVector</span>;             <span class="comment">// Vector 16</span>
+  attachment_style: <span class="str">"secure"|"anxious"|"avoidant"|"disorganized"</span>; <span class="comment">// Vector 22</span>
+  humor_profile: <span class="type">HumorVector</span>;                 <span class="comment">// Vector 24</span>
 
-  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// Вектор 23 — реальное время</span>
+  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// Vector 23 — реальное время</span>
 
   consent_log: <span class="type">ConsentEntry</span>[];
-  alignment_score: <span class="num">number</span>;                   <span class="comment">// точность копии, 0–1, цель ≥ 0.85</span>
+  alignment_score: <span class="num">number</span>;                   <span class="comment">// clone accuracy, 0-1, target >= 0.85</span>
 }
     </div>
   </div>
@@ -930,72 +666,72 @@
     <div class="section-header">
       <div class="section-number">07</div>
       <div class="section-title-wrap">
-        <h2>Этика, безопасность и приватность</h2>
-        <p>Этот раздел — не опция. Это обязательное условие существования системы.</p>
+        <h2>Ethics, Security & Privacy</h2>
+        <p>This section is not an option. It is a mandatory condition for the system's existence.</p>
       </div>
     </div>
     <div class="privacy-section">
-      <h3>⚠️ Критические требования</h3>
+      <h3>⚠️ Critical Requirements</h3>
       <div class="card-grid">
         <div>
-          <h4 style="color:var(--warning);margin-bottom:10px;">🔐 Согласие и контроль</h4>
+          <h4 style="color:var(--warning);margin-bottom:10px;">🔐 Consent & Control</h4>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Явное согласие на каждый тип данных</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Согласие собеседников на обучение клона</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Пользователь может удалить любой вектор</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Право на полное удаление профиля</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Контроль над доступом к клону</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Explicit consent for each data type</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Consent of interlocutors to train the clone</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> The user can delete any vector</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Right to completely delete the profile</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Control over clone access</li>
           </ul>
         </div>
         <div>
-          <h4 style="color:var(--danger);margin-bottom:10px;">🛡️ Шифрование и изоляция</h4>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🛡️ Encryption & Isolation</h4>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> E2E шифрование чувствительных векторов</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Изолированное хранилище (per-user)</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Zero-knowledge для Тайн (Вектор 08)</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Аудит-лог всех обращений к профилю</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Соответствие GDPR / CCPA</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> E2E encryption of sensitive vectors</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Isolated storage (per-user)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Zero-knowledge для Тайн (Vector 08)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Audit log of all profile accesses</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> GDPR / CCPA compliance</li>
           </ul>
         </div>
         <div>
-          <h4 style="color:var(--danger);margin-bottom:10px;">🚫 Жёсткие запреты</h4>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🚫 Strict Prohibitions</h4>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Клон не выдаёт себя за человека без маркировки</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Нельзя использовать в юридических целях</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Запрещено манипулировать без ведома оригинала</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Данные третьих лиц — только с их согласия</li>
-            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Нет продажи данных третьим лицам</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> The clone does not pretend to be human without labeling</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Cannot be used for legal purposes</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> It is forbidden to manipulate without the knowledge of the original</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Third-party data — only with their consent</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> No sale of data to third parties</li>
           </ul>
         </div>
       </div>
     </div>
     
     <div class="divider"></div>
-    <h3>Privacy Agent &amp; Edge-AI Архитектура</h3>
+    <h3>Privacy Agent & Edge-AI Architecture</h3>
     <div class="card-grid" style="margin-top:20px;">
       <div class="card" style="grid-column: span 3;">
-        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🔒</div>Децентрализованная обработка (Ollama &amp; Local Node)</div>
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🔒</div>Decentralized Processing (Ollama & Local Node)</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.6;">
-          Для обеспечения абсолютной безопасности персональных данных (Вектор 08: Тайны, Вектор 11: Страхи) реализован гибридный режим:
-          <br>• <strong>Локальный узел (Edge Node):</strong> Все чувствительные дневники, интимная переписка и заметки обрабатываются локально на компьютере или телефоне владельца через локальные модели (Llama-3/Qwen) с использованием Ollama.
-          <br>• <strong>Облачный шлюз (Cloud Gateway):</strong> В облачную базу передаются только десенсибилизированные математические коэффициенты Tone of Voice и поведенческих векторов, исключая утечку самого текста переписок.
-          <br>• <strong>Аудит-лог согласия (Consent Ledger):</strong> Каждое обращение к памяти клона проверяется Privacy Agent по криптографическому реестру согласий, гарантируя соблюдение GDPR (Право на забвение).
+          Для обеспечения абсолютной безопасности персональных данных (Vector 08: Secrets, Vector 11: Страхи) реализован гибридный режим:
+          <br>• <strong>Edge Node (Local):</strong> All sensitive diaries, private correspondence, and notes are processed locally on the owner's computer or phone using local models (Llama-3/Qwen) via Ollama.
+          <br>• <strong>Cloud Gateway:</strong> Only desensitized mathematical coefficients of Tone of Voice and behavioral vectors are transmitted to the cloud database, preventing leakage of the actual correspondence text.
+          <br>• <strong>Consent Ledger:</strong> Each access to the clone's memory is verified by the Privacy Agent against a cryptographic consent registry, guaranteeing GDPR compliance (Right to be forgotten).
         </p>
       </div>
     </div>
 
     <div class="divider"></div>
-    <h3>Матрица рисков</h3>
+    <h3>Risk Matrix</h3>
     <div class="table-wrap" style="margin-top:20px;">
       <table>
-        <thead><tr><th>Риск</th><th>Вероятность</th><th>Влияние</th><th>Митигация</th></tr></thead>
+        <thead><tr><th>Risk</th><th>Probability</th><th>Impact</th><th>Mitigation</th></tr></thead>
         <tbody>
-          <tr class="risk-row-high"><td>Утечка данных профиля</td><td><span class="tag yellow">Средняя</span></td><td><span class="tag red">Критическое</span></td><td>E2E, изоляция, аудит</td></tr>
-          <tr class="risk-row-high"><td>Использование клона для манипуляций</td><td><span class="tag red">Высокая</span></td><td><span class="tag red">Критическое</span></td><td>AI-маркировка, контроль доступа</td></tr>
-          <tr class="risk-row-med"><td>Ошибочная активация теневых ролей</td><td><span class="tag yellow">Средняя</span></td><td><span class="tag yellow">Высокое</span></td><td>Shadow Agent с порогами и флагами</td></tr>
-          <tr class="risk-row-med"><td>Профиль «застывает», не отражает изменения</td><td><span class="tag yellow">Средняя</span></td><td><span class="tag yellow">Высокое</span></td><td>Evolution Agent, детекция дрейфа</td></tr>
-          <tr class="risk-row-low"><td>Ложные данные при онбординге</td><td><span class="tag yellow">Средняя</span></td><td><span class="tag blue">Среднее</span></td><td>Кросс-валидация декларируемого vs поведения</td></tr>
-          <tr class="risk-row-low"><td>Зависимость пользователя от клона</td><td><span class="tag blue">Низкая</span></td><td><span class="tag yellow">Высокое</span></td><td>Ограничения частоты, психологические фреймы</td></tr>
+          <tr class="risk-row-high"><td>Profile data leakage</td><td><span class="tag yellow">Medium</span></td><td><span class="tag red">Critical</span></td><td>E2E, isolation, audit</td></tr>
+          <tr class="risk-row-high"><td>Using clone for manipulation</td><td><span class="tag red">High</span></td><td><span class="tag red">Critical</span></td><td>AI labeling, access control</td></tr>
+          <tr class="risk-row-med"><td>Accidental activation of shadow roles</td><td><span class="tag yellow">Medium</span></td><td><span class="tag yellow">High</span></td><td>Shadow Agent with thresholds and flags</td></tr>
+          <tr class="risk-row-med"><td>Profile "freezes," fails to reflect changes</td><td><span class="tag yellow">Medium</span></td><td><span class="tag yellow">High</span></td><td>Evolution Agent, drift detection</td></tr>
+          <tr class="risk-row-low"><td>False data during onboarding</td><td><span class="tag yellow">Medium</span></td><td><span class="tag blue">Medium</span></td><td>Cross-validation of declared vs behavior</td></tr>
+          <tr class="risk-row-low"><td>User's dependence on the clone</td><td><span class="tag blue">Low</span></td><td><span class="tag yellow">High</span></td><td>Frequency limits, psychological framing</td></tr>
         </tbody>
       </table>
     </div>
@@ -1008,31 +744,31 @@
     <div class="section-header">
       <div class="section-number">08</div>
       <div class="section-title-wrap">
-        <h2>Роадмап разработки</h2>
-        <p>Четыре фазы от MVP до полноценной мультиагентной системы с непрерывным обучением и всеми 24 векторами.</p>
+        <h2>Development Roadmap</h2>
+        <p>Four phases from MVP to a full multi-agent system with continuous learning and all 24 vectors.</p>
       </div>
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Фаза</th><th>Период</th><th>Что делаем</th><th>Результат</th><th>Ключевые риски</th></tr></thead>
+        <thead><tr><th>Phase</th><th>Period</th><th>Tasks</th><th>Result</th><th>Key Risks</th></tr></thead>
         <tbody>
-          <tr><td><strong>Фаза 0</strong><br><span class="tag purple">Research</span></td><td>4–6 нед.</td><td>Финализация спецификации, выбор стека, онбординг-опросник на 24 вектора, дизайн схемы данных</td><td>Архитектура, опросник v1.0, команда</td><td>Недооценка сложности векторов Тайн и Страхов</td></tr>
-          <tr><td><strong>Фаза 1</strong><br><span class="tag blue">MVP</span></td><td>8–12 нед.</td><td>Sphere Agent (11 базовых сфер), Voice Agent (базовый), профиль v1.0, UI онбординга</td><td>Клон общается в стиле пользователя в рамках базовых сфер</td><td>Недостаточно данных для Voice Agent</td></tr>
-          <tr><td><strong>Фаза 2</strong><br><span class="tag yellow">Beta</span></td><td>12–16 нед.</td><td>Role Agent (осознанные роли), Emotion Agent, Shadow Agent (Карпман), все 24 вектора, оркестратор</td><td>Клон меняет роли по контексту, учитывает эмоции и юмор</td><td>Сложность калибровки Shadow Agent</td></tr>
-          <tr><td><strong>Фаза 3</strong><br><span class="tag green">V1.0</span></td><td>8–12 нед.</td><td>Evolution Agent, RLHF по всем 24 векторам, Privacy Agent, версионирование, согласие собеседников</td><td>Полноценная динамическая копия с онлайн-обучением</td><td>GDPR-комплаенс, вычислительная нагрузка</td></tr>
+          <tr><td><strong>Phase 0</strong><br><span class="tag purple">Research</span></td><td>4–6 weeks</td><td>Finalization of specification, stack selection, onboarding questionnaire for 24 vectors, data schema design</td><td>Architecture, questionnaire v1.0, team</td><td>Underestimating the complexity of Secrets and Fears vectors</td></tr>
+          <tr><td><strong>Phase 1</strong><br><span class="tag blue">MVP</span></td><td>8–12 weeks</td><td>Sphere Agent (11 basic spheres), Voice Agent (basic), profile v1.0, onboarding UI</td><td>Clone communicates in user style within basic spheres</td><td>Insufficient data for the Voice Agent</td></tr>
+          <tr><td><strong>Phase 2</strong><br><span class="tag yellow">Beta</span></td><td>12–16 weeks</td><td>Role Agent (conscious roles), Emotion Agent, Shadow Agent (Karpman), all 24 vectors, orchestrator</td><td>Clone switches roles by context, takes emotions and humor into account</td><td>Complexity of calibrating the Shadow Agent</td></tr>
+          <tr><td><strong>Phase 3</strong><br><span class="tag green">V1.0</span></td><td>8–12 weeks</td><td>Evolution Agent, RLHF across all 24 vectors, Privacy Agent, versioning, interlocutors' consent</td><td>Full dynamic twin with online learning</td><td>GDPR compliance, computational load</td></tr>
         </tbody>
       </table>
     </div>
     <div class="highlight green" style="margin-top:32px;">
-      <div class="highlight-title">Критерии успеха (Definition of Done)</div>
+      <div class="highlight-title">Success Criteria (Definition of Done)</div>
       <p>
-        <strong>MVP:</strong> Пользователь не может отличить 3 из 5 ответов клона от своих собственных.<br>
-        <strong>V1.0:</strong> Personality Alignment Score ≥ 0.85 по независимой оценке 3 близких людей пользователя.<br>
-        <strong>Системный:</strong> Холодный старт нового профиля — не более 2 часов онбординга.
+        <strong>MVP:</strong> The user cannot distinguish 3 out of 5 clone responses from their own.<br>
+        <strong>V1.0:</strong> Personality Alignment Score >= 0.85 by independent assessment of 3 close people of the user.<br>
+        <strong>System:</strong> Cold start of a new profile — no more than 2 hours of onboarding.
       </p>
     </div>
     <div class="highlight yellow" style="margin-top:20px;">
-      <div class="highlight-title">Рекомендуемый стек технологий</div>
+      <div class="highlight-title">Recommended Tech Stack</div>
       <p>
         <strong>LLM:</strong> GPT-4o / Claude 3.5 + LoRA/QLoRA fine-tuning ·
         <strong>Vector DB:</strong> Pinecone / Weaviate / Qdrant ·
@@ -1049,9 +785,9 @@
 
 <div class="doc-footer">
   <p>
-    <strong style="color:var(--text2);">AI Human Clone — Техническая Спецификация Архитектуры v2.0</strong><br>
-    Создан на основе авторской концепции. Для внутреннего использования. Все права сохраняются за автором.<br>Июнь 2026.<br><br>
-    <span style="color:var(--primary);">24 вектора личности (единый профиль) · 8 типов ролей · 8 ИИ-агентов · 3 алгоритма · 4 фазы разработки</span>
+    <strong style="color:var(--text2);">AI Human Clone — Technical Architecture Specification v2.0</strong><br>
+    Создан на основе авторской концепции. Для внутреннего использования. Все права сохраняются за автором.<br>June 2026.<br><br>
+    <span style="color:var(--primary);">24 personality vectors (unified profile) · 8 role types · 8 AI agents · 3 algorithms · 4 development phases</span>
   </p>
 </div>
 

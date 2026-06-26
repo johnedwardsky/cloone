@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Human Clone — Especificación Técnica de la Arquitectura v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const langCodes = ['en', 'ru', 'zh', 'es', 'ar'];
+    const filename = window.location.pathname.split('/').pop() || 'index.html';
+    let pageType = '';
+    let currentLang = 'en';
+    
+    if (filename.startsWith('index')) {
+      pageType = 'index';
+      const suffix = filename.replace('index', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('pitch_deck')) {
+      pageType = 'pitch_deck';
+      const suffix = filename.replace('pitch_deck', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('AI_Clone_Architecture')) {
+      pageType = 'AI_Clone_Architecture';
+      const suffix = filename.replace('AI_Clone_Architecture', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    }
+    
+    if (!pageType) return;
+    
+    const savedLang = localStorage.getItem('cloone_pref_lang');
+    if (savedLang && savedLang !== currentLang && langCodes.includes(savedLang)) {
+      let targetFile = (savedLang === 'en') ? pageType + '.html' : pageType + '-' + savedLang + '.html';
+      window.location.replace(targetFile);
+    }
+  })();
+</script>
+<link rel="stylesheet" href="AI_Clone_Architecture.css">
+</head>
+<body>
+
+<div class="nav-back-bar">
+  <a href="index.html" class="nav-back-link">← Volver al inicio</a>
+  <a href="pitch_deck.html" class="nav-back-link">← A la presentación</a>
+  <div class="lang-select-wrap" style="pointer-events: auto;">
+    <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'AI_Clone_Architecture.html' : 'AI_Clone_Architecture-' + this.value + '.html');">
+      <option value="en">EN</option>
+      <option value="ru">RU</option>
+      <option value="zh">中文</option>
+      <option value="es" selected>ES</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
+</div>
+
+<div class="cover">
+  <div class="cover-badge">Versión 2.0 · Especificación Técnica</div>
+  <div style="margin-bottom: 24px; max-width: 280px; width: 100%; display: flex; align-items: center; justify-content: center;">
+    <svg width="100%" height="auto" viewBox="0 0 409 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <linearGradient x1="100%" y1="50%" x2="4.87186121%" y2="50%" id="linearGradient-logo-cover">
+                <stop stop-color="#F0A500" offset="0%"></stop>
+                <stop stop-color="#6C5CE7" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+        <g id="Artboard-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="CL" transform="translate(5.200000, 31.000000)" fill="#1A1B2E" fill-rule="nonzero">
+                <path d="M35.4,72 C28.2666667,72 22.0333333,70.5333333 16.7,67.6 C11.3666667,64.6666667 7.25,60.5 4.35,55.1 C1.45,49.7 0,43.3666667 0,36.1 C0,28.8333333 1.45,22.4833333 4.35,17.05 C7.25,11.6166667 11.35,7.41666667 16.65,4.45 C21.95,1.48333333 28.1333333,0 35.2,0 C41.1333333,0 46.5833333,1 51.55,3 C56.5166667,5 60.3333333,7.73333333 63,11.2 C63.6,12 63.9,12.8666667 63.9,13.8 C63.9,15 63.3,16.0666667 62.1,17 C61.4333333,17.4666667 60.6666667,17.7 59.8,17.7 C59.0666667,17.7 58.3333333,17.5333333 57.6,17.2 C56.8666667,16.8666667 56.2666667,16.4333333 55.8,15.9 C51.4,10.5 44.5333333,7.8 35.2,7.8 C27.2666667,7.8 21,10.3166667 16.4,15.35 C11.8,20.3833333 9.5,27.3 9.5,36.1 C9.5,44.8333333 11.8,51.7 16.4,56.7 C21,61.7 27.3333333,64.2 35.4,64.2 C40.2,64.2 44.4333333,63.5 48.1,62.1 C51.7666667,60.7 54.7666667,58.7 57.1,56.1 C58.4333333,54.7 59.7666667,54 61.1,54 C61.9666667,54 62.7666667,54.3 63.5,54.9 C64.6333333,55.9 65.2,57 65.2,58.2 C65.2,59.0666667 64.8666667,59.9333333 64.2,60.8 C61.4666667,64.2666667 57.5333333,67 52.4,69 C47.2666667,71 41.6,72 35.4,72 Z" id="Path"></path>
+                <path d="M92.95,71 C88.4833333,71 85.0333333,69.8333333 82.6,67.5 C80.1666667,65.1666667 78.95,61.9333333 78.95,57.8 L78.95,4.7 C78.95,3.23333333 79.3666667,2.08333333 80.2,1.25 C81.0333333,0.416666667 82.1833333,0 83.65,0 C85.1166667,0 86.2833333,0.416666667 87.15,1.25 C88.0166667,2.08333333 88.45,3.23333333 88.45,4.7 L88.45,57.9 C88.45,59.5666667 88.8833333,60.9 89.75,61.9 C90.6166667,62.9 91.8166667,63.4 93.35,63.4 L126.25,63.4 C129.383333,63.4 130.95,64.6666667 130.95,67.2 C130.95,68.4 130.533333,69.3333333 129.7,70 C128.866667,70.6666667 127.716667,71 126.25,71 L92.95,71 Z" id="Path"></path>
+            </g>
+            <g id="NE" transform="translate(266.600000, 31.000000)" fill="#1A1B2E" fill-rule="nonzero">
+                <path d="M4.7,72 C3.23333333,72 2.08333333,71.5833333 1.25,70.75 C0.416666667,69.9166667 0,68.7666667 0,67.3 L0,27.6 C0,21.9333333 1.2,17.0333333 3.6,12.9 C6,8.76666667 9.45,5.58333333 13.95,3.35 C18.45,1.11666667 23.7666667,0 29.9,0 C36.0333333,0 41.35,1.11666667 45.85,3.35 C50.35,5.58333333 53.8,8.76666667 56.2,12.9 C58.6,17.0333333 59.8,21.9333333 59.8,27.6 L59.8,67.3 C59.8,68.7666667 59.3833333,69.9166667 58.55,70.75 C57.7166667,71.5833333 56.5666667,72 55.1,72 C53.6333333,72 52.4666667,71.5833333 51.6,70.75 C50.7333333,69.9166667 50.3,68.7666667 50.3,67.3 L50.3,27.3 C50.3,21.1 48.5166667,16.3 44.95,12.9 C41.3833333,9.5 36.3666667,7.8 29.9,7.8 C23.5,7.8 18.5,9.51666667 14.9,12.95 C11.3,16.3833333 9.5,21.1666667 9.5,27.3 L9.5,67.3 C9.5,68.7666667 9.06666667,69.9166667 8.2,70.75 C7.33333333,71.5833333 6.16666667,72 4.7,72 Z" id="Path"></path>
+            </g>
+            <path d="M214,25 C225.045695,25 235.045695,29.4771525 242.284271,36.7157288 C249.522847,43.954305 254,53.954305 254,65 C254,76.045695 249.522847,86.045695 242.284271,93.2842712 C235.045695,100.522847 225.045695,105 214,105 C209.489065,105 205.15237,104.253756 201.108615,102.876813 C206.394861,99.2263988 210.87928,94.4980946 214.244095,89.0093599 C218.528767,82.0201442 221,73.7987583 221,65 C221,56.2014176 218.528863,47.9801845 214.244592,40.991129 C210.879411,35.5014133 206.394366,30.7724432 201.109173,27.1222926 C205.153476,25.7460463 209.489643,25 214,25 Z M175,25 C179.355418,25 183.548406,25.6956477 187.473562,26.9825099 L187.893,27.123 L187.6902,27.2635841 C182.664827,30.7731339 178.373407,35.260835 175.092143,40.4507109 L174.756317,40.9900881 C170.471395,47.9793235 168,56.2009563 168,65 C168,73.7072462 170.420128,81.8490607 174.622573,88.7908169 C177.977562,94.3327134 182.46975,99.1092425 187.773793,102.796992 C183.861514,104.254586 179.516893,105 175,105 C163.954305,105 153.954305,100.522847 146.715729,93.2842712 C139.477153,86.045695 135,76.045695 135,65 C135,53.954305 139.477153,43.954305 146.715729,36.7157288 C153.954305,29.4771525 163.954305,25 175,25 Z" id="Combined-Shape" stroke="url(#linearGradient-logo-cover)" stroke-width="6"></path>
+            <rect id="Rectangle" fill="#1A1B2E" x="342" y="95" width="49" height="8" rx="3.5"></rect>
+            <rect id="Rectangle-Copy-2" fill="#1A1B2E" x="342" y="32" width="49" height="8" rx="3.5"></rect>
+            <rect id="Rectangle-Copy" fill="#1A1B2E" x="342" y="64" width="34" height="8" rx="3.5"></rect>
+        </g>
+    </svg>
+  </div>
+  <p class="cover-sub">Especificación arquitectónica formal de un sistema multiagente para crear una copia digital personalizada de un humano</p>
+  <div class="cover-stats">
+    <div class="stat-pill"><strong>24</strong> vectores de personalidad</div>
+    <div class="stat-pill"><strong>8</strong> tipos de roles</div>
+    <div class="stat-pill"><strong>8</strong> agentes de IA</div>
+    <div class="stat-pill"><strong>3</strong> algoritmos</div>
+    <div class="stat-pill"><strong>4</strong> fases de desarrollo</div>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><div class="label">Tipo de documento</div><div class="value">Especificación Técnica</div></div>
+    <div class="cover-meta-item"><div class="label">Audiencia</div><div class="value">PM · Lead Dev · ML Engineers</div></div>
+    <div class="cover-meta-item"><div class="label">Fecha</div><div class="value">Junio de 2026</div></div>
+    <div class="cover-meta-item"><div class="label">Estado</div><div class="value">✦ En desarrollo</div></div>
+    <div class="cover-meta-item"><div class="label">Versión</div><div class="value">2.0 (Unified Vectors)</div></div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-section">
+  <div class="container">
+    <div class="section-label">Contenido</div>
+    <h2 style="font-size:28px;font-weight:800;">Estructura del documento</h2>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s1"><div class="toc-num">01</div><div><div class="toc-title">Concepto y objetivo del sistema</div><div class="toc-desc">Qué construimos, por qué y cómo</div></div></a>
+      <a class="toc-item" href="#s2"><div class="toc-num">02</div><div><div class="toc-title">Perfil de personalidad — 24 vectores</div><div class="toc-desc">Catálogo unificado completo de todos los vectores</div></div></a>
+      <a class="toc-item" href="#s3"><div class="toc-num">03</div><div><div class="toc-title">Sistema de roles</div><div class="toc-desc">Roles conscientes y sombríos</div></div></a>
+      <a class="toc-item" href="#s4"><div class="toc-num">04</div><div><div class="toc-title">Algoritmos de conexión de vectores</div><div class="toc-desc">3 algoritmos del modelo unificado</div></div></a>
+      <a class="toc-item" href="#s5"><div class="toc-num">05</div><div><div class="toc-title">Arquitectura multiagente</div><div class="toc-desc">8 agentes y su interacción</div></div></a>
+      <a class="toc-item" href="#s6"><div class="toc-num">06</div><div><div class="toc-title">Recopilación de datos y entrenamiento</div><div class="toc-desc">Canalización y esquema de datos</div></div></a>
+      <a class="toc-item" href="#s7"><div class="toc-num">07</div><div><div class="toc-title">Ética y seguridad</div><div class="toc-desc">Restricciones obligatorias del sistema</div></div></a>
+      <a class="toc-item" href="#s8"><div class="toc-num">08</div><div><div class="toc-title">Hoja de ruta del desarrollo</div><div class="toc-desc">4 fases, MVP y Definición de Terminado</div></div></a>
+    </div>
+  </div>
+</div>
+
+<!-- S1 -->
+<div class="section" id="s1">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title-wrap">
+        <h2>Concepto y objetivo del sistema</h2>
+        <p>El sistema crea un agente de IA que forma una copia digital de una persona específica, no una imitación de voz, sino un modelo dinámico multinivel de la personalidad con una fórmula de prioridades única, repertorio de roles y patrones de comportamiento.</p>
+      </div>
+    </div>
+    <div class="highlight purple">
+      <div class="highlight-title">Principio Clave</div>
+      <p>El ser humano es un sistema dinámico con una <strong>fórmula de prioridades</strong> formada bajo la influencia del código genético, la sociedad, los modelos a seguir, los miedos y la experiencia de vida. La copia digital reproduce esta fórmula, no solo patrones de voz. La personalidad se describe mediante un único vector de <strong>24 dimensiones</strong>.</p>
+    </div>
+    <div class="card-grid" style="margin-top:32px;">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.12);">🎯</div>Что система умеет</div>
+        <ul>
+          <li>Reproducir el estilo de comunicación y toma de decisiones</li>
+          <li>Предсказывать поведение в разных ситуациях</li>
+          <li>Cambiar de rol según el contexto</li>
+          <li>Tener en cuenta los patrones sombríos e inconscientes</li>
+          <li>Evolucionar junto con la persona (aprendizaje en línea)</li>
+          <li>Transferir el control al creador real en el diálogo</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🚫</div>Что система НЕ делает</div>
+        <ul>
+          <li>No reemplaza a una persona real en el sentido legal</li>
+          <li>No toma decisiones sin el consentimiento del original</li>
+          <li>No almacena datos biométricos sin cifrado</li>
+          <li>No actúa en roles destructivos sombríos sin una bandera</li>
+          <li>No se entrena con datos de terceros sin consentimiento</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">📐</div>Базовая модель человека</div>
+        <ul>
+          <li><strong>4 типа:</strong> Экстраверт / Интроверт / Баланс / Непредсказуемый</li>
+          <li><strong>Prioridadы:</strong> Уникальный вектор весов W из 24 измерений</li>
+          <li><strong>Роли:</strong> Осознанные + Теневые (Карпман, ТА)</li>
+          <li><strong>Состояние:</strong> Динамический эмоциональный фон</li>
+          <li><strong>Эволюция:</strong> Живой, обновляемый профиль</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight green" style="margin-top:32px;">
+      <div class="highlight-title">Principio Arquitectónico</div>
+      <p>El sistema está construido como una <strong>red multiagente</strong>: cada agente es responsable de una esfera o capa separada de la personalidad. El orquestador central (Master Agent) coordina a los agentes y forma la respuesta final, considerando el contexto actual, el estado emocional y el rol activo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S2 -->
+<div class="section" id="s2" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-wrap">
+        <h2>Perfil de personalidad — 24 vectores</h2>
+        <p>Полный унифицированный каталог всех измерений личностного профиля. 24 вектора объединены в единую спецификацию: каждый имеет вес (приоритет), набор маркеров для сбора данных и связь с соответствующим агентом системы.</p>
+      </div>
+    </div>
+
+    <div class="graph-container">
+      <div class="section-label" style="margin-bottom:16px;">Arquitectura del perfil: 24 vectores</div>
+      <div class="vector-diagram">
+        <div class="vd-center">PERFIL DE<br>PERSONALIDAD<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₄]</span></div>
+        <div class="vd-ring">
+          <div class="vd-node primary">👥 Amigos</div>
+          <div class="vd-node primary">👨‍👩‍👧 Familia</div>
+          <div class="vd-node primary">🏆 Logros</div>
+          <div class="vd-node primary">⭐ Modelos a seguir</div>
+          <div class="vd-node primary">💼 Carrera</div>
+          <div class="vd-node primary">🎮 Pasatiempos</div>
+          <div class="vd-node primary">🌍 Entorno</div>
+          <div class="vd-node accent">🔒 Secretos</div>
+          <div class="vd-node green">📚 Educación</div>
+          <div class="vd-node green">🔄 Hábitos</div>
+          <div class="vd-node accent">😨 Miedos</div>
+          <div class="vd-node violet">🧬 Inteligencia corporal</div>
+          <div class="vd-node violet">💬 Estilo de comunicación</div>
+          <div class="vd-node violet">🎭 Mapa emocional</div>
+          <div class="vd-node violet">🔭 Cosmovisión</div>
+          <div class="vd-node violet">⚡ Decisiones</div>
+          <div class="vd-node violet">💰 Patrón financiero</div>
+          <div class="vd-node violet">🕐 Tiempo</div>
+          <div class="vd-node violet">🎨 Estética</div>
+          <div class="vd-node violet">😤 Conflicto</div>
+          <div class="vd-node violet">📖 Narrativa</div>
+          <div class="vd-node violet">🤝 Apego</div>
+          <div class="vd-node violet">🌡️ Estados</div>
+          <div class="vd-node accent">😄 Humor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight yellow">
+      <div class="highlight-title">Fórmula del perfil</div>
+      <p>Cada persona tiene un <strong>vector de pesos único W = [w₁, w₂, …, w₂₄]</strong>, donde wᵢ ∈ [0, 1]. Los pesos no son constantes: cambian bajo la influencia de eventos de la vida, la edad y la presión externa. El sistema actualiza los pesos en tiempo real y registra la versión de cada cambio.</p>
+    </div>
+
+    <!-- VECTOR GRID -->
+    <div class="vector-grid">
+
+      <div class="vector-group-label">— Bloque I: Esferas de la vida (Vectores 01–11)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">👥</div><div><div class="vector-num">Vector 01</div><div class="vector-name">Друзья</div></div></div>
+        <div class="vector-desc">Reflejo de la personalidad: qué atrae, qué ocultamos. Ocio, apoyo mutuo, espejo de la autopercepción social.</div>
+        <div class="vector-tags"><span class="vector-tag">Ocio</span><span class="vector-tag">Apoyo mutuo</span><span class="vector-tag">Auto-reflejo</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--primary);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👨‍👩‍👧</div><div><div class="vector-num">Vector 02</div><div class="vector-name">Семья</div></div></div>
+        <div class="vector-desc">Valores, primera sociedad, maestros. Ancestros, pareja, hijos: fuente de modelos primarios de comportamiento y apego.</div>
+        <div class="vector-tags"><span class="vector-tag">Valores</span><span class="vector-tag">Tradiciones</span><span class="vector-tag">Modelos primarios</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🏆</div><div><div class="vector-num">Vector 03</div><div class="vector-name">Достижения</div></div></div>
+        <div class="vector-desc">Posición social. Logros sociales, deportivos, profesionales, académicos y familiares como marcadores de autovaloración.</div>
+        <div class="vector-tags"><span class="vector-tag">Sociales</span><span class="vector-tag">Profesionales</span><span class="vector-tag">Académicos</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--warning);"></div></div><span>~60%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">⭐</div><div><div class="vector-num">Vector 04</div><div class="vector-name">Ролевые модели</div></div></div>
+        <div class="vector-desc">Ídolos y referentes: padres, empresarios, mentores espirituales. Definen el horizonte de valores y el perfil motivacional.</div>
+        <div class="vector-tags"><span class="vector-tag">Padres</span><span class="vector-tag">Empresarios</span><span class="vector-tag">Maestros</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">💼</div><div><div class="vector-num">Vector 05</div><div class="vector-name">Карьера</div></div></div>
+        <div class="vector-desc">Uso de talentos para generar ingresos. Aspiraciones profesionales, disciplina, logros y actitud hacia el éxito financiero.</div>
+        <div class="vector-tags"><span class="vector-tag">Aspiraciones</span><span class="vector-tag">Disciplina</span><span class="vector-tag">Finanzas</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--info);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🎮</div><div><div class="vector-num">Vector 06</div><div class="vector-name">Хобби / Ocio</div></div></div>
+        <div class="vector-desc">Método de recuperación y descanso. Con quién y cómo pasa el tiempo libre: clave para el equilibrio energético de la personalidad.</div>
+        <div class="vector-tags"><span class="vector-tag">Deportes</span><span class="vector-tag">Creatividad</span><span class="vector-tag">Viajes</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:45%;background:var(--primary);"></div></div><span>~45%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.08);">🌍</div><div><div class="vector-num">Vector 07</div><div class="vector-name">Gente / Entorno</div></div></div>
+        <div class="vector-desc">Actitud hacia todas las personas: transeúntes, desconocidos, colegas. Nivel de confianza social y apertura al networking.</div>
+        <div class="vector-tags"><span class="vector-tag">Colegas</span><span class="vector-tag">Desconocidos</span><span class="vector-tag">Networking</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--success);"></div></div><span>~50%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🔒</div><div><div class="vector-num">Vector 08</div><div class="vector-name">Secretos</div></div></div>
+        <div class="vector-desc">Lo oculto: subestimación de sí mismo, salud, sueños, conciencia, adicciones, ego, traumas infantiles, creencias impuestas. El vector más sensible. Se almacena con cifrado Zero-knowledge.</div>
+        <div class="vector-tags"><span class="vector-tag">Traumas infantiles</span><span class="vector-tag">Adicciones</span><span class="vector-tag">Sueños</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--danger);"></div></div><span>~90%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📚</div><div><div class="vector-num">Vector 09</div><div class="vector-name">Educación</div></div></div>
+        <div class="vector-desc">Experiencia acumulada, autoaprendizaje, investigación personal, autodisciplina y autoanálisis. Base cognitiva para la toma de decisiones.</div>
+        <div class="vector-tags"><span class="vector-tag">Autoaprendizaje</span><span class="vector-tag">Experiencia</span><span class="vector-tag">Autoanálisis</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🔄</div><div><div class="vector-num">Vector 10</div><div class="vector-name">Hábitos / Placeres</div></div></div>
+        <div class="vector-desc">Autonomía a través de hábitos (buenos/malos), patrones de dopamina. Los rituales diarios determinan la previsibilidad del comportamiento.</div>
+        <div class="vector-tags"><span class="vector-tag">Rituales</span><span class="vector-tag">Dopamina</span><span class="vector-tag">Automatismos</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--warning);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😨</div><div><div class="vector-num">Vector 11</div><div class="vector-name">Страхи</div></div></div>
+        <div class="vector-desc">Explícitos e implícitos. El miedo principal es la incertidumbre. La mente siempre protege a la persona, creando un entorno cómodo. Afecta a todos los demás vectores.</div>
+        <div class="vector-tags"><span class="vector-tag">Secretosе</span><span class="vector-tag">Explícitos</span><span class="vector-tag">Psicológicos</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— Блок II: Psicológicos и когнитивные измерения (Векторы 12–23)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🧬</div><div><div class="vector-num">Vector 12</div><div class="vector-name">Телесный интеллект</div></div></div>
+        <div class="vector-desc">Relación con el cuerpo, actividad física, biorritmos, patrones somáticos de estrés. El biorritmo determina la disponibilidad y calidad de las respuestas en diferentes momentos del día.</div>
+        <div class="vector-tags"><span class="vector-tag">Biorritmo</span><span class="vector-tag">Somática del estrés</span><span class="vector-tag">Salud</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">💬</div><div><div class="vector-num">Vector 13</div><div class="vector-name">Стиль коммуникации</div></div></div>
+        <div class="vector-desc">Perfil lingüístico detallado: patrones de habla, ritmo, vocabulario, metáforas. Es la entrada del Voice Agent y determina la "voz" del clon.</div>
+        <div class="vector-tags"><span class="vector-tag">Registro</span><span class="vector-tag">Longitud de respuesta</span><span class="vector-tag">Metáforas</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--primary);"></div></div><span>~90%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🎭</div><div><div class="vector-num">Vector 14</div><div class="vector-name">Эмоциональная карта</div></div></div>
+        <div class="vector-desc">Espectro de emociones experimentadas y expresadas frente a las reprimidas. Regulación emocional según el modelo de Plutchik. Velocidad de recuperación.</div>
+        <div class="vector-tags"><span class="vector-tag">Plutchik</span><span class="vector-tag">Regulación</span><span class="vector-tag">Emociones prohibidas</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">🔭</div><div><div class="vector-num">Vector 15</div><div class="vector-name">Cosmovisión y Filosofía</div></div></div>
+        <div class="vector-desc">Imagen del mundo, creencias sobre la naturaleza de la realidad, opiniones políticas, espiritualidad. Creencias básicas sobre las personas (confianza/desconfianza), actitud ante el destino y la suerte.</div>
+        <div class="vector-tags"><span class="vector-tag">Creencias</span><span class="vector-tag">Espiritualidad</span><span class="vector-tag">Imagen del mundo</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--info);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚡</div><div><div class="vector-num">Vector 16</div><div class="vector-name">Estilo de toma de decisiones</div></div></div>
+        <div class="vector-desc">Cómo toma decisiones: racional, intuitiva, postergando o consultando. Velocidad en la toma de decisiones, papel de la intuición vs analítica, reacción ante errores.</div>
+        <div class="vector-tags"><span class="vector-tag">Velocidad</span><span class="vector-tag">Intuición</span><span class="vector-tag">Analítica</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--warning);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">💰</div><div><div class="vector-num">Vector 17</div><div class="vector-name">Финансовый паттерн</div></div></div>
+        <div class="vector-desc">Actitud hacia el dinero, el riesgo y las inversiones. El dinero como seguridad, estatus o libertad. Modelo de gasto: impulsivo / racional.</div>
+        <div class="vector-tags"><span class="vector-tag">Gastos</span><span class="vector-tag">Riesgo</span><span class="vector-tag">Metáfora del dinero</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--success);"></div></div><span>~60%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🕐</div><div><div class="vector-num">Vector 18</div><div class="vector-name">Отношение ко времени</div></div></div>
+        <div class="vector-desc">Orientación hacia el pasado, presente o futuro (Zimbardo). Horizonte de planificación. Reacción ante plazos (deadlines), procrastinación.</div>
+        <div class="vector-tags"><span class="vector-tag">Zimbardo</span><span class="vector-tag">Planificación</span><span class="vector-tag">Procrastinación</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--primary);"></div></div><span>~50%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🎨</div><div><div class="vector-num">Vector 19</div><div class="vector-name">Эстетический код</div></div></div>
+        <div class="vector-desc">Preferencias visuales, auditivas, táctiles. Canal sensorial líder (VAK). Preferencias estéticas (estilo, color), reacción ante orden/caos.</div>
+        <div class="vector-tags"><span class="vector-tag">VAK</span><span class="vector-tag">Estética</span><span class="vector-tag">Espacio</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:40%;background:var(--accent3);"></div></div><span>~40%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😤</div><div><div class="vector-num">Vector 20</div><div class="vector-name">Конфликтный паттерн</div></div></div>
+        <div class="vector-desc">Поведение в конфликте по модели Томаса-Килмана: избегает, нападает, уступает, ищет компромисс. Реакция на критику. Velocidad прощения.</div>
+        <div class="vector-tags"><span class="vector-tag">Thomas-Kilmann</span><span class="vector-tag">Crítica</span><span class="vector-tag">Perdón</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--danger);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📖</div><div><div class="vector-num">Vector 21</div><div class="vector-name">Narrativaная идентичность</div></div></div>
+        <div class="vector-desc">Cómo cuenta su historia de vida: héroe, víctima, vagabundo. Puntos de inflexión clave. Autoimagen en pasado, presente y futuro.</div>
+        <div class="vector-tags"><span class="vector-tag">Narrativa</span><span class="vector-tag">Puntos de inflexión</span><span class="vector-tag">Autoimagen</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">🤝</div><div><div class="vector-num">Vector 22</div><div class="vector-name">Стиль привязанности</div></div></div>
+        <div class="vector-desc">Теория Bowlby: надёжный, тревожный, избегающий, дезорганизованный. Критически влияет на все отношения. Паттерн реакции на разлуку и близость.</div>
+        <div class="vector-tags"><span class="vector-tag">Bowlby</span><span class="vector-tag">Cercanía</span><span class="vector-tag">Autonomía</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="vector-num">Vector 23</div><div class="vector-name">Динамика состояний</div></div></div>
+        <div class="vector-desc">Fondo emocional actual, nivel de estrés, energía. Analizado en tiempo real por el Emotion Agent. Clave para el tipo "Volátil".</div>
+        <div class="vector-tags"><span class="vector-tag">Tiempo real</span><span class="vector-tag">Disparadores</span><span class="vector-tag">Agotamiento</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— Bloque III: Marcadores intelectuales (Vector 24)</div>
+
+      <div class="vector-card" style="border-color:rgba(155,81,224,0.3);background:linear-gradient(135deg,#fff 0%,rgba(155,81,224,0.04) 100%);">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.12);">😄</div><div><div class="vector-num">Vector 24 · Marcador de inteligencia</div><div class="vector-name" style="color:var(--accent3);">Presencia de humor</div></div></div>
+        <div class="vector-desc">El humor no es solo un rasgo de carácter, sino un <strong>marcador de inteligencia</strong>: la capacidad de ver incongruencias, cambiar contextos y crear conexiones inesperadas. El tipo y la densidad del humor revelan el estilo cognitivo, el nivel de seguridad psicológica y el modo de interactuar con la realidad.</div>
+        <div class="vector-tags"><span class="vector-tag">Autoironía</span><span class="vector-tag">Absurdo</span><span class="vector-tag">Sarcasmo</span><span class="vector-tag">Observacional</span><span class="vector-tag">Humor negro</span></div>
+        <div class="vector-desc" style="margin-top:10px;font-size:11px;color:var(--text3);">
+          Vinculado con el Vector 13 (estilo de comunicación) y el Rol de "Bufón/Trikster" (Grafo de roles). La reacción al humor ajeno es marcador de madurez psicológica. Capacidad de reírse de sí mismo es indicador de madurez del ego.
+        </div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
+      </div>
+
+    </div><!-- end vector-grid -->
+
+    <div class="formula" style="margin-top:32px;">
+      <span class="type">PersonalityProfile</span> <span class="op">=</span> {<br>
+      &nbsp;&nbsp;social_type: <span class="var">"extrovert" | "introvert" | "balanced" | "volatile"</span>,<br>
+      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 24 вектора</span><br>
+      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// ordenado descendentemente веса</span><br>
+      &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// чувствительность к давлению</span><br>
+      &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// control de versiones semántico</span><br>
+      &nbsp;&nbsp;alignment_score: <span class="var">0..1</span> <span class="comment">// точность копии, цель ≥ 0.85</span><br>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="section" id="s3">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-wrap">
+        <h2>Sistema de roles</h2>
+        <p>Sistema de roles de dos niveles: conscientes/sociales (visibles para todos) y sombríos/inconscientes (que la propia persona no nota). Para una copia completa, el segundo nivel es críticamente importante.</p>
+      </div>
+    </div>
+    <div class="role-grid">
+      <div class="role-col">
+        <div class="role-col-title" style="color:var(--success);">✓ Roles Conscientes (Marco Social)</div>
+        <div class="role-item"><div class="role-item-icon">👨‍👩‍👧</div><div><div class="role-item-name">Roles Familiares</div><div class="role-item-desc">Hijo/Hija, Hermano/Hermana, Pareja, Padre — primera experiencia de amor, responsabilidad y compromisos</div></div></div>
+        <div class="role-item"><div class="role-item-icon">💼</div><div><div class="role-item-name">Roles Profesionales</div><div class="role-item-desc">Especialista, Mentor/Discípulo, Ciudadano, Amigo: realización en la sociedad</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧠</div><div><div class="role-item-name">Personales / Existenciales</div><div class="role-item-desc">Creador de vida, Observador/Pensador, Guardián del niño interior</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🏠</div><div><div class="role-item-name">Sociales y cotidianos</div><div class="role-item-desc">Dueño de su vida, Vecino/Miembro de la comunidad: independencia cotidiana</div></div></div>
+      </div>
+      <div class="role-col">
+        <div class="role-col-title" style="color:var(--danger);">⚠ Roles Sombríos (Escenarios Inconscientes)</div>
+        <div class="role-item"><div class="role-item-icon">🎭</div><div><div class="role-item-name">Triángulo de Karpman</div><div class="role-item-desc"><strong>Víctima</strong> (evade responsabilidad), <strong>Tirano</strong> (control a través del miedo), <strong>Salvador</strong> (necesidad oculta de ser útil)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧛</div><div><div class="role-item-name">Roles destructivos</div><div class="role-item-desc"><strong>Vampiro/Parásito</strong> (se alimenta de emociones), <strong>Amante-máscara</strong> (búsqueda compulsiva de validación)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">👶</div><div><div class="role-item-name">Análisis Transaccional (AT)</div><div class="role-item-desc"><strong>Niño Eterno</strong> (infantilismo), <strong>Padre Crítico</strong> (moralista), <strong>Bufón/Tramposo</strong> (evasión de intimidad)</div></div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <h3>Matriz: Rol sombrío → Análogo saludable</h3>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>Rol sombrío</th><th>Necesidad oculta</th><th>Análogo saludable</th><th>Disparador de activación</th><th>Prioridad</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag red">Víctima</span></td><td>Atención, evadir responsabilidad</td><td><span class="tag green">Creador / Autor de vida</span></td><td>Estrés, conflicto</td><td><span class="tag purple">Alto</span></td></tr>
+          <tr><td><span class="tag red">Tirano</span></td><td>Control, poder</td><td><span class="tag green">Líder / Mentor</span></td><td>Amenaza a la autoridad</td><td><span class="tag purple">Alto</span></td></tr>
+          <tr><td><span class="tag yellow">Salvador</span></td><td>Importancia, utilidad</td><td><span class="tag green">Amigo (a petición)</span></td><td>Crisis ajena</td><td><span class="tag blue">Medio</span></td></tr>
+          <tr><td><span class="tag red">Vampiro</span></td><td>Energía, recurso</td><td><span class="tag green">Observador / Pensador</span></td><td>Aburrimiento, agotamiento</td><td><span class="tag blue">Medio</span></td></tr>
+          <tr><td><span class="tag yellow">Amante-máscara</span></td><td>Adrenalina, validación</td><td><span class="tag green">Pareja / Cónyuge</span></td><td>Rutina, pérdida de sentido</td><td><span class="tag blue">Medio</span></td></tr>
+          <tr><td><span class="tag yellow">Niño eterno</span></td><td>Seguridad</td><td><span class="tag green">Dueño de su vida</span></td><td>Miedo al fracaso</td><td><span class="tag blue">Medio</span></td></tr>
+          <tr><td><span class="tag red">Padre Crítico</span></td><td>Tener razón, previsibilidad</td><td><span class="tag green">Mentor (con apoyo)</span></td><td>Errores ajenos</td><td><span class="tag blue">Medio</span></td></tr>
+          <tr><td><span class="tag yellow">Bufón / Tramposo</span></td><td>Evasión de intimidad</td><td><span class="tag green">Guardián del niño int.</span></td><td>Vulnerabilidad emocional</td><td><span class="tag blue">Medio</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="section" id="s4" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-wrap">
+        <h2>Algoritmos de conexión de vectores</h2>
+        <p>Tres algoritmos que conectan 24 vectores en un único modelo de personalidad dinámico. Los algoritmos funcionan secuencialmente y en tiempo real.</p>
+      </div>
+    </div>
+
+    <div class="algo-box">
+      <h3>🧮 Algoritmo 1: Construcción del perfil de personalidad (Onboarding)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Se ejecuta una vez durante la inicialización y se actualiza regularmente.</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Recopilación de datos brutos</h4><p>Cuestionario de entrevista (100–200 preguntas), análisis de correspondencia/voz/contenido, patrones de comportamiento. Cada uno de los 24 vectores tiene un conjunto de preguntas y marcadores de recopilación.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Clasificación del tipo social</h4><p>El clasificador determina: Extrovertido / Introvertido / Equilibrado / Volátil. Para el cuarto tipo, se calcula el <em>volatility_factor</em>: sensibilidad a los estresores.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Cálculo del vector de pesos W</h4><p>Para cada uno de los 24 vectores, se calcula el peso w ∈ [0, 1] a través de: evaluación directa del usuario + marcadores indirectos de comportamiento + análisis de contradicciones (declarado vs real).</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Construcción de la matriz de roles</h4><p>Para cada rol consciente: frecuencia de activación + contexto. Para los sombríos: probabilidad de activación bajo estrés. Cada rol sombrío está ligado a disparadores de los vectores 11, 14, 23.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">5</div><div class="algo-step-content"><h4>Validación del perfil con el usuario</h4><p>El perfil se presenta como un "espejo". El usuario lo corrige. Iteración de 3 a 5 veces hasta la convergencia. Se fija la versión v1.0.</p></div></div>
+      </div>
+    </div>
+
+    <div class="algo-box" style="margin-top:24px;">
+      <h3>⚡ Algoritmo 2: Activación contextual (Runtime)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Se ejecuta con cada solicitud. Determina: vector, rol, fondo emocional.</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Clasificación del contexto de la solicitud</h4><p>El clasificador NLP determina a cuál de los 24 vectores pertenece la solicitud → se activa el agente correspondiente.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Детекция эмоционального фона</h4><p>Vector 23 анализируется в реальном времени: тональность, время суток, история, маркеры стресса → вычисляется <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …}</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Selección del rol activo</h4><p>Si está "stressed" → aumenta la probabilidad de roles sombríos. P(rol | vector, estado, historial). Con un rol sombrío, el sistema lo reproduce o cambia a un análogo saludable.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Compilación ponderada de la respuesta</h4><p>Ответ = Σ(вес_агента × ответ_агента). Каждый из 8 агентов даёт версию, взвешенную по активным векторам и роли. Voice Agent применяет лингвистический стиль (Vector 13).</p></div></div>
+      </div>
+    </div>
+
+    <div class="algo-box" style="margin-top:24px;">
+      <h3>🔄 Algoritmo 3: Actualización evolutiva (Continuous Learning)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">El perfil es un sistema vivo. El algoritmo actualiza el modelo a medida que se acumulan datos.</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Acumulación de deltas</h4><p>Каждое взаимодействие фиксируется: вектор, роль, состояние, исход. Дельты накапливаются в буфере. Согласие собеседника хранится в consent_log.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Detección de deriva (drift)</h4><p>Si el peso del vector cambia en ±0.15 en 30 días → se registra un "evento de vida" y se le pide al usuario que aclare el contexto.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Actualización de la matriz de roles</h4><p>El aumento en la frecuencia de roles sombríos es un marcador de deterioro del estado. El sistema genera un informe de insights para el usuario a través del Shadow Agent.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Control de versiones del perfil</h4><p>Cada actualización se guarda como una versión. Es posible analizar la dinámica y "revertir" al estado anterior.</p></div></div>
+      </div>
+    </div>
+
+    <div class="highlight blue" style="margin-top:28px;">
+      <div class="highlight-title">Matriz de influencia mutua de vectores</div>
+      <p>Los vectores no son independientes. Los miedos elevados (V11) reprimen la carrera (V05) y distorsionan los logros (V03). El humor (V24) suaviza el patrón de conflicto (V20). El sistema almacena una matriz de correlación y la actualiza a medida que aprende.</p>
+    </div>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table class="matrix-table">
+        <thead><tr><th>Influye en →</th><th>Familia (V02)</th><th>Carrera (V05)</th><th>Miedos (V11)</th><th>Hábitos (V10)</th><th>Humor (V24)</th></tr></thead>
+        <tbody>
+          <tr><td>Miedos (V11)</td><td><span class="dot high"></span> Alto</td><td><span class="dot high"></span> Alto</td><td>—</td><td><span class="dot med"></span> Medio</td><td><span class="dot high"></span> Alto</td></tr>
+          <tr><td>Familia (V02)</td><td>—</td><td><span class="dot med"></span> Medio</td><td><span class="dot high"></span> Alto</td><td><span class="dot med"></span> Medio</td><td><span class="dot med"></span> Medio</td></tr>
+          <tr><td>Educación (В09)</td><td><span class="dot low"></span> Bajo</td><td><span class="dot high"></span> Alto</td><td><span class="dot med"></span> Medio</td><td><span class="dot med"></span> Medio</td><td><span class="dot med"></span> Medio</td></tr>
+          <tr><td>Comunicación (V13)</td><td><span class="dot med"></span> Medio</td><td><span class="dot med"></span> Medio</td><td><span class="dot low"></span> Bajo</td><td><span class="dot low"></span> Bajo</td><td><span class="dot high"></span> Alto</td></tr>
+          <tr><td>Humor (V24)</td><td><span class="dot med"></span> Medio</td><td><span class="dot med"></span> Medio</td><td><span class="dot med"></span> Medio</td><td><span class="dot low"></span> Bajo</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="section" id="s5" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title-wrap">
+        <h2>Arquitectura multiagente</h2>
+        <p>8 agentes especializados. Cada agente es responsable de una capa de personalidad separada, funciona de forma independiente e interactúa a través de un bus de eventos.</p>
+      </div>
+    </div>
+    <div class="graph-container">
+      <div class="section-label" style="margin-bottom:20px;">Esquema de interacción de agentes</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="background:rgba(108,99,255,0.1);border:2px solid rgba(108,99,255,0.4);border-radius:14px;padding:18px 40px;font-weight:700;color:var(--primary);font-size:15px;">🎯 MASTER AGENT (Orquestador)</div>
+        <div style="color:var(--text3);font-size:24px;">↕</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:900px;">
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌍 Sphere Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🎭 Role Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌡️ Emotion Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">💬 Voice Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🧠 Shadow Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">📈 Evolution Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🔒 Privacy Agent</div>
+        </div>
+        <div style="color:var(--text3);font-size:24px;">↕</div>
+        <div style="background:rgba(18,183,106,0.07);border:1px solid rgba(18,183,106,0.2);border-radius:10px;padding:14px 32px;font-size:12px;font-weight:600;color:#0a6641;">📦 Vector Store + Personality DB + Event Bus</div>
+      </div>
+    </div>
+    <div class="agent-grid">
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">Orquestador</div></div></div><p>Coordinador central. Distribuye a los agentes, recopila respuestas, las pondera y forma la respuesta final. Único punto de entrada/salida.</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">Contexto de 24 vectores</div></div></div><p>Almacena y actualiza el vector de pesos W en 24 dimensiones. Clasifica la solicitud por vector y devuelve el contexto del perfil relevante.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">Gestión de roles</div></div></div><p>Gestiona la matriz de roles: conscientes + sombríos. Determina el rol activo según el contexto y el estado.</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">Fondo emocional</div></div></div><p>Определяет текущее эмоциональное состояние в реальном времени (Vector 23). Тональность, время, история, биомаркеры.</p><div class="agent-card-tags"><span class="tag red">Plutchik</span><span class="tag yellow">NLP Tone</span><span class="tag blue">Tiempo real</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">Estilo lingüístico</div></div></div><p>Хранит и применяет лингвистический профиль (Vector 13 + Вектор 24). «Окрашивает» ответ под стиль конкретного человека, включая юмор.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">Patrones sombríos</div></div></div><p>Detecta la activación de roles sombríos, genera informes de insights, ofrece "alternativas saludables".</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">Aprendizaje continuo</div></div></div><p>Monitorea la deriva del perfil, actualiza W, controla versiones, detecta eventos de vida, inicia reentrenamiento.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Seguridad и этика</div></div></div><p>Контролирует доступ к данным. Шифрует чувствительные векторы (Secretos В08, Страхи В11). Ведёт consent_log. Право на забвение. Аудит-лог.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="section" id="s6">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title-wrap">
+        <h2>Сбор данных и пайплайн обучения</h2>
+        <p>Источники данных и процесс превращения сырых данных в обученную модель с Personality Alignment Score ≥ 0.85.</p>
+      </div>
+    </div>
+    <h3>Fuentes de datos (recopilación multicanal)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">📝</div>Cuestionario estructurado</div><ul><li>Entrevista de onboarding (100–200 preguntas)</li><li>Pruebas: MBTI, Big Five, Estilo de Apego</li><li>Clasificación de 24 vectores (prioridades)</li><li>Prueba de miedos (explícitos / implícitos)</li><li>Escenarios de roles: preguntas situacionales</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">💬</div>Análisis de comunicación</div><ul><li>Historial de correspondencia (Telegram, WhatsApp, Email)</li><li>Mensajes de voz → transcripción + análisis</li><li>Grabaciones de conversaciones (con consentimiento)</li><li>Análisis lingüístico: palabras, patrones</li><li>Sentimiento por temas e interlocutores</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">📱</div>Datos de comportamiento</div><ul><li>Contenido en redes sociales (publicaciones, likes)</li><li>Patrones de actividad (hora del día, días)</li><li>Reacción a eventos (demora, longitud de respuesta)</li><li>Hábitos de tiempo de pantalla</li><li>Diálogos del clon con consentimiento de interlocutores</li></ul></div>
+    </div>
+    <div class="divider"></div>
+    <h3>Canalización de entrenamiento</h3>
+    <div class="flow" style="margin-top:20px;">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h4>Recopilación de datos brutos</h4><p>Recopilación de datos con consentimiento. Anonimización y cifrado. Almacenamiento en un namespace aislado (per-user).</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h4>Extracción de características</h4><p>Extracción de características para cada uno de los 24 vectores. NLP para textos, análisis de audio, series temporales. Se forma la Feature Matrix F ∈ ℝ^(n×24).</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h4>Construcción de perfil (Algoritmo 1)</h4><p>Строится личностный профиль: вектор W, матрица ролей, эмоциональный базис. Валидация с пользователем. Versión v1.0.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h4>Ajuste fino de agentes</h4><p>Ajuste fino del Voice Agent en el corpus del usuario (LoRA/QLoRA). Llenado RAG de Sphere y Role Agent. Shadow Agent: en patrones sombríos.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><h4>Evaluación y alineación (RLHF)</h4><p>El usuario interactúa con el clon y evalúa la precisión. Preferencias → reentrenamiento. Objetivo: Personality Alignment Score ≥ 0.85.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-content"><h4>Aprendizaje continuo (Algoritmo 3)</h4><p>Actualización en línea. Detección de deriva. Reentrenamiento periódico (cada 30–90 días o con un evento de vida).</p></div></div>
+    </div>
+    
+    <div class="divider"></div>
+    <h3>Voice Clone Pipeline (Síntesis y Protección de Voz)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">🎙️</div>Extracción de características de audio</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Recopilación de grabaciones cortas de audio del usuario (15-30 minutos de habla limpia). Limpieza de ruido de fondo y división en fragmentos de 2-5 segundos. Extracción de mel-espectrogramas y tono (F0).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">🧠</div>Ajuste fino y Zero-Shot TTS</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Дообучение базовой TTS-модели (напр., XTTS v2, Coqui или Bark) с использованием LoRA для адаптации тембра. Генерация голоса с сохранением интонации и стиля (Vector 13).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🛡️</div>Marca de agua de audio</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Cada mensaje de audio del clon se firma con una marca de agua de audio esteganográfica. Esto protege al creador del uso no autorizado de su voz como deepfake.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Integración con el Metaverso (Metaverse Avatar Integration)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card" style="grid-column: span 2;">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">🌐</div>Integración con motores 3D (Ready Player Me / Unreal Engine)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">
+          24 вектора личности преобразуются в поведенческий движок 3D-аватара. 
+          Вместо статического бота аватар реагирует в реальном времени: вес вектора Emotion (B23) регулирует лицевую анимацию и мимику (blendshapes), 
+          а речевой темп (Vector 13) синхронизируется с артикуляцией губ (lip-sync).
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(155,81,224,0.1);">🧬</div>Cognitive Engine para NPCs</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">
+          Conversión del clon de IA de una estrella en un personaje no jugador interactivo (NPC) en mundos virtuales. Los usuarios pueden encontrarse con el clon en el metaverso y comunicarse con él por voz.
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="code-block" style="margin-top:28px;">
+<span class="comment">// Estructura de datos del perfil (TypeScript)</span>
+
+<span class="key">interface</span> <span class="type">PersonalityProfile</span> {
+  id: <span class="str">string</span>;
+  version: <span class="str">string</span>;                          <span class="comment">// control de versiones semántico</span>
+  social_type: <span class="str">"extrovert" | "introvert" | "balanced" | "volatile"</span>;
+  volatility_factor: <span class="num">number</span>;                  <span class="comment">// 0–1</span>
+
+  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 24 vectores, peso 0-1</span>
+  priority_formula: <span class="type">VectorId</span>[];               <span class="comment">// ordenado descendentemente</span>
+
+  conscious_roles: <span class="type">RoleProfile</span>[];
+  shadow_roles: <span class="type">ShadowRoleProfile</span>[];          <span class="comment">// con disparadores y probabilidad</span>
+
+  communication_style: <span class="type">CommunicationVector</span>;   <span class="comment">// Vector 13</span>
+  emotional_map: <span class="type">EmotionalVector</span>;             <span class="comment">// Vector 14</span>
+  decision_style: <span class="type">DecisionVector</span>;             <span class="comment">// Vector 16</span>
+  attachment_style: <span class="str">"secure"|"anxious"|"avoidant"|"disorganized"</span>; <span class="comment">// Vector 22</span>
+  humor_profile: <span class="type">HumorVector</span>;                 <span class="comment">// Vector 24</span>
+
+  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// Vector 23 — реальное время</span>
+
+  consent_log: <span class="type">ConsentEntry</span>[];
+  alignment_score: <span class="num">number</span>;                   <span class="comment">// precisión del clon, 0-1, objetivo >= 0.85</span>
+}
+    </div>
+  </div>
+</div>
+
+<!-- S7 -->
+<div class="section" id="s7" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title-wrap">
+        <h2>Ética, seguridad y privacidad</h2>
+        <p>Esta sección no es una opción. Es una condición obligatoria para la existencia del sistema.</p>
+      </div>
+    </div>
+    <div class="privacy-section">
+      <h3>⚠️ Requisitos Críticos</h3>
+      <div class="card-grid">
+        <div>
+          <h4 style="color:var(--warning);margin-bottom:10px;">🔐 Consentimiento & Control</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Consentimiento explícito para cada tipo de datos</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Consentimiento de los interlocutores para entrenar el clon</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> El usuario puede eliminar cualquier vector</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Derecho a eliminar el perfil por completo</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Control sobre el acceso al clon</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🛡️ Cifrado & Aislamiento</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Cifrado E2E de vectores sensibles</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Almacenamiento aislado (per-user)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Zero-knowledge для Тайн (Vector 08)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Registro de auditoría de todos los accesos al perfil</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Cumplimiento de GDPR / CCPA</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🚫 Prohibiciones Estrictas</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> El clon no se hace pasar por humano sin etiquetado</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> No se puede utilizar con fines legales</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Está prohibido manipular sin el conocimiento del original</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> Datos de terceros: solo con su consentimiento</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> No hay venta de datos a terceros</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    <h3>Privacy Agent & Arquitectura Edge-AI</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card" style="grid-column: span 3;">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🔒</div>Procesamiento descentralizado (Ollama & Local Node)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">
+          Для обеспечения абсолютной безопасности персональных данных (Vector 08: Secretos, Vector 11: Страхи) реализован гибридный режим:
+          <br>• <strong>Nodo local (Edge Node):</strong> Todos los diarios sensibles, correspondencia íntima y notas se procesan localmente en la computadora o teléfono del propietario a través de modelos locales (Llama-3/Qwen) utilizando Ollama.
+          <br>• <strong>Pasarela en la nube (Cloud Gateway):</strong> Solo se transmiten a la base de datos de la nube los coeficientes matemáticos desensibilizados del Tone of Voice y los vectores conductuales, excluyendo la filtración del texto de las correspondencias.
+          <br>• <strong>Libro de consentimientos (Consent Ledger):</strong> Cada acceso a la memoria del clon es verificado por el Privacy Agent frente a un registro criptográfico de consentimientos, garantizando el cumplimiento del GDPR (Derecho al olvido).
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>Matriz de riesgos</h3>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>Riesgo</th><th>Probabilidad</th><th>Impacto</th><th>Mitigación</th></tr></thead>
+        <tbody>
+          <tr class="risk-row-high"><td>Filtración de datos del perfil</td><td><span class="tag yellow">Media</span></td><td><span class="tag red">Crítico</span></td><td>E2E, aislamiento, auditoría</td></tr>
+          <tr class="risk-row-high"><td>Uso del clon para manipulación</td><td><span class="tag red">Alta</span></td><td><span class="tag red">Crítico</span></td><td>Etiquetado de IA, control de acceso</td></tr>
+          <tr class="risk-row-med"><td>Activación errónea de roles sombríos</td><td><span class="tag yellow">Media</span></td><td><span class="tag yellow">Alto</span></td><td>Shadow Agent con umbrales y banderas</td></tr>
+          <tr class="risk-row-med"><td>El perfil se "congela", no refleja los cambios</td><td><span class="tag yellow">Media</span></td><td><span class="tag yellow">Alto</span></td><td>Evolution Agent, detección de deriva</td></tr>
+          <tr class="risk-row-low"><td>Datos falsos durante el onboarding</td><td><span class="tag yellow">Media</span></td><td><span class="tag blue">Medio</span></td><td>Validación cruzada de lo declarado frente al comportamiento</td></tr>
+          <tr class="risk-row-low"><td>Dependencia del usuario hacia el clon</td><td><span class="tag blue">Baja</span></td><td><span class="tag yellow">Alto</span></td><td>Límites de frecuencia, encuadres psicológicos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S8 -->
+<div class="section" id="s8">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title-wrap">
+        <h2>Hoja de ruta del desarrollo</h2>
+        <p>Cuatro fases desde el MVP hasta un sistema multiagente completo con aprendizaje continuo y los 24 vectores.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fase</th><th>Período</th><th>Qué hacemos</th><th>Resultado</th><th>Riesgos clave</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fase 0</strong><br><span class="tag purple">Research</span></td><td>4–6 sem.</td><td>Finalización de especificaciones, selección de stack, cuestionario de onboarding para 24 vectores, diseño de esquema de datos</td><td>Arquitectura, cuestionario v1.0, equipo</td><td>Subestimar la complejidad de los vectores de Secretos y Miedos</td></tr>
+          <tr><td><strong>Fase 1</strong><br><span class="tag blue">MVP</span></td><td>8–12 sem.</td><td>Sphere Agent (11 esferas básicas), Voice Agent (básico), perfil v1.0, interfaz de usuario de onboarding</td><td>El clon se comunica al estilo del usuario dentro de las esferas básicas</td><td>Datos insuficientes para el Voice Agent</td></tr>
+          <tr><td><strong>Fase 2</strong><br><span class="tag yellow">Beta</span></td><td>12–16 sem.</td><td>Role Agent (roles conscientes), Emotion Agent, Shadow Agent (Karpman), los 24 vectores, orquestador</td><td>El clon cambia de rol según el contexto, considera emociones y humor</td><td>Dificultad de calibración del Shadow Agent</td></tr>
+          <tr><td><strong>Fase 3</strong><br><span class="tag green">V1.0</span></td><td>8–12 sem.</td><td>Evolution Agent, RLHF en los 24 vectores, Privacy Agent, control de versiones, consentimiento de interlocutores</td><td>Copia dinámica completa con aprendizaje en línea</td><td>Cumplimiento de GDPR, carga computacional</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight green" style="margin-top:32px;">
+      <div class="highlight-title">Criterios de éxito (Definición de Terminado)</div>
+      <p>
+        <strong>MVP:</strong> El usuario no puede distinguir 3 de cada 5 respuestas del clon de las suyas.<br>
+        <strong>V1.0:</strong> Personality Alignment Score >= 0.85 según evaluación independiente de 3 personas cercanas al usuario.<br>
+        <strong>Sistema:</strong> Arranque en frío de un nuevo perfil: no más de 2 horas de onboarding.
+      </p>
+    </div>
+    <div class="highlight yellow" style="margin-top:20px;">
+      <div class="highlight-title">Stack de tecnologías recomendado</div>
+      <p>
+        <strong>LLM:</strong> GPT-4o / Claude 3.5 + LoRA/QLoRA fine-tuning ·
+        <strong>Vector DB:</strong> Pinecone / Weaviate / Qdrant ·
+        <strong>Orchestration:</strong> LangGraph / AutoGen / CrewAI ·
+        <strong>NLP:</strong> spaCy + Hugging Face ·
+        <strong>Emotion:</strong> DistilBERT fine-tuned ·
+        <strong>Backend:</strong> FastAPI + Redis ·
+        <strong>Encryption:</strong> AES-256 per-user keys ·
+        <strong>Frontend:</strong> Next.js
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <p>
+    <strong style="color:var(--text2);">AI Human Clone — Especificación Técnica de la Arquitectura v2.0</strong><br>
+    Создан на основе авторской концепции. Для внутреннего использования. Все права сохраняются за автором.<br>Junio de 2026.<br><br>
+    <span style="color:var(--primary);">24 vectores de personalidad (perfil único) · 8 tipos de roles · 8 agentes de IA · 3 algoritmos · 4 fases de desarrollo</span>
+  </p>
+</div>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.card, .vector-card, .agent-card, .flow-step, .algo-step, .role-item').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(el);
+});
+</script>
+</body>
+</html>

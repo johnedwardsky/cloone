@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Human Clone — 技术架构规范 v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    const langCodes = ['en', 'ru', 'zh', 'es', 'ar'];
+    const filename = window.location.pathname.split('/').pop() || 'index.html';
+    let pageType = '';
+    let currentLang = 'en';
+    
+    if (filename.startsWith('index')) {
+      pageType = 'index';
+      const suffix = filename.replace('index', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('pitch_deck')) {
+      pageType = 'pitch_deck';
+      const suffix = filename.replace('pitch_deck', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    } else if (filename.startsWith('AI_Clone_Architecture')) {
+      pageType = 'AI_Clone_Architecture';
+      const suffix = filename.replace('AI_Clone_Architecture', '').replace('.html', '');
+      if (suffix.startsWith('-')) currentLang = suffix.substring(1);
+    }
+    
+    if (!pageType) return;
+    
+    const savedLang = localStorage.getItem('cloone_pref_lang');
+    if (savedLang && savedLang !== currentLang && langCodes.includes(savedLang)) {
+      let targetFile = (savedLang === 'en') ? pageType + '.html' : pageType + '-' + savedLang + '.html';
+      window.location.replace(targetFile);
+    }
+  })();
+</script>
+<link rel="stylesheet" href="AI_Clone_Architecture.css">
+</head>
+<body>
+
+<div class="nav-back-bar">
+  <a href="index.html" class="nav-back-link">← 返回首页</a>
+  <a href="pitch_deck.html" class="nav-back-link">← 返回演示文稿</a>
+  <div class="lang-select-wrap" style="pointer-events: auto;">
+    <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'AI_Clone_Architecture.html' : 'AI_Clone_Architecture-' + this.value + '.html');">
+      <option value="en">EN</option>
+      <option value="ru">RU</option>
+      <option value="zh" selected>中文</option>
+      <option value="es">ES</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
+</div>
+
+<div class="cover">
+  <div class="cover-badge">版本 2.0 · 技术规范</div>
+  <div style="margin-bottom: 24px; max-width: 280px; width: 100%; display: flex; align-items: center; justify-content: center;">
+    <svg width="100%" height="auto" viewBox="0 0 409 130" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <linearGradient x1="100%" y1="50%" x2="4.87186121%" y2="50%" id="linearGradient-logo-cover">
+                <stop stop-color="#F0A500" offset="0%"></stop>
+                <stop stop-color="#6C5CE7" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+        <g id="Artboard-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="CL" transform="translate(5.200000, 31.000000)" fill="#1A1B2E" fill-rule="nonzero">
+                <path d="M35.4,72 C28.2666667,72 22.0333333,70.5333333 16.7,67.6 C11.3666667,64.6666667 7.25,60.5 4.35,55.1 C1.45,49.7 0,43.3666667 0,36.1 C0,28.8333333 1.45,22.4833333 4.35,17.05 C7.25,11.6166667 11.35,7.41666667 16.65,4.45 C21.95,1.48333333 28.1333333,0 35.2,0 C41.1333333,0 46.5833333,1 51.55,3 C56.5166667,5 60.3333333,7.73333333 63,11.2 C63.6,12 63.9,12.8666667 63.9,13.8 C63.9,15 63.3,16.0666667 62.1,17 C61.4333333,17.4666667 60.6666667,17.7 59.8,17.7 C59.0666667,17.7 58.3333333,17.5333333 57.6,17.2 C56.8666667,16.8666667 56.2666667,16.4333333 55.8,15.9 C51.4,10.5 44.5333333,7.8 35.2,7.8 C27.2666667,7.8 21,10.3166667 16.4,15.35 C11.8,20.3833333 9.5,27.3 9.5,36.1 C9.5,44.8333333 11.8,51.7 16.4,56.7 C21,61.7 27.3333333,64.2 35.4,64.2 C40.2,64.2 44.4333333,63.5 48.1,62.1 C51.7666667,60.7 54.7666667,58.7 57.1,56.1 C58.4333333,54.7 59.7666667,54 61.1,54 C61.9666667,54 62.7666667,54.3 63.5,54.9 C64.6333333,55.9 65.2,57 65.2,58.2 C65.2,59.0666667 64.8666667,59.9333333 64.2,60.8 C61.4666667,64.2666667 57.5333333,67 52.4,69 C47.2666667,71 41.6,72 35.4,72 Z" id="Path"></path>
+                <path d="M92.95,71 C88.4833333,71 85.0333333,69.8333333 82.6,67.5 C80.1666667,65.1666667 78.95,61.9333333 78.95,57.8 L78.95,4.7 C78.95,3.23333333 79.3666667,2.08333333 80.2,1.25 C81.0333333,0.416666667 82.1833333,0 83.65,0 C85.1166667,0 86.2833333,0.416666667 87.15,1.25 C88.0166667,2.08333333 88.45,3.23333333 88.45,4.7 L88.45,57.9 C88.45,59.5666667 88.8833333,60.9 89.75,61.9 C90.6166667,62.9 91.8166667,63.4 93.35,63.4 L126.25,63.4 C129.383333,63.4 130.95,64.6666667 130.95,67.2 C130.95,68.4 130.533333,69.3333333 129.7,70 C128.866667,70.6666667 127.716667,71 126.25,71 L92.95,71 Z" id="Path"></path>
+            </g>
+            <g id="NE" transform="translate(266.600000, 31.000000)" fill="#1A1B2E" fill-rule="nonzero">
+                <path d="M4.7,72 C3.23333333,72 2.08333333,71.5833333 1.25,70.75 C0.416666667,69.9166667 0,68.7666667 0,67.3 L0,27.6 C0,21.9333333 1.2,17.0333333 3.6,12.9 C6,8.76666667 9.45,5.58333333 13.95,3.35 C18.45,1.11666667 23.7666667,0 29.9,0 C36.0333333,0 41.35,1.11666667 45.85,3.35 C50.35,5.58333333 53.8,8.76666667 56.2,12.9 C58.6,17.0333333 59.8,21.9333333 59.8,27.6 L59.8,67.3 C59.8,68.7666667 59.3833333,69.9166667 58.55,70.75 C57.7166667,71.5833333 56.5666667,72 55.1,72 C53.6333333,72 52.4666667,71.5833333 51.6,70.75 C50.7333333,69.9166667 50.3,68.7666667 50.3,67.3 L50.3,27.3 C50.3,21.1 48.5166667,16.3 44.95,12.9 C41.3833333,9.5 36.3666667,7.8 29.9,7.8 C23.5,7.8 18.5,9.51666667 14.9,12.95 C11.3,16.3833333 9.5,21.1666667 9.5,27.3 L9.5,67.3 C9.5,68.7666667 9.06666667,69.9166667 8.2,70.75 C7.33333333,71.5833333 6.16666667,72 4.7,72 Z" id="Path"></path>
+            </g>
+            <path d="M214,25 C225.045695,25 235.045695,29.4771525 242.284271,36.7157288 C249.522847,43.954305 254,53.954305 254,65 C254,76.045695 249.522847,86.045695 242.284271,93.2842712 C235.045695,100.522847 225.045695,105 214,105 C209.489065,105 205.15237,104.253756 201.108615,102.876813 C206.394861,99.2263988 210.87928,94.4980946 214.244095,89.0093599 C218.528767,82.0201442 221,73.7987583 221,65 C221,56.2014176 218.528863,47.9801845 214.244592,40.991129 C210.879411,35.5014133 206.394366,30.7724432 201.109173,27.1222926 C205.153476,25.7460463 209.489643,25 214,25 Z M175,25 C179.355418,25 183.548406,25.6956477 187.473562,26.9825099 L187.893,27.123 L187.6902,27.2635841 C182.664827,30.7731339 178.373407,35.260835 175.092143,40.4507109 L174.756317,40.9900881 C170.471395,47.9793235 168,56.2009563 168,65 C168,73.7072462 170.420128,81.8490607 174.622573,88.7908169 C177.977562,94.3327134 182.46975,99.1092425 187.773793,102.796992 C183.861514,104.254586 179.516893,105 175,105 C163.954305,105 153.954305,100.522847 146.715729,93.2842712 C139.477153,86.045695 135,76.045695 135,65 C135,53.954305 139.477153,43.954305 146.715729,36.7157288 C153.954305,29.4771525 163.954305,25 175,25 Z" id="Combined-Shape" stroke="url(#linearGradient-logo-cover)" stroke-width="6"></path>
+            <rect id="Rectangle" fill="#1A1B2E" x="342" y="95" width="49" height="8" rx="3.5"></rect>
+            <rect id="Rectangle-Copy-2" fill="#1A1B2E" x="342" y="32" width="49" height="8" rx="3.5"></rect>
+            <rect id="Rectangle-Copy" fill="#1A1B2E" x="342" y="64" width="34" height="8" rx="3.5"></rect>
+        </g>
+    </svg>
+  </div>
+  <p class="cover-sub">用于创建个性化数字人类分身的多智能体系统正式架构规范</p>
+  <div class="cover-stats">
+    <div class="stat-pill"><strong>24</strong> 个个性维度</div>
+    <div class="stat-pill"><strong>8</strong> 种角色类型</div>
+    <div class="stat-pill"><strong>8</strong> 个 AI 智能体</div>
+    <div class="stat-pill"><strong>3</strong> 种算法</div>
+    <div class="stat-pill"><strong>4</strong> 个开发阶段</div>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><div class="label">文档类型</div><div class="value">技术规范</div></div>
+    <div class="cover-meta-item"><div class="label">受众</div><div class="value">PM · Lead Dev · ML Engineers</div></div>
+    <div class="cover-meta-item"><div class="label">日期</div><div class="value">2026年6月</div></div>
+    <div class="cover-meta-item"><div class="label">状态</div><div class="value">✦ 开发中</div></div>
+    <div class="cover-meta-item"><div class="label">版本</div><div class="value">2.0 (Unified Vectors)</div></div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc-section">
+  <div class="container">
+    <div class="section-label">目录</div>
+    <h2 style="font-size:28px;font-weight:800;">文档结构</h2>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s1"><div class="toc-num">01</div><div><div class="toc-title">系统概念与目标</div><div class="toc-desc">构建内容、目的与方法</div></div></a>
+      <a class="toc-item" href="#s2"><div class="toc-num">02</div><div><div class="toc-title">人格画像 — 24 个维度</div><div class="toc-desc">所有维度的完整统一目录</div></div></a>
+      <a class="toc-item" href="#s3"><div class="toc-num">03</div><div><div class="toc-title">角色系统</div><div class="toc-desc">显性意识角色与潜在隐形（影子）角色</div></div></a>
+      <a class="toc-item" href="#s4"><div class="toc-num">04</div><div><div class="toc-title">关联维度的算法</div><div class="toc-desc">统一模型的 3 种算法</div></div></a>
+      <a class="toc-item" href="#s5"><div class="toc-num">05</div><div><div class="toc-title">多智能体架构</div><div class="toc-desc">8 个智能体及其交互</div></div></a>
+      <a class="toc-item" href="#s6"><div class="toc-num">06</div><div><div class="toc-title">数据收集与训练</div><div class="toc-desc">流程与数据架构</div></div></a>
+      <a class="toc-item" href="#s7"><div class="toc-num">07</div><div><div class="toc-title">伦理与安全</div><div class="toc-desc">系统强制性约束</div></div></a>
+      <a class="toc-item" href="#s8"><div class="toc-num">08</div><div><div class="toc-title">开发路线图</div><div class="toc-desc">4 个阶段、MVP 和完成定义 (DoD)</div></div></a>
+    </div>
+  </div>
+</div>
+
+<!-- S1 -->
+<div class="section" id="s1">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title-wrap">
+        <h2>系统概念与目标</h2>
+        <p>系统创建了一个 AI 智能体，用以构建特定人类的数字分身 — 这不仅是语音的模仿，更是一个多层次、动态的人格模型，拥有独特的优先级公式、角色清单和行为模式。</p>
+      </div>
+    </div>
+    <div class="highlight purple">
+      <div class="highlight-title">核心原则</div>
+      <p>人类是一个动态系统，其<strong>优先级公式</strong>是在家族基因编码、社会环境、角色模型、恐惧和生活经验的共同作用下形成的。数字分身重现了这一公式，而不仅仅是语音模式。人格被描述为一个包含 <strong>24 个维度</strong>的统一向量。</p>
+    </div>
+    <div class="card-grid" style="margin-top:32px;">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.12);">🎯</div>Что система умеет</div>
+        <ul>
+          <li>重现交流和决策风格</li>
+          <li>Предсказывать поведение в разных ситуациях</li>
+          <li>根据上下文切换角色</li>
+          <li>考虑潜在的隐形（影子）与无意识模式</li>
+          <li>与人共同进化（在线学习）</li>
+          <li>在对话中将控制权移交给真实的创作者</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🚫</div>Что система НЕ делает</div>
+        <ul>
+          <li>在法律意义上不替代真人</li>
+          <li>未经本人同意不做出任何决策</li>
+          <li>不存储未加密的生物特征数据</li>
+          <li>没有特定标记时，不以毁灭性的潜在影子角色行动</li>
+          <li>未经同意不利用第三方数据进行训练</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">📐</div>Базовая модель человека</div>
+        <ul>
+          <li><strong>4 типа:</strong> Экстраверт / Интроверт / Баланс / Непредсказуемый</li>
+          <li><strong>优先级ы:</strong> Уникальный вектор весов W из 24 измерений</li>
+          <li><strong>Роли:</strong> Осознанные + Теневые (Карпман, ТА)</li>
+          <li><strong>Состояние:</strong> Динамический эмоциональный фон</li>
+          <li><strong>Эволюция:</strong> Живой, обновляемый профиль</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight green" style="margin-top:32px;">
+      <div class="highlight-title">架构原则</div>
+      <p>系统构建为一个<strong>多智能体网络</strong>：每个智能体负责特定的人格领域或层面。中央协调器 (Master Agent) 对智能体进行调度，并结合当前的上下文、情感状态和活跃角色生成最终的回复。</p>
+    </div>
+  </div>
+</div>
+
+<!-- S2 -->
+<div class="section" id="s2" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-wrap">
+        <h2>人格画像 — 24 个维度</h2>
+        <p>Полный унифицированный каталог всех измерений личностного профиля. 24 вектора объединены в единую спецификацию: каждый имеет вес (приоритет), набор маркеров для сбора данных и связь с соответствующим агентом системы.</p>
+      </div>
+    </div>
+
+    <div class="graph-container">
+      <div class="section-label" style="margin-bottom:16px;">画像架构：24 个维度</div>
+      <div class="vector-diagram">
+        <div class="vd-center">人格<br>画像<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₄]</span></div>
+        <div class="vd-ring">
+          <div class="vd-node primary">👥 朋友</div>
+          <div class="vd-node primary">👨‍👩‍👧 家庭</div>
+          <div class="vd-node primary">🏆 成就</div>
+          <div class="vd-node primary">⭐ 角色榜样</div>
+          <div class="vd-node primary">💼 职业</div>
+          <div class="vd-node primary">🎮 兴趣爱好</div>
+          <div class="vd-node primary">🌍 社交圈</div>
+          <div class="vd-node accent">🔒 秘密</div>
+          <div class="vd-node green">📚 教育</div>
+          <div class="vd-node green">🔄 习惯</div>
+          <div class="vd-node accent">😨 恐惧</div>
+          <div class="vd-node violet">🧬 身体智能</div>
+          <div class="vd-node violet">💬 交流风格</div>
+          <div class="vd-node violet">🎭 情绪图谱</div>
+          <div class="vd-node violet">🔭 世界观</div>
+          <div class="vd-node violet">⚡ 决策</div>
+          <div class="vd-node violet">💰 财务模式</div>
+          <div class="vd-node violet">🕐 时间</div>
+          <div class="vd-node violet">🎨 美学</div>
+          <div class="vd-node violet">😤 冲突</div>
+          <div class="vd-node violet">📖 叙事</div>
+          <div class="vd-node violet">🤝 依恋</div>
+          <div class="vd-node violet">🌡️ 状态</div>
+          <div class="vd-node accent">😄 幽默</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight yellow">
+      <div class="highlight-title">画像公式</div>
+      <p>每个人都拥有独特的<strong>权重向量 W = [w₁, w₂, …, w₂₄]</strong>，其中 wᵢ ∈ [0, 1]。权重并不是恒定不变的 — 它们在生活事件、年龄和外部压力的影响下会发生改变。系统实时更新权重，并对每一次更改进行版本记录。</p>
+    </div>
+
+    <!-- VECTOR GRID -->
+    <div class="vector-grid">
+
+      <div class="vector-group-label">— 第一板块：生活领域 (维度 01–11)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">👥</div><div><div class="vector-num">维度 01</div><div class="vector-name">Друзья</div></div></div>
+        <div class="vector-desc">人格镜像：吸引我们的与我们隐藏的。休闲娱乐、相互支持以及社会自我感知的镜子。</div>
+        <div class="vector-tags"><span class="vector-tag">休闲</span><span class="vector-tag">相互支持</span><span class="vector-tag">自我镜像</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--primary);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👨‍👩‍👧</div><div><div class="vector-num">维度 02</div><div class="vector-name">Семья</div></div></div>
+        <div class="vector-desc">价值观、最初的社交圈、启蒙老师。祖辈、伴侣、子女 — 也是最初行为和依恋模式的源泉。</div>
+        <div class="vector-tags"><span class="vector-tag">价值观</span><span class="vector-tag">传统</span><span class="vector-tag">初级模式</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🏆</div><div><div class="vector-num">维度 03</div><div class="vector-name">Достижения</div></div></div>
+        <div class="vector-desc">社会地位。社会、体育、职业、学术和家庭成就，作为自我价值的衡量指标。</div>
+        <div class="vector-tags"><span class="vector-tag">社会</span><span class="vector-tag">职业</span><span class="vector-tag">学术</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--warning);"></div></div><span>~60%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">⭐</div><div><div class="vector-num">维度 04</div><div class="vector-name">Ролевые модели</div></div></div>
+        <div class="vector-desc">偶像与风向标：父母、企业家、精神导师。决定了价值视野与动力画像。</div>
+        <div class="vector-tags"><span class="vector-tag">父母</span><span class="vector-tag">企业家</span><span class="vector-tag">导师</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">💼</div><div><div class="vector-num">维度 05</div><div class="vector-name">Карьера</div></div></div>
+        <div class="vector-desc">发挥才能以获得收入。职业抱负、纪律、成就以及对财务成功的态度。</div>
+        <div class="vector-tags"><span class="vector-tag">抱负</span><span class="vector-tag">纪律</span><span class="vector-tag">财务</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--info);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🎮</div><div><div class="vector-num">维度 06</div><div class="vector-name">Хобби / 休闲</div></div></div>
+        <div class="vector-desc">恢复与休息的方式。与谁以及如何度过闲暇时间 — 这是了解人格能量平衡的关键。</div>
+        <div class="vector-tags"><span class="vector-tag">体育</span><span class="vector-tag">创意</span><span class="vector-tag">旅行</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:45%;background:var(--primary);"></div></div><span>~45%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.08);">🌍</div><div><div class="vector-num">维度 07</div><div class="vector-name">社交圈</div></div></div>
+        <div class="vector-desc">对所有人的态度：路人、陌生人、同事。社会信任水平和对人际网络的开放度。</div>
+        <div class="vector-tags"><span class="vector-tag">同事</span><span class="vector-tag">陌生人</span><span class="vector-tag">社交网络</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--success);"></div></div><span>~50%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🔒</div><div><div class="vector-num">维度 08</div><div class="vector-name">秘密</div></div></div>
+        <div class="vector-desc">隐藏的一面：自我低估、健康状况、梦想、良知、依赖、自我、童年创伤、被强加的信念。最敏感的维度。通过零知识加密技术存储。</div>
+        <div class="vector-tags"><span class="vector-tag">童年创伤</span><span class="vector-tag">成瘾/依赖</span><span class="vector-tag">梦想</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--danger);"></div></div><span>~90%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📚</div><div><div class="vector-num">维度 09</div><div class="vector-name">教育</div></div></div>
+        <div class="vector-desc">积累的经验、自学能力、个人探索、自我约法和自我反思。进行决策的认知基础。</div>
+        <div class="vector-tags"><span class="vector-tag">自学</span><span class="vector-tag">经验</span><span class="vector-tag">自我分析</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">🔄</div><div><div class="vector-num">维度 10</div><div class="vector-name">习惯 / 享乐</div></div></div>
+        <div class="vector-desc">通过习惯（好与坏）以及多巴胺反应实现自主性。日常仪式决定了行为的可预测性。</div>
+        <div class="vector-tags"><span class="vector-tag">仪式</span><span class="vector-tag">多巴胺</span><span class="vector-tag">自动化行为</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--warning);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😨</div><div><div class="vector-num">维度 11</div><div class="vector-name">Страхи</div></div></div>
+        <div class="vector-desc">显性与隐性恐惧。主要的恐惧是“不确定性”。大脑总是在保护人，为其创造一个舒适的边界。影响所有其他维度。</div>
+        <div class="vector-tags"><span class="vector-tag">秘密е</span><span class="vector-tag">显性</span><span class="vector-tag">心理</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— Блок II: 心理 и когнитивные измерения (Векторы 12–23)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🧬</div><div><div class="vector-num">维度 12</div><div class="vector-name">Телесный интеллект</div></div></div>
+        <div class="vector-desc">对身体的态度、身体活动、生物钟、压力的躯体化模式。生物钟决定了在一天中不同时段回复的可达性与质量。</div>
+        <div class="vector-tags"><span class="vector-tag">生物钟</span><span class="vector-tag">压力躯体化</span><span class="vector-tag">健康</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:55%;background:var(--accent3);"></div></div><span>~55%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">💬</div><div><div class="vector-num">维度 13</div><div class="vector-name">Стиль коммуникации</div></div></div>
+        <div class="vector-desc">详细的语言学特征：言语模式、语速、词汇量、隐喻。作为 Voice Agent 的输入，并决定分身的声音与说话风格。</div>
+        <div class="vector-tags"><span class="vector-tag">语域/语气</span><span class="vector-tag">回复长度</span><span class="vector-tag">隐喻</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:90%;background:var(--primary);"></div></div><span>~90%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🎭</div><div><div class="vector-num">维度 14</div><div class="vector-name">Эмоциональная карта</div></div></div>
+        <div class="vector-desc">所经历和表达的情绪范围与被压抑的情绪。基于 普拉切克 (Plutchik) 模型的情感调节。恢复速度。</div>
+        <div class="vector-tags"><span class="vector-tag">普拉切克 (Plutchik)</span><span class="vector-tag">情绪调节</span><span class="vector-tag">被禁忌的情绪</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">🔭</div><div><div class="vector-num">维度 15</div><div class="vector-name">世界观与哲学</div></div></div>
+        <div class="vector-desc">世界观、对现实本质的信念、政治观点、精神性。对人的基本信念（信任/不信任）、对命运与巧合的态度。</div>
+        <div class="vector-tags"><span class="vector-tag">信念</span><span class="vector-tag">精神性</span><span class="vector-tag">世界观</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--info);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚡</div><div><div class="vector-num">维度 16</div><div class="vector-name">决策风格</div></div></div>
+        <div class="vector-desc">如何做出决定：理性、直觉、推迟、征求意见。决策速度，直觉与分析的作用，对错误的态度。</div>
+        <div class="vector-tags"><span class="vector-tag">速度</span><span class="vector-tag">直觉</span><span class="vector-tag">分析</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--warning);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">💰</div><div><div class="vector-num">维度 17</div><div class="vector-name">Финансовый паттерн</div></div></div>
+        <div class="vector-desc">对金钱、风险、投资的态度。金钱作为安全感、地位或自由的象征。消费模式：冲动 / 理性。</div>
+        <div class="vector-tags"><span class="vector-tag">消费</span><span class="vector-tag">风险</span><span class="vector-tag">金钱隐喻</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--success);"></div></div><span>~60%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🕐</div><div><div class="vector-num">维度 18</div><div class="vector-name">态度与时间</div></div></div>
+        <div class="vector-desc">对过去、现在或未来的倾向（津巴多时间观）。规划跨度。对截止日期的反应，拖延症。</div>
+        <div class="vector-tags"><span class="vector-tag">津巴多 (Zimbardo)</span><span class="vector-tag">规划</span><span class="vector-tag">拖延症</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:50%;background:var(--primary);"></div></div><span>~50%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.1);">🎨</div><div><div class="vector-num">维度 19</div><div class="vector-name">美学编码</div></div></div>
+        <div class="vector-desc">视觉、听觉、触觉偏好。主导感官通道（VAK (感官模型)）。美学偏好（风格、色彩），对秩序/混乱的反应。</div>
+        <div class="vector-tags"><span class="vector-tag">VAK (感官模型)</span><span class="vector-tag">美学</span><span class="vector-tag">空间</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:40%;background:var(--accent3);"></div></div><span>~40%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">😤</div><div><div class="vector-num">维度 20</div><div class="vector-name">冲突模式</div></div></div>
+        <div class="vector-desc">Поведение в конфликте по модели Томаса-Килмана: избегает, нападает, уступает, ищет компромисс. Реакция на критику. 速度 прощения.</div>
+        <div class="vector-tags"><span class="vector-tag">托马斯-基尔曼</span><span class="vector-tag">批评</span><span class="vector-tag">原谅</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--danger);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(14,165,233,0.1);">📖</div><div><div class="vector-num">维度 21</div><div class="vector-name">叙事认同</div></div></div>
+        <div class="vector-desc">如何讲述自己的人生故事：英雄、受害者、流浪者。关键转折点。对过去、现在和未来的自我塑造。</div>
+        <div class="vector-tags"><span class="vector-tag">叙事</span><span class="vector-tag">转折点</span><span class="vector-tag">自我形象</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:65%;background:var(--info);"></div></div><span>~65%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">🤝</div><div><div class="vector-num">维度 22</div><div class="vector-name">Стиль привязанности</div></div></div>
+        <div class="vector-desc">鲍尔比依恋理论：安全型、焦虑型、回避型、紊乱型。对所有关系产生关键性影响。对分离与亲密反应的模式。</div>
+        <div class="vector-tags"><span class="vector-tag">鲍尔比 (Bowlby)</span><span class="vector-tag">亲密</span><span class="vector-tag">自主性</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--success);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="vector-num">维度 23</div><div class="vector-name">状态动态</div></div></div>
+        <div class="vector-desc">当前的情绪背景、压力水平、能量。由 Emotion Agent 实时分析。对“易变”类型至关重要。</div>
+        <div class="vector-tags"><span class="vector-tag">实时</span><span class="vector-tag">触发器</span><span class="vector-tag">倦怠</span></div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:95%;background:var(--danger);"></div></div><span>~95%</span></div>
+      </div>
+
+      <div class="vector-group-label">— 第三板块：智力指标 (维度 24)</div>
+
+      <div class="vector-card" style="border-color:rgba(155,81,224,0.3);background:linear-gradient(135deg,#fff 0%,rgba(155,81,224,0.04) 100%);">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(155,81,224,0.12);">😄</div><div><div class="vector-num">维度 24 · 智力衡量指标</div><div class="vector-name" style="color:var(--accent3);">幽默感</div></div></div>
+        <div class="vector-desc">幽默不仅仅是一种性格特征，更是<strong>智商的标志</strong>：发现不协调之处、切换语境并创造意外关联的能力。幽默的类型和频次揭示了认知风格、心理安全水平以及与现实互动的方式。</div>
+        <div class="vector-tags"><span class="vector-tag">自嘲</span><span class="vector-tag">荒诞</span><span class="vector-tag">讽刺</span><span class="vector-tag">观察性</span><span class="vector-tag">黑色幽默</span></div>
+        <div class="vector-desc" style="margin-top:10px;font-size:11px;color:var(--text3);">
+          与维度 13（交流风格）和“小丑/骗子”角色（角色图谱）相关。对他人幽默的反应是心理成熟的标志。能够自嘲是自我成熟的体现。
+        </div>
+        <div class="vector-weight"><span>权重</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
+      </div>
+
+    </div><!-- end vector-grid -->
+
+    <div class="formula" style="margin-top:32px;">
+      <span class="type">PersonalityProfile</span> <span class="op">=</span> {<br>
+      &nbsp;&nbsp;social_type: <span class="var">"extrovert" | "introvert" | "balanced" | "volatile"</span>,<br>
+      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 24 вектора</span><br>
+      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// 按降序排列 веса</span><br>
+      &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// чувствительность к давлению</span><br>
+      &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// 语义化版本控制</span><br>
+      &nbsp;&nbsp;alignment_score: <span class="var">0..1</span> <span class="comment">// точность копии, цель ≥ 0.85</span><br>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- S3 -->
+<div class="section" id="s3">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-wrap">
+        <h2>角色系统</h2>
+        <p>双重角色系统：显性意识/社会角色（所有人可见）和影子/无意识角色（本人难以察觉）。要构建完整的分身，第二层级至关重要。</p>
+      </div>
+    </div>
+    <div class="role-grid">
+      <div class="role-col">
+        <div class="role-col-title" style="color:var(--success);">✓ 显性角色 (社会框架)</div>
+        <div class="role-item"><div class="role-item-icon">👨‍👩‍👧</div><div><div class="role-item-name">家庭角色</div><div class="role-item-desc">儿女、兄弟姐妹、伴侣、父母 — 关乎爱、责任和妥协的第一场课</div></div></div>
+        <div class="role-item"><div class="role-item-icon">💼</div><div><div class="role-item-name">职业角色</div><div class="role-item-desc">专业人士、导师/学生、公民、朋友 — 在社会中的定位</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧠</div><div><div class="role-item-name">个人 / 存在主义角色</div><div class="role-item-desc">生命的创造者、观察者/思考者、内在小孩的守护人</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🏠</div><div><div class="role-item-name">日常社会生活角色</div><div class="role-item-desc">掌控自我生活的人、邻居/社区成员 — 日常生活的独立性</div></div></div>
+      </div>
+      <div class="role-col">
+        <div class="role-col-title" style="color:var(--danger);">⚠ 影子角色 (无意识脚本)</div>
+        <div class="role-item"><div class="role-item-icon">🎭</div><div><div class="role-item-name">卡普曼戏剧三角</div><div class="role-item-desc"><strong>受害者</strong> (推卸责任), <strong>迫害者/暴君</strong> (以恐惧进行控制), <strong>拯救者</strong> (隐性被需要感)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">🧛</div><div><div class="role-item-name">毁灭性角色</div><div class="role-item-desc"><strong>吸血鬼/寄生虫</strong> (消耗情感), <strong>虚情爱人</strong> (强迫性寻找认同)</div></div></div>
+        <div class="role-item"><div class="role-item-icon">👶</div><div><div class="role-item-name">交互作用分析 (TA)</div><div class="role-item-desc"><strong>永恒儿童</strong> (幼稚化), <strong>严苛父母</strong> (说教者), <strong>小丑/恶作剧者</strong> (规避亲密关系)</div></div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <h3>矩阵：影子角色 → 健康对应角色</h3>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>影子角色</th><th>隐性需求</th><th>健康对应角色</th><th>激活触发器</th><th>优先级</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag red">受害者</span></td><td>关注，摆脱责任</td><td><span class="tag green">生命的创作者</span></td><td>压力，冲突</td><td><span class="tag purple">高</span></td></tr>
+          <tr><td><span class="tag red">暴君</span></td><td>控制，权力</td><td><span class="tag green">领导者 / 导师</span></td><td>威信受到威胁</td><td><span class="tag purple">高</span></td></tr>
+          <tr><td><span class="tag yellow">拯救者</span></td><td>价值感，被需要</td><td><span class="tag green">朋友（应要求）</span></td><td>他人的危机</td><td><span class="tag blue">中</span></td></tr>
+          <tr><td><span class="tag red">吸血鬼</span></td><td>能量，资源</td><td><span class="tag green">观察者 / 思考者</span></td><td>耗尽，无聊</td><td><span class="tag blue">中</span></td></tr>
+          <tr><td><span class="tag yellow">虚情爱人</span></td><td>刺激，获得认同</td><td><span class="tag green">伴侣 / 配偶</span></td><td>日常琐事，丧失意义</td><td><span class="tag blue">中</span></td></tr>
+          <tr><td><span class="tag yellow">永恒儿童</span></td><td>安全</td><td><span class="tag green">掌控自我生活的人</span></td><td>害怕失败</td><td><span class="tag blue">中</span></td></tr>
+          <tr><td><span class="tag red">严苛父母</span></td><td>正确性，可预测性</td><td><span class="tag green">导师（提供支持）</span></td><td>他人的错误</td><td><span class="tag blue">中</span></td></tr>
+          <tr><td><span class="tag yellow">小丑 / 恶作剧者</span></td><td>逃避亲密关系</td><td><span class="tag green">内在小孩的守护者</span></td><td>情绪脆弱</td><td><span class="tag blue">中</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S4 -->
+<div class="section" id="s4" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-wrap">
+        <h2>关联维度的算法</h2>
+        <p>把 24 个维度连接成一个动态人格模型的三种算法。这些算法按顺序工作并实时运行。</p>
+      </div>
+    </div>
+
+    <div class="algo-box">
+      <h3>🧮 算法 1：人格画像构建 (新手导入阶段)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">初始化时执行一次 + 定期更新。</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>收集原始数据</h4><p>访谈问卷（100-200个问题）、通信/语音/内容分析、行为模式。24 个维度中的每一个都有专属的问题和收集指标。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>社交类型分类</h4><p>分类器确定：外向 / 内向 / 平衡 / 易变。对于第 4 种类型，将计算 <em>volatility_factor</em>（对压力源的敏感度）。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>权重向量 W 的计算</h4><p>利用以下途径，计算 24 个维度中每个维度的权重 w ∈ [0, 1]：用户直接评估 + 间接行为指标 + 矛盾分析（自称 vs 实际）。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>构建角色矩阵</h4><p>对于每个显性角色：激活频次 + 上下文。对于影子角色：在压力下的激活概率。每个影子角色都与维度 11, 14, 23 的触发器相关联。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">5</div><div class="algo-step-content"><h4>向用户进行画像校对</h4><p>画像呈现在用户面前就像一面“镜子”。用户进行微调。迭代 3-5 次直到收敛。最终确定 v1.0 版本。</p></div></div>
+      </div>
+    </div>
+
+    <div class="algo-box" style="margin-top:24px;">
+      <h3>⚡ 算法 2：上下文激活 (运行阶段)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">在每次请求时执行。确定：相关维度、扮演角色、情绪背景。</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>请求上下文分类</h4><p>NLP 分类器确定请求属于 24 个维度中的哪一个 → 激活相应的智能体。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>情绪背景检测</h4><p>维度 23 анализируется в реальном времени: тональность, время суток, история, маркеры стресса → вычисляется <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …}</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>选择活跃角色</h4><p>如果 stressed → 激活影子角色的概率提高：P(role | vector, state, history)。在扮演影子角色时 — 系统要么将其呈现出来，要么切换为健康的对应角色。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>加权回复编译</h4><p>Ответ = Σ(вес_агента × ответ_агента). Каждый из 8 агентов даёт версию, взвешенную по активным векторам и роли. Voice Agent применяет лингвистический стиль (维度 13).</p></div></div>
+      </div>
+    </div>
+
+    <div class="algo-box" style="margin-top:24px;">
+      <h3>🔄 算法 3：进化更新 (持续学习阶段)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">画像是一个不断生长的系统。随着数据的积累，算法持续更新模型。</p>
+      <div class="algo-steps">
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>积累改变量 (Deltas)</h4><p>Каждое взаимодействие фиксируется: вектор, роль, состояние, исход. Дельты накапливаются в буфере. Согласие собеседника хранится в consent_log.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>漂移检测</h4><p>如果在 30 天内某维度的权重变化达到 ±0.15 → 系统记录下一件“生活事件”，并提示用户更新背景信息。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>更新角色矩阵</h4><p>影子角色的显现频次增加 = 状态恶化的标志。系统通过 Shadow Agent 为用户生成一份洞察报告。</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>画像版本控制</h4><p>每次更新都保存为一个版本。可以分析动态变化，并支持“回滚”到以前的状态。</p></div></div>
+      </div>
+    </div>
+
+    <div class="highlight blue" style="margin-top:28px;">
+      <div class="highlight-title">维度相互影响矩阵</div>
+      <p>Векторы не независимы. Высокие 恐惧 (V11) подавляют Карьеру (В05) и искажают Достижения (В03). 幽默 (V24) смягчает 冲突模式 (В20). Система хранит матрицу корреляций и обновляет её по мере обучения.</p>
+    </div>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table class="matrix-table">
+        <thead><tr><th>影响因子 →</th><th>家庭 (V02)</th><th>职业 (V05)</th><th>恐惧 (V11)</th><th>习惯 (V10)</th><th>幽默 (V24)</th></tr></thead>
+        <tbody>
+          <tr><td>恐惧 (V11)</td><td><span class="dot high"></span> 高</td><td><span class="dot high"></span> 高</td><td>—</td><td><span class="dot med"></span> 中</td><td><span class="dot high"></span> 高</td></tr>
+          <tr><td>家庭 (V02)</td><td>—</td><td><span class="dot med"></span> 中</td><td><span class="dot high"></span> 高</td><td><span class="dot med"></span> 中</td><td><span class="dot med"></span> 中</td></tr>
+          <tr><td>教育 (В09)</td><td><span class="dot low"></span> 低</td><td><span class="dot high"></span> 高</td><td><span class="dot med"></span> 中</td><td><span class="dot med"></span> 中</td><td><span class="dot med"></span> 中</td></tr>
+          <tr><td>交流 (V13)</td><td><span class="dot med"></span> 中</td><td><span class="dot med"></span> 中</td><td><span class="dot low"></span> 低</td><td><span class="dot low"></span> 低</td><td><span class="dot high"></span> 高</td></tr>
+          <tr><td>幽默 (V24)</td><td><span class="dot med"></span> 中</td><td><span class="dot med"></span> 中</td><td><span class="dot med"></span> 中</td><td><span class="dot low"></span> 低</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S5 -->
+<div class="section" id="s5" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <div class="section-title-wrap">
+        <h2>多智能体架构</h2>
+        <p>8 个专业智能体。每个智能体对应人格的特定层面，独立运行，并通过事件总线进行交互。</p>
+      </div>
+    </div>
+    <div class="graph-container">
+      <div class="section-label" style="margin-bottom:20px;">智能体交互图</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <div style="background:rgba(108,99,255,0.1);border:2px solid rgba(108,99,255,0.4);border-radius:14px;padding:18px 40px;font-weight:700;color:var(--primary);font-size:15px;">🎯 MASTER AGENT (中央调度器)</div>
+        <div style="color:var(--text3);font-size:24px;">↕</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:900px;">
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌍 Sphere Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🎭 Role Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🌡️ Emotion Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">💬 Voice Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🧠 Shadow Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">📈 Evolution Agent</div>
+          <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🔒 Privacy Agent</div>
+        </div>
+        <div style="color:var(--text3);font-size:24px;">↕</div>
+        <div style="background:rgba(18,183,106,0.07);border:1px solid rgba(18,183,106,0.2);border-radius:10px;padding:14px 32px;font-size:12px;font-weight:600;color:#0a6641;">📦 向量存储 + 人格数据库 + 事件总线</div>
+      </div>
+    </div>
+    <div class="agent-grid">
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">调度器</div></div></div><p>中央协调器。把任务分配给智能体、汇总其回复、进行加权整合，生成最终的答案。是唯一的系统输入/输出节点。</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">24 个维度的上下文</div></div></div><p>保存并更新 24 个维度的权重向量 W。根据所涉及的维度对请求分类，并返回相关的画像上下文。</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">角色管理</div></div></div><p>管理包含显性与影子角色的角色矩阵。基于当前上下文和状态决定活跃角色。</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">情绪背景</div></div></div><p>Определяет текущее эмоциональное состояние в реальном времени (维度 23). Тональность, время, история, биомаркеры.</p><div class="agent-card-tags"><span class="tag red">普拉切克 (Plutchik)</span><span class="tag yellow">NLP Tone</span><span class="tag blue">实时</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">语言风格</div></div></div><p>Хранит и применяет лингвистический профиль (维度 13 + Вектор 24). «Окрашивает» ответ под стиль конкретного человека, включая юмор.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">影子模式</div></div></div><p>检测影子角色的激活，生成洞察报告，并推荐“健康替代选项”。</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">持续学习</div></div></div><p>监控画像漂移、更新权重 W、控制版本、发现生活事件、发起重新训练。</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">安全 и этика</div></div></div><p>Контролирует доступ к данным. Шифрует чувствительные векторы (秘密 В08, Страхи В11). Ведёт consent_log. Право на забвение. Аудит-лог.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 -->
+<div class="section" id="s6">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <div class="section-title-wrap">
+        <h2>Сбор данных и пайплайн обучения</h2>
+        <p>Источники данных и процесс превращения сырых данных в обученную модель с Personality Alignment Score ≥ 0.85.</p>
+      </div>
+    </div>
+    <h3>数据来源（多渠道收集）</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">📝</div>结构化问卷</div><ul><li>导入阶段访谈（100-200个问题）</li><li>测试：MBTI, 大五人格, 依恋类型</li><li>24 个维度的排序（优先级确定）</li><li>恐惧测试（显性 / 隐性）</li><li>角色情景 — 情境式提问</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">💬</div>交流分析</div><ul><li>通信历史记录（Telegram, WhatsApp, 电子邮件）</li><li>语音消息 → 转录 + 分析</li><li>通话录音（需获得同意）</li><li>语言学分析：用词、模式</li><li>按话题和交互对象的语气倾向分析</li></ul></div>
+      <div class="card"><div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">📱</div>行为数据</div><ul><li>社交媒体内容（帖子、点赞）</li><li>活跃模式（时间段、日期）</li><li>对事件的反应（响应延迟、回复长度）</li><li>屏幕时间习惯</li><li>经对方同意的分身对话</li></ul></div>
+    </div>
+    <div class="divider"></div>
+    <h3>训练流程</h3>
+    <div class="flow" style="margin-top:20px;">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h4>原始数据收集</h4><p>经同意的数据收集。去标识化与加密。保存在隔离的名字空间中（针对每个用户）。</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h4>特征提取</h4><p>提取 24 个维度中每个维度的特征。利用 NLP 处理文本、进行音频分析以及分析时间序列。形成特征矩阵 F ∈ ℝ^(n×24)。</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h4>画像构建 (算法 1)</h4><p>Строится личностный профиль: вектор W, матрица ролей, эмоциональный базис. Валидация с пользователем. 版本 v1.0.</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h4>智能体微调</h4><p>在用户专有语料库上对 Voice Agent 进行微调 (LoRA/QLoRA)。利用 RAG 丰富 Sphere Agent 和 Role Agent。Shadow Agent 学习影子模式。</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><h4>评估与对齐 (RLHF)</h4><p>用户与分身交互并评估准确性。偏好设定 → 进行针对性训练。目标：Personality Alignment Score ≥ 0.85。</p></div></div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-content"><h4>持续学习 (算法 3)</h4><p>在线更新。漂移检测。定期重新训练（每 30-90 天一次或在生活事件发生时）。</p></div></div>
+    </div>
+    
+    <div class="divider"></div>
+    <h3>Voice Clone Pipeline (声音合成与保护)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">🎙️</div>音频特征提取</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">收集用户简短的音频记录（15-30分钟的清晰说话声）。滤除背景噪声并切分成 2-5 秒的片段。提取梅尔声谱图和基频 (F0)。</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">🧠</div>微调与 Zero-Shot TTS</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">Дообучение базовой TTS-модели (напр., XTTS v2, Coqui или Bark) с использованием LoRA для адаптации тембра. Генерация голоса с сохранением интонации и стиля (维度 13).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🛡️</div>音频水印</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">分身的每条语音消息都附带隐写音频水印。这可以保护创作者免受其声音被未经授权用作深度伪造 (Deepfake) 的风险。</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>元宇宙集成 (Metaverse Avatar Integration)</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card" style="grid-column: span 2;">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">🌐</div>与 3D 引擎集成 (Ready Player Me / Unreal Engine)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">
+          24 вектора личности преобразуются в поведенческий движок 3D-аватара. 
+          Вместо статического бота аватар реагирует в реальном времени: вес вектора Emotion (B23) регулирует лицевую анимацию и мимику (blendshapes), 
+          а речевой темп (维度 13) синхронизируется с артикуляцией губ (lip-sync).
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:rgba(155,81,224,0.1);">🧬</div>非玩家角色 (NPC) 认知引擎</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">
+          将名人的 AI 分身转化为虚拟世界中的交互式非玩家角色 (NPC)。用户可以在元宇宙中遇到该分身并进行语音交流。
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="code-block" style="margin-top:28px;">
+<span class="comment">// 画像数据结构 (TypeScript)</span>
+
+<span class="key">interface</span> <span class="type">PersonalityProfile</span> {
+  id: <span class="str">string</span>;
+  version: <span class="str">string</span>;                          <span class="comment">// 语义化版本控制</span>
+  social_type: <span class="str">"extrovert" | "introvert" | "balanced" | "volatile"</span>;
+  volatility_factor: <span class="num">number</span>;                  <span class="comment">// 0–1</span>
+
+  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 24个维度，权重0-1</span>
+  priority_formula: <span class="type">VectorId</span>[];               <span class="comment">// 按降序排列</span>
+
+  conscious_roles: <span class="type">RoleProfile</span>[];
+  shadow_roles: <span class="type">ShadowRoleProfile</span>[];          <span class="comment">// 带触发器和概率</span>
+
+  communication_style: <span class="type">CommunicationVector</span>;   <span class="comment">// 维度 13</span>
+  emotional_map: <span class="type">EmotionalVector</span>;             <span class="comment">// 维度 14</span>
+  decision_style: <span class="type">DecisionVector</span>;             <span class="comment">// 维度 16</span>
+  attachment_style: <span class="str">"secure"|"anxious"|"avoidant"|"disorganized"</span>; <span class="comment">// 维度 22</span>
+  humor_profile: <span class="type">HumorVector</span>;                 <span class="comment">// 维度 24</span>
+
+  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// 维度 23 — реальное время</span>
+
+  consent_log: <span class="type">ConsentEntry</span>[];
+  alignment_score: <span class="num">number</span>;                   <span class="comment">// 分身准确度，0–1，目标值 ≥ 0.85</span>
+}
+    </div>
+  </div>
+</div>
+
+<!-- S7 -->
+<div class="section" id="s7" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <div class="section-title-wrap">
+        <h2>伦理、安全与隐私</h2>
+        <p>此版块并非可选项。它是系统运行的强制性前置条件。</p>
+      </div>
+    </div>
+    <div class="privacy-section">
+      <h3>⚠️ 关键要求</h3>
+      <div class="card-grid">
+        <div>
+          <h4 style="color:var(--warning);margin-bottom:10px;">🔐 同意与控制</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 对每种数据类型的明确同意</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 对话者对训练分身给予的同意</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 用户可删除任一维度</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 完全删除画像的权利</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 对分身访问权限的控制</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🛡️ 加密与隔离</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 敏感维度的端到端 (E2E) 加密</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 隔离的存储空间（针对每用户）</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> Zero-knowledge для Тайн (维度 08)</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 所有访问画像记录的审计日志</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--success);">✓</span> 符合 GDPR / CCPA 合规要求</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--danger);margin-bottom:10px;">🚫 严厉明令禁止</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> 未作标识时，分身不得伪装成真人</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> 不得用于法律纠纷或司法程序</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> 禁止在本人不知情的情况下进行操纵</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> 第三方数据 — 仅限在获得其同意后使用</li>
+            <li style="display:flex;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--danger);">✗</span> 严禁向第三方出售数据</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    <h3>Privacy Agent 与 Edge-AI 架构</h3>
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card" style="grid-column: span 3;">
+        <div class="card-title"><div class="card-icon" style="background:rgba(233,64,112,0.1);">🔒</div>去中心化处理 (Ollama & 本地节点)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">
+          Для обеспечения абсолютной безопасности персональных данных (维度 08: 秘密, 维度 11: Страхи) реализован гибридный режим:
+          <br>• <strong>本地节点 (Edge Node)：</strong> 所有敏感日记、私人书信和笔记均在所有者的电脑或手机上本地处理，借由 Ollama 运行本地模型 (Llama-3/Qwen)。
+          <br>• <strong>云网关 (Cloud Gateway)：</strong> 仅向云端数据库传输去敏化后的 Tone of Voice 数值及行为维度特征，从而杜绝通信正文文本的泄露。
+          <br>• <strong>同意分类账 (Consent Ledger)：</strong> Privacy Agent 根据加密的同意书登记表，对每一次访问分身记忆的操作进行校验，从而确保符合 GDPR 规范（被遗忘权）。
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>风险评估矩阵</h3>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th>风险</th><th>发生概率</th><th>影响程度</th><th>缓解措施</th></tr></thead>
+        <tbody>
+          <tr class="risk-row-high"><td>画像数据泄漏</td><td><span class="tag yellow">中</span></td><td><span class="tag red">致命</span></td><td>端到端加密、存储隔离、审计检查</td></tr>
+          <tr class="risk-row-high"><td>恶意利用分身进行诱导操纵</td><td><span class="tag red">高</span></td><td><span class="tag red">致命</span></td><td>AI标识化、严格访问权限控制</td></tr>
+          <tr class="risk-row-med"><td>错误激活影子角色</td><td><span class="tag yellow">中</span></td><td><span class="tag yellow">高</span></td><td>设有阈值和特定标记的 Shadow Agent</td></tr>
+          <tr class="risk-row-med"><td>画像“固化”，无法反映个人变化</td><td><span class="tag yellow">中</span></td><td><span class="tag yellow">高</span></td><td>Evolution Agent、漂移检测</td></tr>
+          <tr class="risk-row-low"><td>导入阶段提供虚假数据</td><td><span class="tag yellow">中</span></td><td><span class="tag blue">中</span></td><td>自述与实际行为的交叉校验</td></tr>
+          <tr class="risk-row-low"><td>用户对分身的过度依赖</td><td><span class="tag blue">低</span></td><td><span class="tag yellow">高</span></td><td>使用频次上限控制、心理框架规约</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- S8 -->
+<div class="section" id="s8">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <div class="section-title-wrap">
+        <h2>开发路线图</h2>
+        <p>从 MVP 到配备持续学习能力、包含全部 24 个维度的完整多智能体系统的四个阶段。</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>阶段</th><th>耗时</th><th>核心开发任务</th><th>达成成果</th><th>关键风险</th></tr></thead>
+        <tbody>
+          <tr><td><strong>阶段 0</strong><br><span class="tag purple">Research</span></td><td>4–6周</td><td>最终确定规范说明书、选定技术栈、设计面向24个维度的导入问卷、规划数据 Schema</td><td>基础架构、问卷 v1.0、团队建立</td><td>低估“秘密”和“恐惧”维度的复杂性</td></tr>
+          <tr><td><strong>阶段 1</strong><br><span class="tag blue">MVP</span></td><td>8–12周</td><td>Sphere Agent (包含 11 个基本生活领域)、Voice Agent (基础版)、用户画像 v1.0、注册导入 UI</td><td>分身能在基础领域中以用户的语言风格进行交流</td><td>供 Voice Agent 训练的数据量不足</td></tr>
+          <tr><td><strong>阶段 2</strong><br><span class="tag yellow">Beta</span></td><td>12–16周</td><td>Role Agent (管理显性角色)、Emotion Agent、Shadow Agent (卡普曼戏剧三角模型)、完整的 24 个维度、中央调度器</td><td>分身能根据上下文调整角色，能够理解情感和表达幽默</td><td>校准评估 Shadow Agent 的高难度</td></tr>
+          <tr><td><strong>阶段 3</strong><br><span class="tag green">V1.0</span></td><td>8–12周</td><td>Evolution Agent、面向所有24个维度的 RLHF、Privacy Agent、版本回溯控制、对话人知情同意书机制</td><td>配备在线持续学习能力的完整动态分身</td><td>GDPR 合规审计、高算力开销</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight green" style="margin-top:32px;">
+      <div class="highlight-title">成功准则 (Definition of Done)</div>
+      <p>
+        <strong>MVP：</strong> 用户无法区分分身给出的 5 条回复中的 3 条是否出自本人之手。<br>
+        <strong>V1.0：</strong> 经用户 3 位亲近好友的独立评估，Personality Alignment Score ≥ 0.85。<br>
+        <strong>系统指标：</strong> 新画像的冷启动 — 新手引导时间不超过 2 小时。
+      </p>
+    </div>
+    <div class="highlight yellow" style="margin-top:20px;">
+      <div class="highlight-title">推荐技术栈</div>
+      <p>
+        <strong>LLM:</strong> GPT-4o / Claude 3.5 + LoRA/QLoRA 微调 ·
+        <strong>Vector DB:</strong> Pinecone / Weaviate / Qdrant ·
+        <strong>Orchestration:</strong> LangGraph / AutoGen / CrewAI ·
+        <strong>NLP:</strong> spaCy + Hugging Face ·
+        <strong>Emotion:</strong> DistilBERT fine-tuned ·
+        <strong>Backend:</strong> FastAPI + Redis ·
+        <strong>Encryption:</strong> AES-256 per-user keys ·
+        <strong>Frontend:</strong> Next.js
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <p>
+    <strong style="color:var(--text2);">AI Human Clone — 技术架构规范 v2.0</strong><br>
+    Создан на основе авторской концепции. Для внутреннего использования. Все права сохраняются за автором.<br>2026年6月.<br><br>
+    <span style="color:var(--primary);">24 个个性维度（统一画像） · 8 种角色类型 · 8 个 AI 智能体 · 3 种算法 · 4 个开发阶段</span>
+  </p>
+</div>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.card, .vector-card, .agent-card, .flow-step, .algo-step, .role-item').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(el);
+});
+</script>
+</body>
+</html>
