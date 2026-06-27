@@ -1316,9 +1316,9 @@
   align-items: center;
 }
 .lang-select {
-  background: rgba(255,255,255,0.03);
+  background: rgba(108, 99, 255, 0.05);
   border: 1px solid rgba(108,92,231,0.25);
-  color: #eeedf5;
+  color: var(--text);
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 12px;
@@ -1328,12 +1328,23 @@
   transition: all 0.2s;
   font-family: inherit;
 }
+.active-dark-header .lang-select {
+  color: #eeedf5;
+  background: rgba(255,255,255,0.03);
+}
 .lang-select:hover {
   border-color: rgba(108,92,231,0.4);
+  background: rgba(108,92,231,0.1);
+}
+.active-dark-header .lang-select:hover {
   color: #fff;
-  background: rgba(108,92,231,0.05);
+  background: rgba(108,92,231,0.2);
 }
 .lang-select option {
+  background: var(--card);
+  color: var(--text);
+}
+.active-dark-header .lang-select option {
   background: #100e20;
   color: #eeedf5;
 }
