@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
   (function() {
-    const langCodes = ['en', 'ru', 'zh', 'es', 'ar'];
     const filename = window.location.pathname.split('/').pop() || 'index.html';
     let pageType = '';
     let currentLang = 'en';
@@ -28,11 +27,8 @@
     
     if (!pageType) return;
     
-    const savedLang = localStorage.getItem('cloone_pref_lang');
-    if (savedLang && savedLang !== currentLang && langCodes.includes(savedLang)) {
-      let targetFile = (savedLang === 'en') ? pageType + '.html' : pageType + '-' + savedLang + '.html';
-      window.location.replace(targetFile);
-    }
+    // Always sync localStorage to the current page's language
+    localStorage.setItem('cloone_pref_lang', currentLang);
   })();
 </script>
 <link rel=stylesheet href="pitch_deck.css">
