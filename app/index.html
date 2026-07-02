@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLOONE — Твой цифровой клон</title>
+  <meta name="description" content="CLOONE — платформа цифрового клона. Учится общаться и помогает тебе каждый день." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo" onclick="navigate('home')">
+      <img src="logo-dark.svg" alt="CLOONE" class="logo-img" />
+    </div>
+    <button class="sidebar-bell" id="notifBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-item active" data-page="home" onclick="navigate('home')" id="nav-home">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Главная</span>
+    </a>
+    <a class="nav-item" data-page="diary" onclick="navigate('diary')" id="nav-diary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span>Дневник</span>
+    </a>
+    <a class="nav-item" data-page="dialogs" onclick="navigate('dialogs')" id="nav-dialogs">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Разговоры</span>
+      <span class="nav-badge">12</span>
+    </a>
+    <a class="nav-item" data-page="mirror" onclick="navigate('mirror')" id="nav-mirror">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>Зеркало</span>
+    </a>
+
+    <a class="nav-item" data-page="analytics" onclick="navigate('analytics')" id="nav-analytics">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>Аналитика</span>
+    </a>
+    <a class="nav-item" data-page="integrations" onclick="navigate('integrations')" id="nav-integrations">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="6" height="6" rx="1"/><rect x="16" y="7" width="6" height="6" rx="1"/><rect x="9" y="14" width="6" height="6" rx="1"/><path d="M5 13v2a2 2 0 0 0 2 2h2"/><path d="M19 13v2a2 2 0 0 1-2 2h-2"/></svg>
+      <span>Интеграции</span>
+    </a>
+    <a class="nav-item" data-page="monetization" onclick="navigate('monetization')" id="nav-monetization">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>
+      <span>Монетизация</span>
+    </a>
+    <a class="nav-item" data-page="settings" onclick="navigate('settings')" id="nav-settings">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Настройки</span>
+    </a>
+    <a class="nav-item" data-page="profile" onclick="navigate('profile')" id="nav-profile">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Мой профиль</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-user">
+    <div class="user-info" onclick="toggleUserMenu()">
+      <div class="user-avatar">А</div>
+      <div class="user-details">
+        <span class="user-name">Алексей</span>
+        <span class="user-plan">Pro план</span>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="clone-status-panel">
+      <div class="clone-status-header">
+        <div class="clone-pulse"><span class="pulse-dot"></span> Активен</div>
+        <button class="status-close" onclick="this.closest('.clone-status-panel').style.display='none'">×</button>
+      </div>
+      <p class="clone-status-label">Твой клон онлайн</p>
+      <div class="status-tokens">
+        <div class="st-labels">
+          <span>Токены: 42 500 / 50 000</span>
+          <button class="st-buy-btn" onclick="showToast('Открываю покупку токенов...')">Докупить</button>
+        </div>
+        <div class="st-progress-bar-wrap">
+          <div class="st-progress-bar" style="width: 85%"></div>
+        </div>
+      </div>
+      <button class="btn-talk" onclick="navigate('dialogs')">Поговорить с клоном</button>
+    </div>
+  </div>
+</aside>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════════════════════════════════════════ MAIN CONTENT -->
+<main class="main-content" id="mainContent">
+
+  <!-- Mobile topbar -->
+  <div class="mobile-topbar">
+    <button class="burger" onclick="openSidebar()" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-logo" onclick="navigate('home')">
+      <img src="logo-dark.svg" alt="CLOONE" class="logo-img" style="height:22px" />
+    </div>
+    <button class="mobile-notif">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+  </div>
+
+  <!-- ─── PAGE: HOME ─── -->
+  <div class="page" id="page-home">
+    <div class="page-topbar">
+      <div>
+        <h1 class="page-title">Добро пожаловать, Алексей 👋</h1>
+        <p class="page-sub">Твой цифровой клон учится, общается и помогает тебе каждый день.</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-secondary" onclick="navigate('integrations')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Пригласить человека
+        </button>
+        <button class="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="home-grid">
+      <!-- Progress card -->
+      <div class="card-widget progress-card">
+        <div class="widget-header">
+          <span class="widget-title">Прогресс клона</span>
+          <button class="info-btn" title="Подробнее">ⓘ</button>
+        </div>
+        <div class="progress-main">
+          <div>
+            <div class="big-percent">84%</div>
+            <p class="progress-desc">Клон становится точнее с каждым днём</p>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" style="width:84%"></div>
+            </div>
+          </div>
+          <div class="brain-vis">
+            <canvas id="brainCanvas" width="120" height="100"></canvas>
+          </div>
+        </div>
+        <button class="btn-outline-sm" onclick="navigate('studio')">Улучшить обучение →</button>
+      </div>
+
+      <!-- Activity card -->
+      <div class="card-widget activity-card">
+        <div class="widget-header">
+          <span class="widget-title">Активность сегодня</span>
+        </div>
+        <div class="activity-rows">
+          <div class="activity-row">
+            <div class="activity-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <span class="activity-label">Диалогов</span>
+            <span class="activity-val">47</span>
+          </div>
+          <div class="activity-row">
+            <div class="activity-icon orange"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <span class="activity-label">Вопросов на эскалации</span>
+            <span class="activity-val">3</span>
+          </div>
+          <div class="activity-row">
+            <div class="activity-icon green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <span class="activity-label">Новых инсайтов</span>
+            <span class="activity-val">2</span>
+          </div>
+          <div class="activity-row">
+            <div class="activity-icon purple"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <span class="activity-label">Сэкономлено времени</span>
+            <span class="activity-val">5ч 20м</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clone channels card -->
+      <div class="card-widget channels-card">
+        <div class="widget-header">
+          <span class="widget-title">Клон говорит как ты на</span>
+          <button class="info-btn" title="Подробнее">ⓘ</button>
+        </div>
+        <div class="channel-rows">
+          <div class="channel-row">
+            <div class="ch-icon tg">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.032 9.57c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.52 14.44l-2.95-.924c-.642-.2-.654-.642.136-.953l11.526-4.445c.535-.194 1.004.13.33.13z"/></svg>
+            </div>
+            <span class="ch-name">Telegram</span>
+            <div class="ch-bar-wrap"><div class="ch-bar" style="width:92%"></div></div>
+            <span class="ch-pct">92%</span>
+          </div>
+          <div class="channel-row">
+            <div class="ch-icon ig">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="white" stroke-width="1.5"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg>
+            </div>
+            <span class="ch-name">Instagram</span>
+            <div class="ch-bar-wrap"><div class="ch-bar" style="width:88%"></div></div>
+            <span class="ch-pct">88%</span>
+          </div>
+          <div class="channel-row">
+            <div class="ch-icon wa">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            </div>
+            <span class="ch-name">WhatsApp</span>
+            <div class="ch-bar-wrap"><div class="ch-bar" style="width:80%"></div></div>
+            <span class="ch-pct">80%</span>
+          </div>
+          <div class="channel-row">
+            <div class="ch-icon email">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <span class="ch-name">Email</span>
+            <div class="ch-bar-wrap"><div class="ch-bar" style="width:75%"></div></div>
+            <span class="ch-pct">75%</span>
+          </div>
+        </div>
+        <button class="link-btn" onclick="navigate('integrations')">Посмотреть все каналы →</button>
+      </div>
+
+      <!-- Recent dialogs -->
+      <div class="card-widget dialogs-card">
+        <div class="widget-header">
+          <span class="widget-title">Последние диалоги</span>
+          <span class="badge-count">12 новых</span>
+        </div>
+        <div class="dialog-list">
+          <div class="dialog-item" onclick="navigate('dialogs')">
+            <div class="dialog-avatar" style="background:#e8d5fb;color:#7c3aed">М</div>
+            <div class="dialog-info">
+              <div class="dialog-top">
+                <span class="dialog-name">Мария из Instagram <span class="verified">✓</span></span>
+                <span class="dialog-time">10:42</span>
+              </div>
+              <p class="dialog-text">Алексей, расскажи, как ты справляешься с прокрастинацией?</p>
+            </div>
+            <span class="tag-replied">Клон ответил</span>
+          </div>
+          <div class="dialog-item" onclick="navigate('dialogs')">
+            <div class="dialog-avatar" style="background:#dbeafe;color:#2563eb">Д</div>
+            <div class="dialog-info">
+              <div class="dialog-top">
+                <span class="dialog-name">Дмитрий в Telegram <span class="verified tg-v">✓</span></span>
+                <span class="dialog-time">09:15</span>
+              </div>
+              <p class="dialog-text">Какой инструмент ты используешь для планирования?</p>
+            </div>
+            <span class="tag-attention">Требует внимания</span>
+          </div>
+          <div class="dialog-item" onclick="navigate('dialogs')">
+            <div class="dialog-avatar" style="background:#fce7f3;color:#be185d">Е</div>
+            <div class="dialog-info">
+              <div class="dialog-top">
+                <span class="dialog-name">Екатерина на сайте <span class="verified">✓</span></span>
+                <span class="dialog-time">Вчера</span>
+              </div>
+              <p class="dialog-text">Можно ли записаться на консультацию?</p>
+            </div>
+            <span class="tag-replied">Клон ответил</span>
+          </div>
+          <div class="dialog-item" onclick="navigate('dialogs')">
+            <div class="dialog-avatar" style="background:#d1fae5;color:#065f46">А</div>
+            <div class="dialog-info">
+              <div class="dialog-top">
+                <span class="dialog-name">Андрей в WhatsApp <span class="verified wa-v">✓</span></span>
+                <span class="dialog-time">Вчера</span>
+              </div>
+              <p class="dialog-text">Спасибо за совет! Это было полезно</p>
+            </div>
+            <span class="tag-closed">Закрыт</span>
+          </div>
+        </div>
+        <button class="link-btn" onclick="navigate('dialogs')">Перейти ко всем диалогам →</button>
+      </div>
+
+      <!-- Mirror insights -->
+      <div class="card-widget mirror-card">
+        <div class="widget-header">
+          <span class="widget-title">Инсайты зеркала</span>
+          <span class="badge-new">Новое</span>
+          <button class="link-btn ml-auto" onclick="navigate('mirror')">Смотреть все</button>
+        </div>
+        <div class="insight-list">
+          <div class="insight-item">
+            <div class="insight-icon conflict">👁</div>
+            <div class="insight-body">
+              <p class="insight-title">Ты избегаешь конфликтов</p>
+              <p class="insight-desc">За последние 30 дней ты чаще уходишь от прямых столкновений</p>
+            </div>
+            <div class="insight-stat positive">+27%<span>к прошлому периоду</span></div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon strength">⭐</div>
+            <div class="insight-body">
+              <p class="insight-title">Твои сильные стороны</p>
+              <p class="insight-desc">Аналитическое мышление и умение объяснять сложные вещи простым языком</p>
+            </div>
+            <div class="insight-stat level">Высокий<span>уровень</span></div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon blind">🔴</div>
+            <div class="insight-body">
+              <p class="insight-title">Слепая зона</p>
+              <p class="insight-desc">Ты часто берёшь на себя больше, чем нужно, и перегружаешься</p>
+            </div>
+            <button class="btn-outline-xs" onclick="navigate('mirror')">Изучить</button>
+          </div>
+        </div>
+        <div class="mirror-ask-bar">
+          <div>
+            <p class="mirror-ask-title">Задай вопрос своему зеркалу</p>
+            <p class="mirror-ask-sub">Спроси о своих паттернах, мотивации или развитии</p>
+          </div>
+          <button class="btn-ask" onclick="navigate('mirror')">✦ Спросить</button>
+        </div>
+      </div>
+
+      <!-- Onboarding levels progress -->
+      <div class="card-widget onboarding-card">
+        <div class="widget-header">
+          <span class="widget-title">Готовность клона: 6 уровней</span>
+          <button class="info-btn" title="Иерархия знаний клона">ⓘ</button>
+          <button class="link-btn ml-auto" onclick="navigate('profile')">Заполнить →</button>
+        </div>
+        <p class="desc-sm" style="margin-bottom:14px;color:var(--text-mid)">Чем больше уровней заполнено — тем точнее клон воспроизводит тебя</p>
+        <div class="onb-levels">
+          <div class="onb-level done">
+            <div class="onb-level-header">
+              <div class="onb-level-icon">🪪</div>
+              <div class="onb-level-info">
+                <div class="onb-level-name">Уровень 0 · Якорь идентичности</div>
+                <div class="onb-level-bar-wrap"><div class="onb-level-bar" style="width:100%"></div></div>
+              </div>
+              <span class="onb-level-status done">✓ 100%</span>
+            </div>
+          </div>
+          <div class="onb-level partial">
+            <div class="onb-level-header">
+              <div class="onb-level-icon">🎮</div>
+              <div class="onb-level-info">
+                <div class="onb-level-name">Уровень 1 · Движущие силы</div>
+                <div class="onb-level-bar-wrap"><div class="onb-level-bar" style="width:60%"></div></div>
+              </div>
+              <span class="onb-level-status partial">⟳ 60%</span>
+            </div>
+          </div>
+          <div class="onb-level empty">
+            <div class="onb-level-header">
+              <div class="onb-level-icon">🔭</div>
+              <div class="onb-level-info">
+                <div class="onb-level-name">Уровень 2 · Мировоззрение</div>
+                <div class="onb-level-bar-wrap"><div class="onb-level-bar" style="width:0%"></div></div>
+              </div>
+              <span class="onb-level-status empty">○ Не начат</span>
+            </div>
+          </div>
+          <div class="onb-level empty">
+            <div class="onb-level-header">
+              <div class="onb-level-icon">🤝</div>
+              <div class="onb-level-info">
+                <div class="onb-level-name">Уровень 3 · Отношения и деньги</div>
+                <div class="onb-level-bar-wrap"><div class="onb-level-bar" style="width:0%"></div></div>
+              </div>
+              <span class="onb-level-status empty">○ Не начат</span>
+            </div>
+          </div>
+          <div class="onb-level critical">
+            <div class="onb-level-header">
+              <div class="onb-level-icon">🎙️</div>
+              <div class="onb-level-info">
+                <div class="onb-level-name">Уровень 4 · Голос и стиль <span style="color:var(--orange);font-size:10px;font-weight:700">КРИТИЧНЫЙ</span></div>
+                <div class="onb-level-bar-wrap"><div class="onb-level-bar" style="width:0%"></div></div>
+              </div>
+              <span class="onb-level-status critical">⚠ Нужен</span>
+            </div>
+          </div>
+          <div class="onb-level empty">
+            <div class="onb-level-header">
+              <div class="onb-level-icon">🔒</div>
+              <div class="onb-level-info">
+                <div class="onb-level-name">Уровень 5 · Биография и анти-профиль</div>
+                <div class="onb-level-bar-wrap"><div class="onb-level-bar" style="width:0%"></div></div>
+              </div>
+              <span class="onb-level-status empty">○ Не начат</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:14px" onclick="navigate('profile')">✦ Продолжить заполнение профиля</button>
+      </div>
+
+      <!-- Clone accuracy -->
+      <div class="card-widget accuracy-card">
+        <div class="widget-header">
+          <span class="widget-title">Точность ответов клона</span>
+          <button class="info-btn" title="Подробнее">ⓘ</button>
+          <span class="accuracy-pct">86%</span>
+        </div>
+        <canvas id="accuracyChart" height="80"></canvas>
+        <div class="accuracy-info">
+          <div>
+            <p class="acc-label">Клон наиболее точен в:</p>
+            <ul class="acc-list">
+              <li>Стиль общения</li>
+              <li>Экспертные темы</li>
+              <li>Личные истории</li>
+            </ul>
+          </div>
+          <div>
+            <p class="acc-label">Нужно улучшить:</p>
+            <ul class="acc-list red">
+              <li>Юмор и сарказм</li>
+              <li>Краткие ответы</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Living Profile widget -->
+      <div class="card-widget living-profile-card">
+        <div class="widget-header">
+          <span class="widget-title">✦ Living Profile — обновился</span>
+          <span class="badge-new">Сейчас</span>
+        </div>
+        <div class="lp-event-list">
+          <div class="lp-event">
+            <div class="lp-event-dot" style="background:var(--accent)"></div>
+            <div class="lp-event-body">
+              <div class="lp-event-title">Новый паттерн обнаружен</div>
+              <div class="lp-event-desc">Vector 13 (Стиль общения) сдвинулся на +0.12 после 34 диалогов</div>
+              <div class="lp-event-time">Сегодня, 12:42</div>
+            </div>
+          </div>
+          <div class="lp-event">
+            <div class="lp-event-dot" style="background:var(--green)"></div>
+            <div class="lp-event-body">
+              <div class="lp-event-title">RAG Memory обогащена</div>
+              <div class="lp-event-desc">Добавлено 3 новых факта о твоих способностях из разговора</div>
+              <div class="lp-event-time">Сегодня, 10:15</div>
+            </div>
+          </div>
+          <div class="lp-event">
+            <div class="lp-event-dot" style="background:var(--orange)"></div>
+            <div class="lp-event-body">
+              <div class="lp-event-title">Drift Alert: Vector 20 (Конфликты)</div>
+              <div class="lp-event-desc">Значение выросло на 0.18 за 30 дней — превысило порог 0.15</div>
+              <div class="lp-event-time">Вчера, 18:00</div>
+            </div>
+          </div>
+        </div>
+        <button class="link-btn" onclick="navigate('mirror')">Открыть в Зеркале →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: STUDIO ─── -->
+  <div class="page hidden" id="page-studio">
+    <div class="page-topbar">
+      <div>
+        <h1 class="page-title">Studio</h1>
+        <p class="page-sub">Обучение и настройка твоего цифрового клона</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-secondary" onclick="openTestModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Тестовый диалог
+        </button>
+        <button class="btn-primary" onclick="goToLearning()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Улучшить обучение
+        </button>
+      </div>
+    </div>
+    <div class="studio-tabs">
+      <button class="tab-btn active" data-tab="studio-overview" onclick="switchTab(this,'studio-overview')">Обзор</button>
+      <button class="tab-btn" data-tab="studio-sources" onclick="switchTab(this,'studio-sources')">Источники</button>
+      <button class="tab-btn" data-tab="studio-learning" onclick="switchTab(this,'studio-learning')">Обучение</button>
+      <button class="tab-btn" data-tab="studio-testing" onclick="switchTab(this,'studio-testing')">Тестирование</button>
+      <button class="tab-btn" data-tab="studio-neuroprofile" onclick="switchTab(this,'studio-neuroprofile')">Нейропрофиль</button>
+      <button class="tab-btn" data-tab="studio-settings-tab" onclick="switchTab(this,'studio-settings-tab')">Настройки</button>
+    </div>
+
+    <div id="studio-overview" class="tab-content">
+      <div class="studio-grid">
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Прогресс обучения</span><button class="info-btn">ⓘ</button></div>
+          <div class="big-percent purple">84%</div>
+          <p class="progress-desc">Клон становится точнее с каждым днём</p>
+          <div class="progress-bar-wrap mt-8"><div class="progress-bar" style="width:84%"></div></div>
+          <p class="desc-sm mt-8">Следующая цель: улучшить понимание юмора и сарказма</p>
+          <button class="btn-outline-sm mt-12" onclick="switchTab(document.querySelector('[onclick*=studio-learning]'),'studio-learning')">✦ Как улучшить?</button>
+        </div>
+
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Качество личности клона</span><button class="info-btn">ⓘ</button></div>
+          <canvas id="radarChart" width="240" height="200"></canvas>
+          <div class="radar-labels">
+            <div class="rl"><span class="rl-dot"></span>Стиль общения <strong>91%</strong></div>
+            <div class="rl"><span class="rl-dot"></span>Знания и экспертиза <strong>78%</strong></div>
+            <div class="rl"><span class="rl-dot orange"></span>Юмор и сарказм <strong>42%</strong></div>
+            <div class="rl"><span class="rl-dot"></span>Эмоциональность <strong>68%</strong></div>
+            <div class="rl"><span class="rl-dot"></span>Память о фактах <strong>82%</strong></div>
+            <div class="rl"><span class="rl-dot orange"></span>Длина собой <strong>76%</strong></div>
+          </div>
+        </div>
+
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Рекомендации</span></div>
+          <div class="rec-list">
+            <div class="rec-item">
+              <div class="rec-icon orange">😄</div>
+              <div class="rec-body">
+                <p class="rec-title">Улучши понимание юмора</p>
+                <p class="rec-desc">Добавь больше примеров шуток, иронии и сарказма в переписки или видео.</p>
+                <button class="btn-outline-xs">Добавить данные</button>
+              </div>
+            </div>
+            <div class="rec-item">
+              <div class="rec-icon purple">🎙</div>
+              <div class="rec-body">
+                <p class="rec-title">Больше голосовых сообщений</p>
+                <p class="rec-desc">Голосовые помогут клону лучше понять интонации и эмоции.</p>
+                <button class="btn-outline-xs">Загрузить голосовые</button>
+              </div>
+            </div>
+            <div class="rec-item">
+              <div class="rec-icon green">▶</div>
+              <div class="rec-body">
+                <p class="rec-title">Проведи тестовый диалог</p>
+                <p class="rec-desc">Проверь, как клон отвечает на сложные темы.</p>
+                <button class="btn-outline-xs">Протестировать</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-widget sources-list-card">
+          <div class="widget-header">
+            <span class="widget-title">Источники данных</span>
+            <span class="sources-count">Всего 24 833 фрагмента данных</span>
+            <button class="btn-outline-xs ml-auto">+ Добавить источник</button>
+          </div>
+          <div class="source-table">
+            <div class="source-row">
+              <div class="sr-icon tg"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.032 9.57c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.52 14.44l-2.95-.924c-.642-.2-.654-.642.136-.953l11.526-4.445c.535-.194 1.004.13.33.13z"/></svg></div>
+              <div class="sr-info"><strong>Telegram</strong><span>Личные чаты, каналы, комментарии</span></div>
+              <div class="sr-count">12 847 сообщений</div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:100%"></div></div>
+              <span class="sr-status synced">✓ Синхронизировано</span>
+              <button class="sr-menu">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="sr-icon wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></div>
+              <div class="sr-info"><strong>WhatsApp</strong><span>Личные и групповые чаты</span></div>
+              <div class="sr-count">5 231 сообщений</div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:80%"></div></div>
+              <span class="sr-status synced">✓ Синхронизировано</span>
+              <button class="sr-menu">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="sr-icon ig" style="background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white" stroke-width="1.5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="white" stroke-width="1.5"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg></div>
+              <div class="sr-info"><strong>Instagram</strong><span>DM, комментарии, посты</span></div>
+              <div class="sr-count">8 900 сообщений</div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:95%"></div></div>
+              <span class="sr-status synced">✓ Синхронизировано</span>
+              <button class="sr-menu">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="sr-icon email" style="background:#4285f4"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div class="sr-info"><strong>Email</strong><span>Входящие и отправленные письма</span></div>
+              <div class="sr-count">3 270 писем</div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:70%"></div></div>
+              <span class="sr-status synced">✓ Синхронизировано</span>
+              <button class="sr-menu">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="sr-icon notion" style="background:#000;font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;">N</div>
+              <div class="sr-info"><strong>Notion</strong><span>Заметки, планы, идеи</span></div>
+              <div class="sr-count">142 страницы</div>
+              <div class="sr-bar-wrap"><div class="sr-bar processing" style="width:60%"></div></div>
+              <span class="sr-status processing">⟳ Обработка</span>
+              <button class="sr-menu">⋯</button>
+            </div>
+          </div>
+          <button class="link-btn mt-8">Показать все источники</button>
+        </div>
+
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Последняя активность обучения</span></div>
+          <div class="activity-feed">
+            <div class="af-item tg"><span class="af-icon">✉</span><span class="af-text">Добавлено 132 новых сообщения из Telegram</span><span class="af-time">Сегодня, 12:42</span></div>
+            <div class="af-item notion"><span class="af-icon">N</span><span class="af-text">Обработано 86 страниц из Notion</span><span class="af-time">Сегодня, 10:15</span></div>
+            <div class="af-item email"><span class="af-icon">✉</span><span class="af-text">Добавлено 24 новых письма из Email</span><span class="af-time">Вчера, 18:32</span></div>
+            <div class="af-item ai"><span class="af-icon">✦</span><span class="af-text">Обучение на основе диалогов завершено</span><span class="af-time">Вчера, 16:20</span></div>
+          </div>
+        </div>
+
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Объём данных</span><button class="info-btn">ⓘ</button></div>
+          <div class="big-num">24 833</div>
+          <p class="desc-sm">фрагмента данных</p>
+          <canvas id="barChart" height="80"></canvas>
+        </div>
+
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Задачи обучения</span></div>
+          <div class="task-list">
+            <div class="task-row"><span class="task-name">Понимание контекста</span><div class="task-bar-wrap"><div class="task-bar" style="width:91%"></div></div><span class="task-pct">91%</span></div>
+            <div class="task-row"><span class="task-name">Длинная память</span><div class="task-bar-wrap"><div class="task-bar" style="width:82%"></div></div><span class="task-pct">82%</span></div>
+            <div class="task-row"><span class="task-name">Точность ответов</span><div class="task-bar-wrap"><div class="task-bar" style="width:76%"></div></div><span class="task-pct">76%</span></div>
+            <div class="task-row"><span class="task-name">Следование ценностям</span><div class="task-bar-wrap"><div class="task-bar" style="width:88%"></div></div><span class="task-pct">88%</span></div>
+            <div class="task-row"><span class="task-name">Креативность</span><div class="task-bar-wrap"><div class="task-bar orange" style="width:61%"></div></div><span class="task-pct">61%</span></div>
+          </div>
+          <button class="link-btn mt-8">Смотреть все метрики</button>
+        </div>
+
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Качество ответов</span><button class="info-btn">ⓘ</button><span class="accuracy-pct">86%</span></div>
+          <p class="desc-sm">Средняя точность ответов клона</p>
+          <canvas id="studioAccChart" height="80"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ИСТОЧНИКИ ── -->
+    <div id="studio-sources" class="tab-content hidden">
+      <div class="upload-zone" id="uploadZone" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')">
+        <div class="upload-icon-big">📂</div>
+        <h3>Перетащите файлы для обучения клона</h3>
+        <p>Поддерживаются: .zip (WhatsApp), .json (Instagram), PDF, TXT, DOCX, CSV — до 50 МБ</p>
+        <button class="btn-outline-sm" onclick="showToast('Открываю файловый менеджер...')">Выбрать файлы</button>
+      </div>
+      <div class="studio-grid">
+        <div class="card-widget" style="grid-column:1/3">
+          <div class="widget-header">
+            <span class="widget-title">Подключённые источники</span>
+            <span class="desc-sm" style="margin-left:10px;color:var(--text-dim)">Итого: 26 233 фрагмента данных</span>
+            <button class="btn-outline-xs ml-auto" onclick="showToast('Открываю каталог интеграций...')">+ Добавить источник</button>
+          </div>
+          <div class="source-table">
+            <div class="source-row">
+              <div class="source-icon tg"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.032 9.57c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.52 14.44l-2.95-.924c-.642-.2-.654-.642.136-.953l11.526-4.445c.535-.194 1.004.13.33.13z"/></svg></div>
+              <div class="source-info"><strong>Telegram</strong><span>Личные чаты, каналы, комментарии</span></div>
+              <span class="int-mode-badge api" style="font-size:9px">MTProto API</span>
+              <div class="source-count">12 847 фрагментов</div>
+              <div class="sr-bar-wrap" style="flex:1;max-width:120px"><div class="sr-bar" style="width:100%"></div></div>
+              <span class="sr-status synced">✓ Синхр.</span>
+              <label class="toggle src-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+              <button class="sr-menu" onclick="showToast('Настройки Telegram источника')">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="source-icon" style="background:#25d366"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+              <div class="source-info"><strong>WhatsApp</strong><span>Групповые и личные чаты</span></div>
+              <span class="int-mode-badge upload" style="font-size:9px">Архив .zip</span>
+              <div class="source-count">6 420 фрагментов</div>
+              <div class="sr-bar-wrap" style="flex:1;max-width:120px"><div class="sr-bar" style="width:50%;background:#25d366"></div></div>
+              <span class="sr-status synced">✓ Загружен</span>
+              <label class="toggle src-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+              <button class="sr-menu" onclick="showToast('Настройки WhatsApp источника')">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="source-icon" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888)"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="4"/></svg></div>
+              <div class="source-info"><strong>Instagram</strong><span>DM-переписка (архив Meta)</span></div>
+              <span class="int-mode-badge upload" style="font-size:9px">Архив .json</span>
+              <div class="source-count">2 400 фрагментов</div>
+              <div class="sr-bar-wrap" style="flex:1;max-width:120px"><div class="sr-bar" style="width:19%;background:linear-gradient(90deg,#f09433,#bc1888)"></div></div>
+              <span class="sr-status synced">✓ Загружен</span>
+              <label class="toggle src-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+              <button class="sr-menu" onclick="showToast('Настройки Instagram источника')">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="source-icon" style="background:#0077ff"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14C20.67 22 22 20.67 22 15.07V8.93C22 3.33 20.67 2 15.07 2zm2.95 13.86h-1.57c-.59 0-.77-.47-1.83-1.54-1.04-1.04-1.48-.82-1.83.04-.35.86-.88 1.5-1.75 1.5-.88 0-2.19-1.12-3.16-3.22C6.75 10.2 6.05 8 7.1 8c.43 0 .77.3 1.43 1.62C9.2 11 9.72 11.5 10 11.5c.3 0 .5-.14.5-.95V8.93c-.06-.58-.3-.84-.3-.84s-.2-.24.23-.24h2.4c.38 0 .5.18.5.6v2.4c0 .4.2.57.3.57.27 0 .54-.2 1.27-1 .9-1 1.46-2.53 1.46-2.53.17-.33.43-.6.86-.6h1.57c.5 0 .6.25.5.6-.35 1.17-2.36 3.97-2.36 3.97-.17.28-.23.4 0 .73l1.9 1.83c.57.57.83 1.06.83 1.44 0 .38-.18.6-.54.6z"/></svg></div>
+              <div class="source-info"><strong>VK</strong><span>Исходящие сообщения (VK Open API)</span></div>
+              <span class="int-mode-badge api" style="font-size:9px;background:rgba(0,119,255,0.1);color:#0055cc;border-color:rgba(0,119,255,0.2)">VK API</span>
+              <div class="source-count" style="color:var(--text-dim)">— Не подкл.</div>
+              <div class="sr-bar-wrap" style="flex:1;max-width:120px"><div class="sr-bar" style="width:0%"></div></div>
+              <button class="btn-outline-xs" onclick="navigate('integrations')">Подключить</button>
+            </div>
+            <div class="source-row">
+              <div class="source-icon" style="background:#000"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+              <div class="source-info"><strong>Notion</strong><span>Заметки, базы данных, страницы</span></div>
+              <span class="int-mode-badge api" style="font-size:9px">Notion API</span>
+              <div class="source-count">3 891 фрагмент</div>
+              <div class="sr-bar-wrap" style="flex:1;max-width:120px"><div class="sr-bar" style="width:30%;background:#555"></div></div>
+              <span class="sr-status synced">✓ Синхр.</span>
+              <label class="toggle src-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+              <button class="sr-menu" onclick="showToast('Настройки Notion источника')">⋯</button>
+            </div>
+            <div class="source-row">
+              <div class="source-icon" style="background:#4285f4"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+              <div class="source-info"><strong>Google Drive</strong><span>Документы, презентации</span></div>
+              <span class="int-mode-badge api" style="font-size:9px;background:rgba(66,133,244,0.1);color:#1a56d6;border-color:rgba(66,133,244,0.2)">Google API</span>
+              <div class="source-count">675 фрагментов</div>
+              <div class="sr-bar-wrap" style="flex:1;max-width:120px"><div class="sr-bar" style="width:5%;background:#4285f4"></div></div>
+              <span class="sr-status" style="background:rgba(245,158,11,0.1);color:#b45309">⏳ Синхр.</span>
+              <label class="toggle src-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+              <button class="sr-menu" onclick="showToast('Настройки Google Drive')">⋯</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Распределение данных</span></div>
+          <div class="src-dist-list">
+            <div class="src-dist-item">
+              <div class="sdi-head"><div class="dsn-ch-dot tg" style="border-radius:50%;background:#2aabee"></div><span>Telegram</span><span class="ml-auto" style="font-weight:700;font-size:12px">49%</span></div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:100%;background:#2aabee"></div></div>
+              <div style="display:flex;align-items:center;gap:6px"><span class="desc-sm">12 847 фрагментов</span><span class="int-mode-badge api" style="font-size:8px">API</span></div>
+            </div>
+            <div class="src-dist-item">
+              <div class="sdi-head"><div class="dsn-ch-dot" style="border-radius:50%;background:#25d366;width:10px;height:10px"></div><span>WhatsApp</span><span class="ml-auto" style="font-weight:700;font-size:12px">24%</span></div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:50%;background:#25d366"></div></div>
+              <div style="display:flex;align-items:center;gap:6px"><span class="desc-sm">6 420 фрагментов</span><span class="int-mode-badge upload" style="font-size:8px">Архив</span></div>
+            </div>
+            <div class="src-dist-item">
+              <div class="sdi-head"><div style="border-radius:50%;background:linear-gradient(135deg,#f09433,#bc1888);width:10px;height:10px;flex-shrink:0"></div><span>Instagram</span><span class="ml-auto" style="font-weight:700;font-size:12px">9%</span></div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:19%;background:linear-gradient(90deg,#f09433,#bc1888)"></div></div>
+              <div style="display:flex;align-items:center;gap:6px"><span class="desc-sm">2 400 фрагментов</span><span class="int-mode-badge upload" style="font-size:8px">Архив</span></div>
+            </div>
+            <div class="src-dist-item">
+              <div class="sdi-head"><div class="dsn-ch-dot" style="border-radius:50%;background:#555;width:10px;height:10px"></div><span>Notion</span><span class="ml-auto" style="font-weight:700;font-size:12px">15%</span></div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:30%;background:#555"></div></div>
+              <div style="display:flex;align-items:center;gap:6px"><span class="desc-sm">3 891 фрагмент</span><span class="int-mode-badge api" style="font-size:8px">API</span></div>
+            </div>
+            <div class="src-dist-item">
+              <div class="sdi-head"><div class="dsn-ch-dot" style="border-radius:50%;background:#4285f4;width:10px;height:10px"></div><span>Google Drive</span><span class="ml-auto" style="font-weight:700;font-size:12px">3%</span></div>
+              <div class="sr-bar-wrap"><div class="sr-bar" style="width:5%;background:#4285f4"></div></div>
+              <div style="display:flex;align-items:center;gap:6px"><span class="desc-sm">675 фрагментов</span><span class="int-mode-badge api" style="font-size:8px">API</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Последняя синхронизация</span></div>
+          <div class="activity-feed" style="display:flex;flex-direction:column;gap:8px">
+            <div class="af-item" style="display:flex;gap:10px;align-items:flex-start;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:4px;flex-shrink:0"></div><div><p style="color:var(--text)">Telegram синхронизирован</p><p class="desc-sm">Сегодня, 17:42 · +234 новых сообщения · MTProto API</p></div></div>
+            <div class="af-item" style="display:flex;gap:10px;align-items:flex-start;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:4px;flex-shrink:0"></div><div><p style="color:var(--text)">WhatsApp архив обработан</p><p class="desc-sm">Сегодня, 14:15 · +87 сообщений · Файл .zip</p></div></div>
+            <div class="af-item" style="display:flex;gap:10px;align-items:flex-start;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:4px;flex-shrink:0"></div><div><p style="color:var(--text)">Instagram архив обработан</p><p class="desc-sm">10 июня · 2 400 сообщений · Файл .json</p></div></div>
+            <div class="af-item" style="display:flex;gap:10px;align-items:flex-start;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--orange);margin-top:4px;flex-shrink:0"></div><div><p style="color:var(--text)">Google Drive — идёт загрузка</p><p class="desc-sm">Сегодня, 09:00 · ~3 мин осталось · Google API</p></div></div>
+            <div class="af-item" style="display:flex;gap:10px;align-items:flex-start;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:4px;flex-shrink:0"></div><div><p style="color:var(--text)">Notion синхронизирован</p><p class="desc-sm">Вчера, 23:00 · +41 заметка · Notion API</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ОБУЧЕНИЕ ── -->
+    <div id="studio-learning" class="tab-content hidden">
+      <div class="studio-grid">
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Конфигурация обучения</span></div>
+          <div class="form-group">
+            <label style="display:block;font-size:12px;color:var(--text-mid);margin-bottom:6px">Базовая модель</label>
+            <select class="full-select">
+              <option>Qwen2.5 14B (рекомендуется)</option>
+              <option>Llama 3.1 8B (быстрее)</option>
+              <option>Mistral 7B</option>
+              <option>GPT-4o mini (облако)</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-top:12px">
+            <label style="display:block;font-size:12px;color:var(--text-mid);margin-bottom:6px">Режим обучения</label>
+            <div class="train-mode-cards">
+              <div class="train-mode-card" onclick="this.parentElement.querySelectorAll('.train-mode-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+                <div class="tmc-icon">⚡</div>
+                <div class="tmc-name">Быстрый</div>
+                <div class="tmc-desc">~5 мин · 1 эпоха</div>
+              </div>
+              <div class="train-mode-card active" onclick="this.parentElement.querySelectorAll('.train-mode-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+                <div class="tmc-icon">⚖️</div>
+                <div class="tmc-name">Сбалансированный</div>
+                <div class="tmc-desc">~14 мин · 3 эпохи</div>
+              </div>
+              <div class="train-mode-card" onclick="this.parentElement.querySelectorAll('.train-mode-card').forEach(c=>c.classList.remove('active'));this.classList.add('active')">
+                <div class="tmc-icon">🔬</div>
+                <div class="tmc-name">Глубокий</div>
+                <div class="tmc-desc">~45 мин · 10 эпох</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:12px">
+            <label style="display:block;font-size:12px;color:var(--text-mid);margin-bottom:6px">Расписание обучения</label>
+            <select class="full-select">
+              <option>Вручную (по кнопке)</option>
+              <option>Каждый день в 03:00</option>
+              <option>Каждую неделю (воскресенье)</option>
+              <option>После каждой синхронизации</option>
+            </select>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:12px" onclick="startTraining()">🧠 Запустить обучение</button>
+        </div>
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Статус обучения</span><span class="sr-status synced" style="margin-left:auto">✓ Завершено</span></div>
+          <div class="training-progress">
+            <div class="tp-row"><span>Эпоха</span><span class="tp-val">3 / 3</span></div>
+            <div class="tp-row"><span>Точность</span><span class="tp-val">86%</span></div>
+            <div class="tp-row"><span>Loss</span><span class="tp-val">0.142</span></div>
+            <div class="tp-row"><span>Длительность</span><span class="tp-val">14 мин</span></div>
+            <div class="tp-row"><span>Фрагментов обработано</span><span class="tp-val">24 833</span></div>
+          </div>
+          <div class="train-log">
+            <div class="tl-item success">✓ Источники загружены — 24 833 фрагмента</div>
+            <div class="tl-item success">✓ Векторизация данных завершена</div>
+            <div class="tl-item success">✓ Обучение эпоха 1/3</div>
+            <div class="tl-item success">✓ Обучение эпоха 2/3</div>
+            <div class="tl-item success">✓ Обучение эпоха 3/3 — завершено!</div>
+          </div>
+        </div>
+        <div class="card-widget" style="grid-column:1/3">
+          <div class="widget-header"><span class="widget-title">История обучений</span><button class="btn-outline-xs ml-auto" onclick="showToast('Полная история...')">Все запуски</button></div>
+          <div class="train-history-table">
+            <div class="th-header"><span>Дата</span><span>Модель</span><span>Источников</span><span>Точность</span><span>Время</span><span>Статус</span></div>
+            <div class="th-row"><span>14 июня 2026</span><span>Qwen2.5 14B</span><span>5 источников</span><span class="th-acc">86%</span><span>14 мин</span><span class="sr-status synced">✓ Успешно</span></div>
+            <div class="th-row"><span>10 июня 2026</span><span>Qwen2.5 14B</span><span>4 источника</span><span class="th-acc">83%</span><span>12 мин</span><span class="sr-status synced">✓ Успешно</span></div>
+            <div class="th-row"><span>5 июня 2026</span><span>Llama 3.1 8B</span><span>3 источника</span><span class="th-acc">79%</span><span>8 мин</span><span class="sr-status synced">✓ Успешно</span></div>
+            <div class="th-row"><span>28 мая 2026</span><span>Llama 3.1 8B</span><span>2 источника</span><span class="th-acc">72%</span><span>6 мин</span><span class="sr-status synced">✓ Успешно</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ТЕСТИРОВАНИЕ ── -->
+    <div id="studio-testing" class="tab-content hidden">
+      <div class="studio-grid">
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Сценарии тестирования</span><button class="btn-outline-xs ml-auto" onclick="showToast('Добавление теста...')">+ Добавить</button></div>
+          <div class="test-scenarios">
+            <div class="test-scenario passed" onclick="runTestScenario(0,'Привет! Как у тебя дела?')">
+              <div class="ts-status pass">✓</div>
+              <div class="ts-body"><p class="ts-name">Приветствие и small-talk</p><p class="ts-desc">Оценивает естественность общения</p></div>
+              <span class="ts-score">94%</span>
+            </div>
+            <div class="test-scenario passed" onclick="runTestScenario(1,'Какой инструмент посоветуешь для управления задачами?')">
+              <div class="ts-status pass">✓</div>
+              <div class="ts-body"><p class="ts-name">Экспертные советы</p><p class="ts-desc">Тест знаний по продуктивности</p></div>
+              <span class="ts-score">91%</span>
+            </div>
+            <div class="test-scenario failed" onclick="runTestScenario(2,'Расскажи смешной анекдот')">
+              <div class="ts-status fail">✗</div>
+              <div class="ts-body"><p class="ts-name">Юмор и шутки</p><p class="ts-desc">Понимание сарказма и иронии</p></div>
+              <span class="ts-score bad">42%</span>
+            </div>
+            <div class="test-scenario passed" onclick="runTestScenario(3,'Можешь помочь разобраться с прокрастинацией?')">
+              <div class="ts-status pass">✓</div>
+              <div class="ts-body"><p class="ts-name">Эмоциональная поддержка</p><p class="ts-desc">Тест эмпатии и поддержки</p></div>
+              <span class="ts-score">78%</span>
+            </div>
+            <div class="test-scenario passed" onclick="runTestScenario(4,'Как ты обычно проводишь утро?')">
+              <div class="ts-status pass">✓</div>
+              <div class="ts-body"><p class="ts-name">Личная история</p><p class="ts-desc">Воспроизведение личного опыта</p></div>
+              <span class="ts-score">88%</span>
+            </div>
+          </div>
+          <div class="test-summary"><span>Итого: 4 / 5 пройдено</span><span class="ts-overall">80%</span></div>
+        </div>
+        <div class="card-widget" style="grid-column:2/3;display:flex;flex-direction:column">
+          <div class="widget-header"><span class="widget-title">Sandbox — тестирование клона</span><span class="badge-count" style="margin-left:8px">Тест-режим</span><button class="btn-outline-xs ml-auto" onclick="clearTestChat()">Очистить</button></div>
+          <div class="test-chat-area" id="testChatArea">
+            <div class="mirror-msg system">Нажмите на сценарий слева или введите свой вопрос для тестирования клона</div>
+          </div>
+          <div class="mirror-input-row">
+            <input type="text" class="chat-input" placeholder="Введите тестовый вопрос..." id="testChatInput" />
+            <button class="send-btn" onclick="sendTestMsg()">Отправить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── НЕЙРОПРОФИЛЬ ── -->
+    <div id="studio-neuroprofile" class="tab-content hidden">
+      <div class="studio-grid">
+        <!-- 24 Vectors grouped by level -->
+        <div class="card-widget" style="grid-column:1/3">
+          <div class="widget-header"><span class="widget-title">24 вектора личности · Группировка по уровням онбординга</span><button class="info-btn">ⓘ</button><button class="btn-outline-xs ml-auto" onclick="navigate('profile')">Заполнить →</button></div>
+          <p class="desc-sm" style="margin-bottom:16px">Каждый вектор — измерение личности, автоматически обновляется из диалогов и профиля</p>
+
+          <div class="vector-group-label-ui">🪪 Уровень 0 · Якорь идентичности <span class="vg-badge done">✓ Заполнен</span></div>
+          <div class="vectors-row">
+            <div class="vector-pill done"><span class="vp-num">V21</span><span class="vp-name">Нарратив</span><span class="vp-pct">100%</span></div>
+            <div class="vector-pill done"><span class="vp-num">V12</span><span class="vp-name">Тело</span><span class="vp-pct">100%</span></div>
+            <div class="vector-pill done"><span class="vp-num">V06</span><span class="vp-name">Идентичность</span><span class="vp-pct">100%</span></div>
+          </div>
+
+          <div class="vector-group-label-ui" style="margin-top:14px">🎮 Уровень 1 · Движущие силы <span class="vg-badge partial">⟳ 60%</span></div>
+          <div class="vectors-row">
+            <div class="vector-pill done"><span class="vp-num">V03</span><span class="vp-name">Роли</span><span class="vp-pct">100%</span></div>
+            <div class="vector-pill partial"><span class="vp-num">V04</span><span class="vp-name">Мотивация</span><span class="vp-pct">60%</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V05</span><span class="vp-name">Вдохновители</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V07</span><span class="vp-name">Ключевые события</span></div>
+          </div>
+
+          <div class="vector-group-label-ui" style="margin-top:14px">🔭 Уровень 2 · Мировоззрение <span class="vg-badge empty">○ Не начат</span></div>
+          <div class="vectors-row">
+            <div class="vector-pill empty"><span class="vp-num">V15</span><span class="vp-name">Убеждения</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V16</span><span class="vp-name">Картина мира</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V18</span><span class="vp-name">Смыслы</span></div>
+          </div>
+
+          <div class="vector-group-label-ui" style="margin-top:14px">🤝 Уровень 3 · Отношения и деньги <span class="vg-badge empty">○ Не начат</span></div>
+          <div class="vectors-row">
+            <div class="vector-pill empty"><span class="vp-num">V01</span><span class="vp-name">Семья</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V02</span><span class="vp-name">Деньги</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V17</span><span class="vp-name">Власть</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V19</span><span class="vp-name">Дружба</span></div>
+          </div>
+
+          <div class="vector-group-label-ui critical" style="margin-top:14px">🎙️ Уровень 4 · Голос и стиль <span class="vg-badge critical">⚠ Критичный</span></div>
+          <div class="vectors-row">
+            <div class="vector-pill critical"><span class="vp-num">V13</span><span class="vp-name">Стиль общения</span><span class="vp-pct">0%</span></div>
+            <div class="vector-pill critical"><span class="vp-num">V14</span><span class="vp-name">Интонации</span><span class="vp-pct">0%</span></div>
+            <div class="vector-pill critical"><span class="vp-num">V20</span><span class="vp-name">Конфликты</span><span class="vp-pct">0%</span></div>
+            <div class="vector-pill critical"><span class="vp-num">V24</span><span class="vp-name">Триггеры</span><span class="vp-pct">0%</span></div>
+          </div>
+          <div class="vector-critical-cta">
+            ⚡ Без Уровня 4 клон не звучит как ты — голос и стиль речи критически важны
+            <button class="btn-primary" style="padding:6px 16px;font-size:12px" onclick="navigate('profile')">✦ Заполнить сейчас</button>
+          </div>
+
+          <div class="vector-group-label-ui" style="margin-top:14px">🔒 Уровень 5 · Биография и анти-профиль <span class="vg-badge empty">○ Не начат</span></div>
+          <div class="vectors-row">
+            <div class="vector-pill empty"><span class="vp-num">V08</span><span class="vp-name">Биография</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V11</span><span class="vp-name">Красные линии</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V25</span><span class="vp-name">Анти-профиль</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V09</span><span class="vp-name">Тело и здоровье</span></div>
+            <div class="vector-pill empty"><span class="vp-num">V10</span><span class="vp-name">Фальшивая похвала</span></div>
+          </div>
+        </div>
+
+        <!-- Communication Style card (preserved) -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Стиль общения</span></div>
+          <div class="comm-params">
+            <div class="cp-item">
+              <div class="cp-head"><span>Использование эмодзи</span><span class="slider-val" id="emojiVal">3</span></div>
+              <input type="range" min="1" max="5" value="3" class="range-slider" oninput="document.getElementById('emojiVal').textContent=this.value">
+              <div class="slider-ends"><span>Почти нет</span><span>Активно</span></div>
+            </div>
+            <div class="cp-item">
+              <div class="cp-head"><span>Длина ответа</span><span class="slider-val" id="lenVal">4</span></div>
+              <input type="range" min="1" max="5" value="4" class="range-slider" oninput="document.getElementById('lenVal').textContent=this.value">
+              <div class="slider-ends"><span>Коротко</span><span>Развёрнуто</span></div>
+            </div>
+            <div class="cp-item">
+              <div class="cp-head"><span>Формальность</span><span class="slider-val" id="formalVal">2</span></div>
+              <input type="range" min="1" max="5" value="2" class="range-slider" oninput="document.getElementById('formalVal').textContent=this.value">
+              <div class="slider-ends"><span>Дружески</span><span>Официально</span></div>
+            </div>
+          </div>
+          <button class="btn-primary" style="margin-top:8px;width:100%" onclick="showToast('Стиль общения сохранён ✓')">Сохранить стиль</button>
+        </div>
+
+        <!-- Big Five (secondary) -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Большая пятёрка</span><button class="info-btn">ⓘ</button></div>
+          <p class="desc-sm" style="margin-bottom:14px">Автоматически из данных обучения</p>
+          <div class="neuro-traits">
+            <div class="neuro-trait">
+              <div class="nt-label"><span class="nt-name">Открытость</span><span class="nt-score">78%</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:78%;background:var(--accent)"></div></div>
+            </div>
+            <div class="neuro-trait">
+              <div class="nt-label"><span class="nt-name">Добросовестность</span><span class="nt-score">85%</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:85%;background:var(--accent)"></div></div>
+            </div>
+            <div class="neuro-trait">
+              <div class="nt-label"><span class="nt-name">Экстраверсия</span><span class="nt-score">62%</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:62%;background:#3b82f6"></div></div>
+            </div>
+            <div class="neuro-trait">
+              <div class="nt-label"><span class="nt-name">Доброжелательность</span><span class="nt-score">71%</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:71%;background:#10b981"></div></div>
+            </div>
+            <div class="neuro-trait">
+              <div class="nt-label"><span class="nt-name">Нейротизм (низкий)</span><span class="nt-score bad">28%</span></div>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:28%;background:var(--orange)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── НАСТРОЙКИ СТУДИИ ── -->
+    <div id="studio-settings-tab" class="tab-content hidden">
+      <div class="studio-grid">
+        <div class="card-widget" style="grid-column:1/3">
+          <div class="widget-header">
+            <span class="widget-title">Системный промпт клона</span>
+            <button class="info-btn">ⓘ</button>
+            <button class="btn-outline-xs ml-auto" onclick="showToast('Промпт сохранён ✓')">Сохранить</button>
+          </div>
+          <textarea class="prompt-editor" id="systemPrompt">Ты — цифровой клон Алексея. Ты общаешься в его стиле: дружелюбно, по делу, с примерами из жизни. Ты эксперт в продуктивности, предпринимательстве и саморазвитии. Избегай пустых слов, давай практичные советы. Используй простые слова и живую речь. Не бойся говорить «не знаю» если не уверен в ответе.</textarea>
+          <p class="desc-sm" style="margin-top:8px">💡 Этот промпт задаёт базовую личность клона и дополняется контекстом из источников данных автоматически.</p>
+        </div>
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Параметры генерации</span></div>
+          <div class="comm-params">
+            <div class="cp-item">
+              <div class="cp-head"><span>Температура</span><span class="slider-val" id="tempVal">0.7</span></div>
+              <input type="range" min="0" max="10" value="7" class="range-slider" oninput="document.getElementById('tempVal').textContent=(this.value/10).toFixed(1)">
+              <div class="slider-ends"><span>Строго</span><span>Креативно</span></div>
+            </div>
+            <div class="cp-item">
+              <div class="cp-head"><span>Top-P</span><span class="slider-val" id="topPVal">0.9</span></div>
+              <input type="range" min="0" max="10" value="9" class="range-slider" oninput="document.getElementById('topPVal').textContent=(this.value/10).toFixed(1)">
+              <div class="slider-ends"><span>0.0</span><span>1.0</span></div>
+            </div>
+            <div class="cp-item">
+              <div class="cp-head"><span>Макс. токенов</span><span class="slider-val" id="tokVal">512</span></div>
+              <input type="range" min="5" max="20" value="10" class="range-slider" oninput="document.getElementById('tokVal').textContent=this.value*51">
+              <div class="slider-ends"><span>256</span><span>1024</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">Поведение и эскалация</span></div>
+          <div class="toggle-group" style="padding:8px 0"><span>Автоответы активны</span><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="toggle-group" style="padding:8px 0"><span>Уведомлять при эскалации</span><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="toggle-group" style="padding:8px 0"><span>Задержка ответа (имитация печати)</span><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="cp-item" style="margin-top:14px">
+            <div class="cp-head"><span>Порог уверенности для эскалации</span><span class="slider-val" id="escVal">65%</span></div>
+            <input type="range" min="10" max="100" value="65" class="range-slider" oninput="document.getElementById('escVal').textContent=this.value+'%'">
+            <div class="slider-ends"><span>10%</span><span>100%</span></div>
+          </div>
+          <p class="desc-sm" style="margin-top:8px">При уверенности ниже 65% клон уведомит тебя для проверки ответа</p>
+          <div style="margin-top:14px">
+            <label style="display:block;font-size:12px;color:var(--text-mid);margin-bottom:6px">Запрещённые темы (по одной на строку)</label>
+            <textarea class="prompt-editor" style="min-height:72px">Политика
+Медицинские диагнозы
+Юридические советы</textarea>
+          </div>
+          <button class="btn-primary" style="margin-top:12px;width:100%" onclick="showToast('Настройки поведения сохранены ✓')">Сохранить настройки</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: DIALOGS ─── -->
+  <div class="page hidden" id="page-dialogs">
+    <div class="dialogs-layout" id="dialogsLayout">
+      
+      <!-- Unified Top Bar -->
+      <div class="dialogs-top-bar">
+        <div class="dtb-left">
+          <h2 class="dtb-title">Мониторинг разговоров</h2>
+        </div>
+        <div class="dtb-center">
+          <div class="dtb-stat">
+            <span class="dtb-dot green"></span>
+            <span class="dtb-val" id="statActiveCount">5</span>
+            <span class="dtb-label">активных</span>
+          </div>
+          <div class="dtb-stat-divider"></div>
+          <div class="dtb-stat">
+            <span class="dtb-dot orange"></span>
+            <span class="dtb-val" id="statEscalationCount">3</span>
+            <span class="dtb-label">эскалации</span>
+          </div>
+          <div class="dtb-stat-divider"></div>
+          <div class="dtb-stat">
+            <span class="dtb-dot blue"></span>
+            <span class="dtb-val">47</span>
+            <span class="dtb-label">завершено сегодня</span>
+          </div>
+          <div class="dtb-stat-divider"></div>
+          <div class="dtb-stat">
+            <span class="dtb-dot purple"></span>
+            <span class="dtb-val">92%</span>
+            <span class="dtb-label">точность клона</span>
+          </div>
+        </div>
+        <div class="dtb-right">
+          <div class="dtb-toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="cloneActiveToggle" checked><span class="slider"></span></label>
+            <span class="dtb-toggle-label">Клон активен</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout Columns Split -->
+      <div class="dialogs-main">
+        <!-- Left panel: inbox list -->
+        <div class="dialogs-left">
+          <div class="dialogs-left-header">
+            <div class="dialogs-search">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Поиск по диалогам..." id="dialogsSearchInput" oninput="filterDialogsList()" />
+            </div>
+            <div class="dialogs-tabs-row">
+              <button class="dialog-tab active" onclick="switchDialogTab(this,'inbox')" data-tab="inbox">Активные <span class="badge" id="tabActiveBadge">5</span></button>
+              <button class="dialog-tab" onclick="switchDialogTab(this,'escalations')" data-tab="escalations">Эскалации <span class="badge orange" id="tabEscalationBadge">3</span></button>
+              <button class="dialog-tab" onclick="switchDialogTab(this,'history')" data-tab="history">История</button>
+            </div>
+            <div class="dialogs-channels-row">
+              <button class="channel-pill active" onclick="switchChannelPill(this,'all')">Все</button>
+              <button class="channel-pill tg" onclick="switchChannelPill(this,'telegram')">Telegram</button>
+              <button class="channel-pill ig" onclick="switchChannelPill(this,'instagram')">Instagram</button>
+              <button class="channel-pill wa" onclick="switchChannelPill(this,'whatsapp')">WhatsApp</button>
+            </div>
+          </div>
+          <div class="dialog-contacts">
+            <div class="dc-list" id="dialogsList">
+              <!-- Will be rendered dynamically via JS -->
+            </div>
+            <button class="link-btn center mt-8" onclick="showToast('Загружаю все диалоги...')">Показать все (47)</button>
+          </div>
+        </div>
+
+        <!-- Center panel: conversation viewer -->
+        <div class="chat-panel" id="chatPanel">
+          <!-- Escalation banner -->
+          <div class="escalation-banner" id="escalationBanner">
+            <div class="esc-icon">⚡</div>
+            <div class="esc-text">
+              <strong>Клон не уверен в ответе</strong>
+              <span>Уверенность 41% — ниже порога 65%. Требуется ваше вмешательство.</span>
+            </div>
+            <button class="btn-primary sm" onclick="takeoverDialog()">Взять диалог</button>
+            <button class="btn-outline-sm" onclick="showToast('Подсказываю клону...')">Подсказать</button>
+          </div>
+
+          <div class="chat-header">
+            <div class="chat-user-info">
+              <button class="back-btn" onclick="closeChatPanel()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div class="chat-avatar" style="background:#fef3c7;color:#92400e">Д</div>
+              <div>
+                <div class="chat-name">Дмитрий А. <span class="inbox-badge channel tg" style="font-size:10px">Telegram</span></div>
+                <div class="chat-status">Pro-подписчик · 14 диалогов · с 10.02.2025</div>
+              </div>
+            </div>
+            <div class="chat-header-actions">
+              <button class="btn-secondary sm" id="chatTakeoverBtnHeader" onclick="takeoverDialog()">↗ Взять диалог</button>
+              <button class="btn-icon" id="infoPanelToggleBtn" onclick="toggleInfoPanel()" title="Информация о диалоге">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </button>
+              <button class="btn-icon" onclick="showToast('Настройки диалога...')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <!-- Will be rendered dynamically via JS -->
+          </div>
+
+          <!-- Input area — only visible after taking over -->
+          <div class="chat-input-area" id="chatInputArea" style="display:none">
+            <div class="takeover-notice">
+              <span>↗ Вы взяли диалог — отвечаете лично</span>
+              <button class="link-btn" onclick="returnToClone()">Вернуть клону</button>
+            </div>
+            <div class="chat-input-row">
+              <input type="text" class="chat-input" placeholder="Написать ответ..." id="chatInput" />
+              <button class="send-btn" onclick="sendMessage()">Отправить
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="chat-input-area" id="chatMonitorArea">
+            <p class="input-note" style="text-align:center;padding:12px 0">
+              👁 Режим наблюдения · Клон отвечает автоматически ·
+              <button class="link-btn inline" onclick="takeoverDialog()">Взять диалог →</button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Right panel: dialog info -->
+        <div class="dialog-info-panel" id="dialogInfoPanel">
+          <div class="dip-header"><span>О диалоге</span></div>
+
+          <!-- Quality score -->
+          <div class="dip-quality-block">
+            <div class="dip-quality-label">Качество диалога</div>
+            <div class="dip-quality-score" id="dipQualityScore">41%</div>
+            <div class="dip-quality-bar-wrap"><div class="dip-quality-bar" id="dipQualityBar" style="width:41%;background:#f59e0b"></div></div>
+            <p class="desc-sm" id="dipQualityNote" style="margin-top:6px">Ниже нормы — клон не уверен в ответе</p>
+          </div>
+
+          <div class="dip-row"><span class="dip-label">Канал</span><div class="dip-val" id="dipChannel"><div class="dsn-ch-dot tg"></div> Telegram</div></div>
+          <div class="dip-row"><span class="dip-label">Статус</span><span id="dipStatus" class="inbox-badge escalation">⚡ Эскалация</span></div>
+          <div class="dip-row"><span class="dip-label">Время</span><span class="dip-val" id="dipTime">09:15 сегодня</span></div>
+          <div class="dip-row"><span class="dip-label">Сообщений</span><span class="dip-val" id="dipMsgCount">2</span></div>
+
+          <div class="dip-section">
+            <p class="dip-section-title">Подписчик</p>
+            <div class="dip-user">
+              <div class="dc-avatar" id="dipUserAvatar" style="background:#fef3c7;color:#92400e;width:36px;height:36px;font-size:14px">Д</div>
+              <div>
+                <p class="dip-uname" id="dipUserName">Дмитрий А.</p>
+                <p class="dip-utag" id="dipUserTag">Pro · с 10.02.2025</p>
+              </div>
+            </div>
+            <div class="dip-row"><span class="dip-label">Тариф</span><span class="plan-badge pro" id="dipUserPlan">Pro</span></div>
+            <div class="dip-row"><span class="dip-label">Диалогов</span><span class="dip-val" id="dipUserDialogs">14 всего</span></div>
+            <div class="dip-row"><span class="dip-label">Интересы</span>
+              <div class="tag-row" id="dipUserTags"><span class="tag-chip">Продуктивность</span><span class="tag-chip">Бизнес</span></div>
+            </div>
+          </div>
+
+          <div class="dip-section">
+            <p class="dip-section-title">Действия</p>
+            <button class="btn-primary" id="dipTakeoverBtn" style="width:100%;margin-bottom:8px" onclick="takeoverDialog()">↗ Взять диалог</button>
+            <button class="btn-outline-sm" style="width:100%;margin-bottom:8px" onclick="showToast('Блокирую тему...')">🚫 Запретить тему</button>
+            <button class="btn-outline-sm" style="width:100%" onclick="showToast('Пометка добавлена в обучение ✓')">📚 Добавить в обучение</button>
+          </div>
+
+          <div class="dip-note"><textarea id="dipNotes" placeholder="Заметка о диалоге..." oninput="saveDialogNote(this.value)"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page hidden" id="page-mirror">
+    <div class="page-topbar">
+      <div><h1 class="page-title">Зеркало</h1><p class="page-sub">Твоё психологическое отражение · познай себя и расти каждый день</p></div>
+      <div class="page-actions">
+        <button class="btn-secondary" onclick="showToast('Экспорт отчёта...')">📄 Отчёт</button>
+        <button class="btn-primary" onclick="document.getElementById('mirrorInput').focus()">✦ Спросить зеркало</button>
+      </div>
+    </div>
+
+    <div class="mirror-layout">
+
+      <!-- ═══ CENTER: Chat dialog ═══ -->
+      <div class="mirror-chat-panel card-widget">
+        <div class="mirror-chat-header">
+          <div class="mirror-chat-avatar">✦</div>
+          <div>
+            <div class="mirror-chat-title">Зеркало Алексея</div>
+            <div class="mirror-chat-sub">Цифровое отражение · анализирует твои паттерны, мышление и рост</div>
+          </div>
+          <div class="mirror-live-badge"><span class="pulse-dot"></span> Онлайн</div>
+        </div>
+        <div class="mirror-chat-area" id="mirrorChat">
+          <div class="mirror-msg system">✦ Я твоё зеркало. Я знаю как ты мыслишь сегодня, что строишь на завтра и какие паттерны хочешь изменить. Спроси меня о чём угодно — о себе, о своём развитии, о будущем.</div>
+        </div>
+        <div class="mirror-quick-prompts">
+          <button class="mirror-prompt-chip" onclick="askMirror('Кто я сейчас и как изменился за этот год?')">🪞 Кто я сейчас?</button>
+          <button class="mirror-prompt-chip" onclick="askMirror('Какие мои планы на ближайший год и как к ним идти?')">🎯 Мои планы</button>
+          <button class="mirror-prompt-chip" onclick="askMirror('Какие паттерны изменились, а какие хочу проработать?')">🔄 Паттерны</button>
+          <button class="mirror-prompt-chip" onclick="askMirror('Дай мне совет на сегодня для личного роста.')">💡 Совет на сегодня</button>
+          <button class="mirror-prompt-chip" onclick="askMirror('Как я мыслю о будущем и в чём мои ограничения?')">🧠 Как я мыслю?</button>
+        </div>
+        <div class="mirror-input-row">
+          <input type="text" class="chat-input" placeholder="Задай вопрос своему зеркалу..." id="mirrorInput" />
+          <button class="send-btn" onclick="sendMirrorMsg()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ═══ RIGHT SIDEBAR ═══ -->
+      <div class="mirror-sidebar">
+
+        <!-- Daily advice -->
+        <div class="card-widget mirror-daily-card">
+          <div class="mirror-daily-header">
+            <span class="mirror-daily-icon">✦</span>
+            <div>
+              <div class="mirror-daily-title">Совет дня от клона</div>
+              <div class="mirror-daily-date">15 июня 2026</div>
+            </div>
+            <span class="badge-new">Новый</span>
+          </div>
+          <p class="mirror-daily-text">Сегодня у тебя высокая аналитическая активность. Используй утро для глубокой работы — закрой один стратегический вопрос, который откладываешь. Избегай многозадачности до обеда.</p>
+          <div class="mirror-daily-tags">
+            <span class="tag-chip">⏰ Тайм-менеджмент</span>
+            <span class="tag-chip">🧠 Фокус</span>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:10px" onclick="showToast('✓ Вызов принят! Буду отслеживать.')">✓ Принять вызов</button>
+        </div>
+
+        <!-- Кто я сейчас -->
+        <div class="card-widget">
+          <div class="widget-header">
+            <span class="widget-title">🪞 Кто я сейчас</span>
+            <button class="btn-outline-xs" onclick="askMirror('Расскажи подробнее — кто я сейчас?')">Подробнее</button>
+          </div>
+          <p class="mirror-state-desc">Творец-исследователь на стадии трансформации. Переходишь от предпринимательства ради денег к созданию проектов со смыслом. Приоритет — влияние и самовыражение.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+            <span class="mirror-identity-tag">🎨 Творец</span>
+            <span class="mirror-identity-tag">🔬 Исследователь</span>
+            <span class="mirror-identity-tag">👨‍👧 Отец</span>
+            <span class="mirror-identity-tag">💡 Новатор</span>
+          </div>
+        </div>
+
+        <!-- Планы на будущее -->
+        <div class="card-widget">
+          <div class="widget-header">
+            <span class="widget-title">🎯 Планы на будущее</span>
+            <button class="btn-outline-xs" onclick="askMirror('Как мне лучше достичь моих планов?')">Обсудить</button>
+          </div>
+          <div class="mirror-timeline">
+            <div class="mtl-item">
+              <div class="mtl-dot accent"></div>
+              <div class="mtl-body">
+                <div class="mtl-period">3 месяца</div>
+                <div class="mtl-goal">Запустить публичную версию CLOONE</div>
+              </div>
+            </div>
+            <div class="mtl-item">
+              <div class="mtl-dot green"></div>
+              <div class="mtl-body">
+                <div class="mtl-period">6 месяцев</div>
+                <div class="mtl-goal">Аудитория 10k вокруг идей клона</div>
+              </div>
+            </div>
+            <div class="mtl-item">
+              <div class="mtl-dot orange"></div>
+              <div class="mtl-body">
+                <div class="mtl-period">1 год</div>
+                <div class="mtl-goal">Стать известным творцом-новатором с влиянием</div>
+              </div>
+            </div>
+            <div class="mtl-item">
+              <div class="mtl-dot dim"></div>
+              <div class="mtl-body">
+                <div class="mtl-period">Долгосрочно</div>
+                <div class="mtl-goal">Проекты, опережающие время, меняющие видение людей</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Паттерны -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">🔄 Паттерны поведения</span></div>
+          <div class="mirror-patterns">
+            <div class="mpat-section-label">✅ Уже изменил</div>
+            <div class="mpat-item changed">
+              <span class="mpat-icon">✓</span>
+              <div>
+                <div class="mpat-title">Перестал гнаться за деньгами</div>
+                <div class="mpat-desc">Проекты теперь выбираются по смыслу</div>
+              </div>
+            </div>
+            <div class="mpat-item changed">
+              <span class="mpat-icon">✓</span>
+              <div>
+                <div class="mpat-title">Более открытое самовыражение</div>
+                <div class="mpat-desc">+27% за 30 дней по данным диалогов</div>
+              </div>
+            </div>
+            <div class="mpat-section-label" style="margin-top:12px">🔧 Хочу проработать</div>
+            <div class="mpat-item todo">
+              <span class="mpat-icon todo-icon">🔄</span>
+              <div>
+                <div class="mpat-title">Откладывание сложных решений</div>
+                <div class="mpat-desc">Избегаешь трудных вопросов более суток</div>
+              </div>
+            </div>
+            <div class="mpat-item todo">
+              <span class="mpat-icon todo-icon">🔄</span>
+              <div>
+                <div class="mpat-title">Перегрузка ответственностью</div>
+                <div class="mpat-desc">Берёшь больше, чем нужно — делегируй</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Личностный профиль -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">📊 Личностный профиль</span></div>
+          <div class="profile-traits">
+            <div class="trait-row"><span class="trait-name">Аналитичность</span><div class="trait-bar-wrap"><div class="trait-bar" style="width:88%"></div></div><span class="trait-pct">88%</span></div>
+            <div class="trait-row"><span class="trait-name">Эмпатия</span><div class="trait-bar-wrap"><div class="trait-bar" style="width:72%"></div></div><span class="trait-pct">72%</span></div>
+            <div class="trait-row"><span class="trait-name">Лидерство</span><div class="trait-bar-wrap"><div class="trait-bar" style="width:65%"></div></div><span class="trait-pct">65%</span></div>
+            <div class="trait-row"><span class="trait-name">Креативность</span><div class="trait-bar-wrap"><div class="trait-bar" style="width:79%"></div></div><span class="trait-pct">79%</span></div>
+            <div class="trait-row"><span class="trait-name">Конфликтность</span><div class="trait-bar-wrap"><div class="trait-bar orange" style="width:28%"></div></div><span class="trait-pct">28%</span></div>
+          </div>
+        </div>
+
+        <!-- Vector Drift widget -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">📈 Дрейф векторов (30 дней)</span><button class="info-btn">ⓘ</button></div>
+          <div class="drift-list">
+            <div class="drift-item">
+              <span class="drift-vector">V13 · Стиль общения</span>
+              <div class="drift-bar-wrap"><div class="drift-bar" style="width:80%;background:var(--green)"></div></div>
+              <span class="drift-val positive">+0.12</span>
+            </div>
+            <div class="drift-item">
+              <span class="drift-vector">V03 · Роли</span>
+              <div class="drift-bar-wrap"><div class="drift-bar" style="width:60%;background:var(--green)"></div></div>
+              <span class="drift-val positive">+0.09</span>
+            </div>
+            <div class="drift-item">
+              <span class="drift-vector">V20 · Конфликты ⚠</span>
+              <div class="drift-bar-wrap"><div class="drift-bar" style="width:100%;background:var(--orange)"></div></div>
+              <span class="drift-val negative">+0.18</span>
+            </div>
+            <div class="drift-item">
+              <span class="drift-vector">V22 · Юмор</span>
+              <div class="drift-bar-wrap"><div class="drift-bar" style="width:20%;background:var(--border)"></div></div>
+              <span class="drift-val neutral">-0.03</span>
+            </div>
+          </div>
+          <p class="desc-sm" style="margin-top:10px;color:var(--orange)">⚠ V20 превысил порог дрейфа 0.15 — клон стал агрессивнее в конфликтах</p>
+          <button class="link-btn" style="margin-top:8px" onclick="navigate('mirror')">Спросить зеркало об этом →</button>
+        </div>
+
+        <!-- Карта ценностей -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">❤️ Карта ценностей</span></div>
+          <div class="values-list">
+            <div class="value-item"><span class="value-icon">🧠</span><span class="value-name">Развитие</span><div class="value-bar-wrap"><div class="value-bar" style="width:95%"></div></div></div>
+            <div class="value-item"><span class="value-icon">🤝</span><span class="value-name">Честность</span><div class="value-bar-wrap"><div class="value-bar" style="width:88%"></div></div></div>
+            <div class="value-item"><span class="value-icon">⚡</span><span class="value-name">Эффективность</span><div class="value-bar-wrap"><div class="value-bar" style="width:82%"></div></div></div>
+            <div class="value-item"><span class="value-icon">🎯</span><span class="value-name">Результат</span><div class="value-bar-wrap"><div class="value-bar" style="width:76%"></div></div></div>
+            <div class="value-item"><span class="value-icon">❤️</span><span class="value-name">Семья</span><div class="value-bar-wrap"><div class="value-bar" style="width:70%"></div></div></div>
+          </div>
+        </div>
+
+      </div><!-- /mirror-sidebar -->
+    </div><!-- /mirror-layout -->
+
+    <!-- Mobile FAB: open chat -->
+    <button class="mirror-chat-fab" id="mirrorChatFab" onclick="openMirrorSheet()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Спросить зеркало
+    </button>
+
+    <!-- Mobile chat overlay / bottom sheet -->
+    <div class="mirror-chat-overlay" id="mirrorChatOverlay" onclick="handleMirrorOverlayClick(event)">
+      <div class="mirror-chat-sheet">
+        <div class="mirror-sheet-handle" onclick="closeMirrorSheet()"></div>
+        <div class="mirror-sheet-header">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="mirror-chat-avatar" style="width:32px;height:32px;font-size:14px">✦</div>
+            <span class="mirror-sheet-title">Зеркало Алексея</span>
+          </div>
+          <button class="mirror-sheet-close" onclick="closeMirrorSheet()">×</button>
+        </div>
+        <!-- Reuse same mirrorChat area -->
+        <div class="mirror-chat-area" id="mirrorChatSheet" style="min-height:200px;padding:14px 16px"></div>
+        <div class="mirror-quick-prompts" style="padding:8px 12px">
+          <button class="mirror-prompt-chip" onclick="askMirrorSheet('Кто я сейчас?')">🪞 Кто я?</button>
+          <button class="mirror-prompt-chip" onclick="askMirrorSheet('Дай совет на сегодня.')">💡 Совет</button>
+          <button class="mirror-prompt-chip" onclick="askMirrorSheet('Мои паттерны?')">🔄 Паттерны</button>
+        </div>
+        <div class="mirror-input-row" style="padding:10px 12px">
+          <input type="text" class="chat-input" placeholder="Спроси зеркало..." id="mirrorInputSheet" onkeydown="if(event.key==='Enter')sendMirrorSheetMsg()" />
+          <button class="send-btn" onclick="sendMirrorSheetMsg()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ─── PAGE: DIARY ─── -->
+  <div class="page hidden" id="page-diary">
+    <div class="page-topbar">
+      <div>
+        <h1 class="page-title">Дневник</h1>
+        <p class="page-sub">Ежедневник · Записи для обучения клона · Рефлексия</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-secondary" onclick="showToast('Экспорт дневника...')">📄 Экспорт</button>
+        <button class="btn-primary" onclick="newDiaryEntry()">✏️ Новая запись</button>
+      </div>
+    </div>
+
+    <div class="diary-layout">
+
+      <!-- LEFT: Calendar + Reminders -->
+      <div class="diary-left">
+
+        <!-- Mini calendar -->
+        <div class="card-widget diary-calendar-card">
+          <div class="widget-header">
+            <button class="diary-cal-nav" onclick="shiftDiaryMonth(-1)">‹</button>
+            <span class="widget-title" id="diaryCalTitle">Июнь 2026</span>
+            <button class="diary-cal-nav" onclick="shiftDiaryMonth(1)">›</button>
+          </div>
+          <div class="diary-cal-grid" id="diaryCalGrid"></div>
+        </div>
+
+        <!-- Today's reminders -->
+        <div class="card-widget">
+          <div class="widget-header">
+            <span class="widget-title">⏰ Сегодня</span>
+            <button class="btn-outline-xs" onclick="addReminder()">+ Добавить</button>
+          </div>
+          <div class="diary-reminders" id="diaryReminders">
+            <div class="diary-reminder done">
+              <div class="dr-time">09:00</div>
+              <div class="dr-body">
+                <div class="dr-title">Утренняя медитация</div>
+                <div class="dr-tag">🧘 Здоровье</div>
+              </div>
+              <div class="dr-check done">✓</div>
+            </div>
+            <div class="diary-reminder">
+              <div class="dr-time">11:00</div>
+              <div class="dr-body">
+                <div class="dr-title">Встреча с командой CLOONE</div>
+                <div class="dr-tag">💼 Работа</div>
+              </div>
+              <div class="dr-check" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'○';this.closest('.diary-reminder').classList.toggle('done')">○</div>
+            </div>
+            <div class="diary-reminder">
+              <div class="dr-time">15:00</div>
+              <div class="dr-body">
+                <div class="dr-title">Написать запись в дневник</div>
+                <div class="dr-tag">📓 Рефлексия</div>
+              </div>
+              <div class="dr-check" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'○';this.closest('.diary-reminder').classList.toggle('done')">○</div>
+            </div>
+            <div class="diary-reminder">
+              <div class="dr-time">19:30</div>
+              <div class="dr-body">
+                <div class="dr-title">Подвести итоги дня</div>
+                <div class="dr-tag">🎯 Итоги</div>
+              </div>
+              <div class="dr-check" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'○';this.closest('.diary-reminder').classList.toggle('done')">○</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Training stats -->
+        <div class="card-widget">
+          <div class="widget-header"><span class="widget-title">🧠 Обучение клона</span></div>
+          <div class="diary-train-stats">
+            <div class="dts-row"><span class="dts-label">Записей в базе</span><span class="dts-val accent">47</span></div>
+            <div class="dts-row"><span class="dts-label">Добавлено за неделю</span><span class="dts-val">+8</span></div>
+            <div class="dts-row"><span class="dts-label">Качество данных</span><span class="dts-val green">Высокое</span></div>
+            <div class="dts-row"><span class="dts-label">Следующее обучение</span><span class="dts-val">19 июня</span></div>
+          </div>
+          <div class="btu-progress-wrap" style="margin-top:10px">
+            <div class="btu-progress-bar" style="width:72%"></div>
+          </div>
+          <p class="desc-sm" style="margin-top:6px">72% от рекомендуемого объёма записей</p>
+        </div>
+
+      </div>
+
+      <!-- CENTER: Entry editor -->
+      <div class="diary-center">
+        <div class="card-widget diary-editor-card">
+          <div class="diary-editor-header">
+            <div>
+              <div class="diary-editor-date" id="diaryEditorDate">15 июня 2026, воскресенье</div>
+              <input class="diary-entry-title" id="diaryEntryTitle" placeholder="Заголовок записи..." value="Итоги дня и планы" />
+            </div>
+            <div class="diary-mood-row">
+              <span class="diary-mood-label">Настроение:</span>
+              <div class="diary-mood-picker">
+                <button class="mood-btn" title="Отлично" onclick="setMood(this,'🤩')">🤩</button>
+                <button class="mood-btn active" title="Хорошо" onclick="setMood(this,'😊')">😊</button>
+                <button class="mood-btn" title="Нейтрально" onclick="setMood(this,'😐')">😐</button>
+                <button class="mood-btn" title="Устал" onclick="setMood(this,'😔')">😔</button>
+                <button class="mood-btn" title="Сложно" onclick="setMood(this,'😤')">😤</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category tabs -->
+          <div class="diary-cats">
+            <button class="diary-cat active" data-cat="reflection" onclick="setDiaryCat(this)">🪞 Рефлексия</button>
+            <button class="diary-cat" data-cat="ideas" onclick="setDiaryCat(this)">💡 Идеи</button>
+            <button class="diary-cat" data-cat="plans" onclick="setDiaryCat(this)">🎯 Планы</button>
+            <button class="diary-cat" data-cat="events" onclick="setDiaryCat(this)">📅 События</button>
+            <button class="diary-cat" data-cat="thoughts" onclick="setDiaryCat(this)">🧠 Мысли</button>
+            <button class="diary-cat" data-cat="gratitude" onclick="setDiaryCat(this)">🙏 Благодарность</button>
+          </div>
+
+          <!-- Text area -->
+          <textarea class="diary-textarea" id="diaryTextarea" placeholder="Начни писать... Твои мысли, наблюдения, идеи, планы. Клон учится на них, чтобы лучше тебя понимать.&#10;&#10;Сегодня я думал о..."></textarea>
+
+          <!-- Writing prompts -->
+          <div class="diary-prompts-row">
+            <span class="diary-prompts-label">Подсказки:</span>
+            <button class="diary-prompt-pill" onclick="insertPrompt('Сегодня я понял, что...')">💭 Инсайт дня</button>
+            <button class="diary-prompt-pill" onclick="insertPrompt('Я горжусь тем, что сегодня...')">⭐ Достижение</button>
+            <button class="diary-prompt-pill" onclick="insertPrompt('Завтра я хочу...')">🎯 Намерение</button>
+            <button class="diary-prompt-pill" onclick="insertPrompt('Меня беспокоит...')">🔴 Тревога</button>
+          </div>
+
+          <!-- Training toggle -->
+          <div class="diary-train-toggle">
+            <div class="diary-train-icon">🧠</div>
+            <div class="diary-train-info">
+              <div class="diary-train-title">Использовать для обучения клона</div>
+              <div class="diary-train-desc">Эта запись будет добавлена в базу знаний клона для дообучения. Регулируется политикой конфиденциальности.</div>
+            </div>
+            <label class="toggle"><input type="checkbox" id="diaryTrainToggle" checked><span class="slider"></span></label>
+          </div>
+
+          <!-- Actions -->
+          <div class="diary-editor-actions">
+            <button class="btn-outline-sm" onclick="showToast('Черновик сохранён')">📝 Черновик</button>
+            <div style="display:flex;gap:8px">
+              <button class="btn-secondary" onclick="aiExpandEntry()">✦ Расширить с AI</button>
+              <button class="btn-primary" onclick="saveDiaryEntry()">💾 Сохранить запись</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Past entries -->
+      <div class="diary-right">
+        <div class="card-widget" style="padding:0;overflow:hidden">
+          <div class="widget-header" style="padding:14px 16px">
+            <span class="widget-title">📚 Все записи</span>
+            <div class="diary-filter-row">
+              <button class="diary-filter active" onclick="filterDiary(this,'all')">Все</button>
+              <button class="diary-filter" onclick="filterDiary(this,'train')">🧠 Для клона</button>
+            </div>
+          </div>
+          <div class="diary-entries-list" id="diaryEntriesList">
+
+            <div class="diary-entry-item active" onclick="loadDiaryEntry(0)">
+              <div class="dei-top">
+                <span class="dei-mood">😊</span>
+                <span class="dei-date">Сегодня</span>
+                <span class="dei-train" title="Добавлено в обучение">🧠</span>
+              </div>
+              <div class="dei-title">Итоги дня и планы</div>
+              <div class="dei-preview">Сегодня я думал о запуске CLOONE и о том как строится...</div>
+              <div class="dei-tags"><span class="tag-chip" style="font-size:9px">🪞 Рефлексия</span></div>
+            </div>
+
+            <div class="diary-entry-item" onclick="loadDiaryEntry(1)">
+              <div class="dei-top">
+                <span class="dei-mood">🤩</span>
+                <span class="dei-date">14 июня</span>
+                <span class="dei-train" title="Добавлено в обучение">🧠</span>
+              </div>
+              <div class="dei-title">Большой прорыв в продукте</div>
+              <div class="dei-preview">Нашёл архитектурное решение для базы данных диалогов. Это меняет...</div>
+              <div class="dei-tags"><span class="tag-chip" style="font-size:9px">💡 Идеи</span></div>
+            </div>
+
+            <div class="diary-entry-item" onclick="loadDiaryEntry(2)">
+              <div class="dei-top">
+                <span class="dei-mood">😐</span>
+                <span class="dei-date">12 июня</span>
+              </div>
+              <div class="dei-title">Сложный разговор с инвестором</div>
+              <div class="dei-preview">Встреча прошла не так, как ожидал. Нужно переосмыслить питч...</div>
+              <div class="dei-tags"><span class="tag-chip" style="font-size:9px">📅 События</span></div>
+            </div>
+
+            <div class="diary-entry-item" onclick="loadDiaryEntry(3)">
+              <div class="dei-top">
+                <span class="dei-mood">😊</span>
+                <span class="dei-date">10 июня</span>
+                <span class="dei-train" title="Добавлено в обучение">🧠</span>
+              </div>
+              <div class="dei-title">Новые мысли о будущем проекта</div>
+              <div class="dei-preview">Я всё больше думаю о том, что CLOONE — это не просто продукт...</div>
+              <div class="dei-tags"><span class="tag-chip" style="font-size:9px">🧠 Мысли</span></div>
+            </div>
+
+            <div class="diary-entry-item" onclick="loadDiaryEntry(4)">
+              <div class="dei-top">
+                <span class="dei-mood">🙏</span>
+                <span class="dei-date">8 июня</span>
+                <span class="dei-train" title="Добавлено в обучение">🧠</span>
+              </div>
+              <div class="dei-title">Благодарность за команду</div>
+              <div class="dei-preview">Сегодня понял насколько важна команда. Без поддержки...</div>
+              <div class="dei-tags"><span class="tag-chip" style="font-size:9px">🙏 Благодарность</span></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /diary-layout -->
+  </div>
+
+  <!-- ─── PAGE: ANALYTICS ─── -->
+  <div class="page hidden" id="page-analytics">
+    <div class="page-topbar">
+      <div><h1 class="page-title">Аналитика</h1><p class="page-sub">Детальная статистика работы твоего клона</p></div>
+      <div class="page-actions">
+        <select class="period-select"><option>Последние 30 дней</option><option>Последние 7 дней</option><option>Этот месяц</option></select>
+        <button class="btn-secondary">Экспорт</button>
+      </div>
+    </div>
+    <div class="analytics-grid">
+      <div class="card-widget stat-card"><div class="stat-icon purple">💬</div><div class="stat-val">1 247</div><div class="stat-label">Всего диалогов</div><div class="stat-change positive">+18% ↑</div></div>
+      <div class="card-widget stat-card"><div class="stat-icon green">✓</div><div class="stat-val">84%</div><div class="stat-label">Точность ответов</div><div class="stat-change positive">+3% ↑</div></div>
+      <div class="card-widget stat-card"><div class="stat-icon orange">⏱</div><div class="stat-val">47ч</div><div class="stat-label">Сэкономлено времени</div><div class="stat-change positive">+12ч ↑</div></div>
+      <div class="card-widget stat-card"><div class="stat-icon red">⚡</div><div class="stat-val">23</div><div class="stat-label">Эскалаций</div><div class="stat-change negative">-5% ↓</div></div>
+      <div class="card-widget span-2">
+        <div class="widget-header"><span class="widget-title">Активность диалогов</span></div>
+        <canvas id="analyticsChart" height="120"></canvas>
+      </div>
+      <div class="card-widget">
+        <div class="widget-header"><span class="widget-title">По каналам</span></div>
+        <div class="channel-stats">
+          <div class="ch-stat-row"><div class="dsn-ch-dot tg"></div><span>Telegram</span><div class="ch-stat-bar-wrap"><div class="ch-stat-bar" style="width:65%"></div></div><span class="ch-stat-pct">65%</span></div>
+          <div class="ch-stat-row"><div class="dsn-ch-dot ig"></div><span>Instagram</span><div class="ch-stat-bar-wrap"><div class="ch-stat-bar" style="width:22%"></div></div><span class="ch-stat-pct">22%</span></div>
+          <div class="ch-stat-row"><div class="dsn-ch-dot wa"></div><span>WhatsApp</span><div class="ch-stat-bar-wrap"><div class="ch-stat-bar" style="width:10%"></div></div><span class="ch-stat-pct">10%</span></div>
+          <div class="ch-stat-row"><div class="dsn-ch-dot" style="background:#0077ff"></div><span>VK</span><div class="ch-stat-bar-wrap"><div class="ch-stat-bar" style="width:3%;background:#0077ff"></div></div><span class="ch-stat-pct">3%</span></div>
+        </div>
+      </div>
+      <div class="card-widget span-2">
+        <div class="widget-header"><span class="widget-title">Топ тематики диалогов</span></div>
+        <div class="topic-list">
+          <div class="topic-item"><span class="topic-rank">1</span><span class="topic-name">Продуктивность и планирование</span><span class="topic-count">312 диалогов</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:78%"></div></div></div>
+          <div class="topic-item"><span class="topic-rank">2</span><span class="topic-name">Советы по развитию</span><span class="topic-count">241 диалог</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:60%"></div></div></div>
+          <div class="topic-item"><span class="topic-rank">3</span><span class="topic-name">Консультации по продукту</span><span class="topic-count">198 диалогов</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:50%"></div></div></div>
+          <div class="topic-item"><span class="topic-rank">4</span><span class="topic-name">Личные вопросы</span><span class="topic-count">156 диалогов</span><div class="topic-bar-wrap"><div class="topic-bar" style="width:39%"></div></div></div>
+        </div>
+      </div>
+      <div class="card-widget">
+        <div class="widget-header"><span class="widget-title">Время ответа</span></div>
+        <div class="big-num">1.4с</div>
+        <p class="desc-sm">Среднее время ответа клона</p>
+        <div class="time-breakdown">
+          <div class="tb-row"><span>Мгновенно (&lt;1с)</span><span class="tb-pct">68%</span></div>
+          <div class="tb-row"><span>Быстро (1-3с)</span><span class="tb-pct">28%</span></div>
+          <div class="tb-row"><span>Медленно (&gt;3с)</span><span class="tb-pct">4%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: INTEGRATIONS ─── -->
+  <div class="page hidden" id="page-integrations">
+    <div class="page-topbar">
+      <div><h1 class="page-title">Интеграции</h1><p class="page-sub">Управление источниками данных и каналами общения клона</p></div>
+    </div>
+
+    <!-- Consent Notice -->
+    <div class="int-consent-banner">
+      <div class="int-consent-icon">🔒</div>
+      <div class="int-consent-text">
+        <strong>Только ваши данные, только с вашего согласия</strong>
+        <p>CLOONE обучает клон исключительно на <em>ваших исходящих сообщениях</em>. Сообщения других людей не используются без их согласия. Все данные зашифрованы и хранятся локально.</p>
+      </div>
+    </div>
+
+    <!-- Section: Direct API -->
+    <div class="int-section-header">
+      <div class="int-section-label api">⚡ Прямое API-подключение</div>
+      <span class="int-section-desc">Автоматическая синхронизация · Официальные API · Легально</span>
+    </div>
+    <div class="integrations-grid">
+      <!-- Telegram -->
+      <div class="int-card connected">
+        <div class="int-card-header">
+          <div class="int-icon tg"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.032 9.57c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.52 14.44l-2.95-.924c-.642-.2-.654-.642.136-.953l11.526-4.445c.535-.194 1.004.13.33.13z"/></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="int-status connected">● Подключён</span>
+            <span class="int-mode-badge api">MTProto API</span>
+          </div>
+        </div>
+        <h3 class="int-name">Telegram</h3>
+        <p class="int-desc">Авторизация через QR-код · Личные чаты и каналы · Автосинхронизация каждый час</p>
+        <div class="int-stats"><span>12 847 сообщений</span><span>Синхр: 20 мин назад</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-outline-sm" style="flex:1" onclick="showToast('Настройки Telegram')">Настроить</button>
+          <button class="btn-outline-sm" onclick="showToast('Синхронизация...')">↻</button>
+        </div>
+      </div>
+      <!-- VK -->
+      <div class="int-card">
+        <div class="int-card-header">
+          <div class="int-icon" style="background:#0077ff"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14C20.67 22 22 20.67 22 15.07V8.93C22 3.33 20.67 2 15.07 2zm2.95 13.86h-1.57c-.59 0-.77-.47-1.83-1.54-1.04-1.04-1.48-.82-1.83.04-.35.86-.88 1.5-1.75 1.5-.88 0-2.19-1.12-3.16-3.22C6.75 10.2 6.05 8 7.1 8c.43 0 .77.3 1.43 1.62C9.2 11 9.72 11.5 10 11.5c.3 0 .5-.14.5-.95V8.93c-.06-.58-.3-.84-.3-.84s-.2-.24.23-.24h2.4c.38 0 .5.18.5.6v2.4c0 .4.2.57.3.57.27 0 .54-.2 1.27-1 .9-1 1.46-2.53 1.46-2.53.17-.33.43-.6.86-.6h1.57c.5 0 .6.25.5.6-.35 1.17-2.36 3.97-2.36 3.97-.17.28-.23.4 0 .73l1.9 1.83c.57.57.83 1.06.83 1.44 0 .38-.18.6-.54.6z"/></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="int-status disconnected">○ Не подключён</span>
+            <span class="int-mode-badge api">VK Open API</span>
+          </div>
+        </div>
+        <h3 class="int-name">VK</h3>
+        <p class="int-desc">OAuth-авторизация · Исходящие сообщения (messages.get) · Автосинхронизация</p>
+        <div class="int-stats"><span>—</span></div>
+        <button class="btn-primary sm" onclick="showToast('Авторизация VK через OAuth...')">Подключить</button>
+      </div>
+      <!-- Notion -->
+      <div class="int-card connected">
+        <div class="int-card-header">
+          <div class="int-icon" style="background:#000;font-size:22px;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:center">N</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="int-status connected">● Подключён</span>
+            <span class="int-mode-badge api">Notion API</span>
+          </div>
+        </div>
+        <h3 class="int-name">Notion</h3>
+        <p class="int-desc">Integration Token · Заметки, базы данных, страницы знаний · Синхронизация</p>
+        <div class="int-stats"><span>3 891 фрагмент</span><span>Синхр: вчера</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-outline-sm" style="flex:1" onclick="showToast('Настройки Notion')">Настроить</button>
+          <button class="btn-outline-sm" onclick="showToast('Синхронизация Notion...')">↻</button>
+        </div>
+      </div>
+      <!-- Google -->
+      <div class="int-card">
+        <div class="int-card-header">
+          <div class="int-icon" style="background:#fff;border:1px solid #e0e0e0"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="int-status disconnected">○ Не подключён</span>
+            <span class="int-mode-badge api">Google OAuth 2.0</span>
+          </div>
+        </div>
+        <h3 class="int-name">Google</h3>
+        <p class="int-desc">Gmail + Drive + Docs · OAuth 2.0 · Полная интеграция с Google Workspace</p>
+        <div class="int-stats"><span>—</span></div>
+        <button class="btn-primary sm" onclick="showToast('Авторизация Google...')">Подключить</button>
+      </div>
+    </div>
+
+    <!-- Section: Manual Upload -->
+    <div class="int-section-header" style="margin-top:28px">
+      <div class="int-section-label upload">📁 Ручная загрузка архива</div>
+      <span class="int-section-desc">Загружаете файл вручную · Данные остаются у вас · Без скрейпинга</span>
+    </div>
+    <div class="integrations-grid">
+      <!-- WhatsApp -->
+      <div class="int-card connected">
+        <div class="int-card-header">
+          <div class="int-icon wa"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="int-status connected">● Загружено</span>
+            <span class="int-mode-badge upload">Архив .zip</span>
+          </div>
+        </div>
+        <h3 class="int-name">WhatsApp</h3>
+        <p class="int-desc">Настройки → Аккаунт → Запросить данные · WhatsApp пришлёт .zip с вашими чатами</p>
+        <div class="int-stats"><span>5 231 сообщений</span><span>Загружено: 10 июня</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-outline-sm" style="flex:1" onclick="showToast('Загрузка нового архива WhatsApp...')">Обновить архив</button>
+          <button class="btn-outline-sm" onclick="showToast('Инструкция по экспорту WhatsApp...')">?</button>
+        </div>
+      </div>
+      <!-- Instagram -->
+      <div class="int-card">
+        <div class="int-card-header">
+          <div class="int-icon" style="background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="white" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2.5"/></svg></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span class="int-status disconnected">○ Не загружено</span>
+            <span class="int-mode-badge upload">Архив .json</span>
+          </div>
+        </div>
+        <h3 class="int-name">Instagram</h3>
+        <p class="int-desc">Настройки → Конфиденциальность → Скачать данные · Загрузите .json с DM</p>
+        <div class="int-stats"><span>—</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary sm" style="flex:1" onclick="showToast('Загрузка архива Instagram...')">Загрузить архив</button>
+          <button class="btn-outline-sm" onclick="showToast('Инструкция по экспорту Instagram...')">?</button>
+        </div>
+      </div>
+      <!-- Upload zone -->
+      <div class="int-card int-upload-zone" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleIntDrop(event)">
+        <div class="add-int-content">
+          <div class="add-int-icon">📂</div>
+          <h3>Загрузить файл</h3>
+          <p>Перетащите .zip, .json или .txt с экспортом из любого мессенджера</p>
+          <button class="btn-outline-sm" onclick="showToast('Открываю файловый менеджер...')">Выбрать файл</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Not available -->
+    <div class="int-section-header" style="margin-top:28px">
+      <div class="int-section-label locked">🚫 Недоступно</div>
+      <span class="int-section-desc">Нарушение ToS или закрытые API · Интеграция невозможна</span>
+    </div>
+    <div class="integrations-grid int-locked-grid">
+      <div class="int-card int-locked">
+        <div class="int-card-header"><div class="int-icon" style="background:#1877f2"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><span class="int-mode-badge locked">API заблокирован (2018)</span></div>
+        <h3 class="int-name" style="color:var(--text-dim)">Facebook DM</h3>
+        <p class="int-desc">API личных сообщений закрыт после Cambridge Analytica. Использование невозможно.</p>
+      </div>
+      <div class="int-card int-locked">
+        <div class="int-card-header"><div class="int-icon" style="background:#000"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div><span class="int-mode-badge locked">$100+/мес</span></div>
+        <h3 class="int-name" style="color:var(--text-dim)">X (Twitter) DM</h3>
+        <p class="int-desc">API DM заблокирован на бесплатном тарифе. Платный API v2 — от $100/мес.</p>
+      </div>
+      <div class="int-card int-locked">
+        <div class="int-card-header"><div class="int-icon" style="background:#0a66c2"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div><span class="int-mode-badge locked">ToS §8.2</span></div>
+        <h3 class="int-name" style="color:var(--text-dim)">LinkedIn</h3>
+        <p class="int-desc">Жёсткий запрет автоматического доступа к переписке. Нарушение ToS §8.2.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: SETTINGS ─── -->
+  <div class="page hidden" id="page-settings">
+    <div class="page-topbar">
+      <div><h1 class="page-title">Настройки</h1><p class="page-sub">Управление аккаунтом и параметрами клона</p></div>
+    </div>
+    <div class="settings-layout">
+      <div class="settings-nav">
+        <a class="settings-nav-item active" onclick="switchSettings(this,'set-profile')">Профиль</a>
+        <a class="settings-nav-item" onclick="switchSettings(this,'set-clone')">Клон</a>
+        <a class="settings-nav-item" onclick="switchSettings(this,'set-security')">Безопасность</a>
+        <a class="settings-nav-item" onclick="switchSettings(this,'set-notifications')">Уведомления</a>
+        <a class="settings-nav-item" onclick="switchSettings(this,'set-billing')">Тарифы</a>
+      </div>
+      <div class="settings-content">
+        <div id="set-profile" class="set-panel">
+          <h2 class="set-title">Профиль</h2>
+          <div class="set-avatar-row">
+            <div class="set-avatar">А</div>
+            <div><p class="set-name-big">Алексей</p><p class="set-email">alexey@example.com</p><button class="btn-outline-xs">Изменить фото</button></div>
+          </div>
+          <div class="form-group"><label>Имя</label><input type="text" value="Алексей" /></div>
+          <div class="form-group"><label>Email</label><input type="email" value="alexey@example.com" /></div>
+          <div class="form-group"><label>Телефон</label><input type="tel" value="+7 999 123 45 67" /></div>
+          <div class="form-group"><label>Часовой пояс</label><select><option>Europe/Moscow (UTC+3)</option></select></div>
+          <button class="btn-primary">Сохранить изменения</button>
+        </div>
+        <div id="set-clone" class="set-panel hidden">
+          <h2 class="set-title">Настройки клона</h2>
+          <div class="form-group"><label>Имя клона</label><input type="text" value="Алексей (клон)" /></div>
+          <div class="form-group"><label>Стиль общения</label><select><option>Дружелюбный и неформальный</option><option>Профессиональный</option><option>Смешанный</option></select></div>
+          <div class="toggle-group"><span>Автоответы включены</span><label class="toggle"><input type="checkbox" checked /><span class="slider"></span></label></div>
+          <div class="toggle-group"><span>Уведомлять при эскалации</span><label class="toggle"><input type="checkbox" checked /><span class="slider"></span></label></div>
+          <div class="toggle-group"><span>Обучение в реальном времени</span><label class="toggle"><input type="checkbox" /><span class="slider"></span></label></div>
+          <button class="btn-primary">Сохранить</button>
+
+          <!-- Rights & Learning Dashboard -->
+          <div class="rights-section">
+            <h3 class="rights-section-title">🔒 Права и обучение</h3>
+            
+            <div class="rights-stats-grid">
+              <div class="rights-stat-card">
+                <div class="rights-stat-num green" id="statConsentAccepted">4</div>
+                <div class="rights-stat-label">С согласием</div>
+              </div>
+              <div class="rights-stat-card">
+                <div class="rights-stat-num dim" id="statConsentNone">2</div>
+                <div class="rights-stat-label">Без согласия</div>
+              </div>
+              <div class="rights-stat-card">
+                <div class="rights-stat-num orange" id="statConsentDeclined">1</div>
+                <div class="rights-stat-label">Отказы</div>
+              </div>
+            </div>
+
+            <div class="rights-bar-row">
+              <div class="rights-bar-label">Диалоги с согласием</div>
+              <div class="rights-bar-track">
+                <div class="rights-bar-fill" id="barConsentAccepted" style="width: 57%; background: var(--green);"></div>
+              </div>
+              <div class="rights-bar-pct" id="pctConsentAccepted">57%</div>
+            </div>
+            
+            <div class="rights-bar-row">
+              <div class="rights-bar-label">Диалоги без согласия</div>
+              <div class="rights-bar-track">
+                <div class="rights-bar-fill" id="barConsentNone" style="width: 29%; background: var(--text-dim);"></div>
+              </div>
+              <div class="rights-bar-pct" id="pctConsentNone">29%</div>
+            </div>
+
+            <div class="rights-bar-row">
+              <div class="rights-bar-label">Отозванные согласия</div>
+              <div class="rights-bar-track">
+                <div class="rights-bar-fill" id="barConsentDeclined" style="width: 14%; background: var(--orange);"></div>
+              </div>
+              <div class="rights-bar-pct" id="pctConsentDeclined">14%</div>
+            </div>
+
+            <div class="rights-toggles">
+              <div class="toggle-group">
+                <span>Обучение на диалогах</span>
+                <label class="toggle"><input type="checkbox" checked id="toggleLearningActive" /><span class="slider"></span></label>
+              </div>
+              <div class="toggle-group">
+                <span>Автозапрос согласия</span>
+                <label class="toggle"><input type="checkbox" checked id="toggleConsentAuto" /><span class="slider"></span></label>
+              </div>
+              <div class="toggle-group">
+                <span>Уведомлять при подключении</span>
+                <label class="toggle"><input type="checkbox" checked id="toggleNotifConnect" /><span class="slider"></span></label>
+              </div>
+            </div>
+
+            <button class="rights-export-btn" onclick="exportConsentLog()">
+              <span>📥 Экспорт журнала согласий</span>
+            </button>
+          </div>
+        </div>
+        <div id="set-security" class="set-panel hidden">
+          <h2 class="set-title">Безопасность</h2>
+          <div class="form-group"><label>Текущий пароль</label><input type="password" placeholder="••••••••" /></div>
+          <div class="form-group"><label>Новый пароль</label><input type="password" placeholder="••••••••" /></div>
+          <div class="form-group"><label>Подтвердить пароль</label><input type="password" placeholder="••••••••" /></div>
+          <button class="btn-primary">Изменить пароль</button>
+          <div class="danger-zone"><h3>Опасная зона</h3><button class="btn-danger">Удалить аккаунт</button></div>
+        </div>
+        <div id="set-notifications" class="set-panel hidden">
+          <h2 class="set-title">Уведомления</h2>
+          <div class="toggle-group"><span>Email уведомления</span><label class="toggle"><input type="checkbox" checked /><span class="slider"></span></label></div>
+          <div class="toggle-group"><span>Push уведомления</span><label class="toggle"><input type="checkbox" checked /><span class="slider"></span></label></div>
+          <div class="toggle-group"><span>Уведомления об эскалации</span><label class="toggle"><input type="checkbox" checked /><span class="slider"></span></label></div>
+          <div class="toggle-group"><span>Еженедельный отчёт</span><label class="toggle"><input type="checkbox" /><span class="slider"></span></label></div>
+          <button class="btn-primary">Сохранить</button>
+        </div>
+        <div id="set-billing" class="set-panel hidden">
+          <h2 class="set-title">Тарифы</h2>
+          <div class="billing-plan"><div class="bp-badge">Pro план</div><p class="bp-price">₽4 990 / месяц</p><p class="bp-renew">Следующее списание: 14 июля 2026</p></div>
+          <div class="plan-cards">
+            <div class="plan-card active"><h3>Pro</h3><p class="plan-price">₽4 990/мес</p><ul><li>✓ Все каналы</li><li>✓ Аналитика</li><li>✓ Зеркало</li><li>✓ 50 000 токенов/мес</li></ul><button class="btn-outline-sm">Текущий план</button></div>
+            <div class="plan-card"><h3>Business</h3><p class="plan-price">₽12 990/мес</p><ul><li>✓ Всё из Pro</li><li>✓ API доступ</li><li>✓ Команда</li><li>✓ Безлимит</li></ul><button class="btn-primary">Улучшить</button></div>
+          </div>
+          
+          <div class="billing-tokens-usage">
+            <div class="btu-header">
+              <h4>Использование токенов в этом месяце</h4>
+              <span>42 500 / 50 000 токенов</span>
+            </div>
+            <div class="btu-progress-wrap">
+              <div class="btu-progress-bar" style="width: 85%"></div>
+            </div>
+            <div class="btu-footer">
+              <p>При израсходовании лимита клон приостановит автоответы.</p>
+              <button class="btn-primary sm" onclick="showToast('Открываю форму докупки токенов...')">Докупить токены</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: MONETIZATION ─── -->
+  <div class="page hidden" id="page-monetization">
+    <div class="page-topbar">
+      <div>
+        <h1 class="page-title">Монетизация</h1>
+        <p class="page-sub">Продавай доступ к своему цифровому клону через своё сообщество · <span style="color:var(--accent);font-weight:600;">Роялти CLOONE: 10%</span></p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-secondary" onclick="copyCloneLink()">🔗 Поделиться ссылкой</button>
+        <button class="btn-primary" onclick="showToast('Открываю редактор тарифов...')">+ Создать тариф</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="analytics-grid" style="margin-bottom:20px">
+      <div class="card-widget">
+        <div class="widget-header"><span class="widget-title">Доход месяца</span></div>
+        <div class="big-percent" style="color:#f59e0b;font-size:28px;margin-bottom:4px;">₽44 550</div>
+        
+        <div class="royalty-row" style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-dim);margin-bottom:4px;">
+          <span>Роялти CLOONE (10%):</span>
+          <strong>-₽4 455</strong>
+        </div>
+        <div class="net-revenue-row" style="display:flex;justify-content:space-between;font-size:12px;color:var(--green);font-weight:600;padding-top:6px;border-top:1px dashed var(--border);margin-bottom:8px;">
+          <span>Чистый доход:</span>
+          <span>₽40 095</span>
+        </div>
+        
+        <div class="stat-change positive" style="margin-top:4px">+₽8 200 vs прошлый месяц ↑</div>
+      </div>
+      <div class="card-widget">
+        <div class="widget-header"><span class="widget-title">Подписчики</span></div>
+        <div class="big-percent" style="color:var(--accent);font-size:28px">127</div>
+        <div class="stat-change positive" style="margin-top:4px">+14 новых ↑</div>
+      </div>
+      <div class="card-widget">
+        <div class="widget-header"><span class="widget-title">Активных подписок</span></div>
+        <div class="big-percent" style="color:var(--green);font-size:28px">89</div>
+        <div class="stat-change positive" style="margin-top:4px">+7 за месяц ↑</div>
+      </div>
+      <div class="card-widget">
+        <div class="widget-header"><span class="widget-title">Конверсия</span></div>
+        <div class="big-percent" style="color:#3b82f6;font-size:28px">70%</div>
+        <div class="stat-change positive" style="margin-top:4px">+5% ↑</div>
+      </div>
+    </div>
+
+    <div class="mon-grid">
+      <!-- Clone public card -->
+      <div class="card-widget mon-clone-card">
+        <div class="widget-header"><span class="widget-title">Твоя публичная копия</span><span class="plan-badge pro" style="margin-left:auto">Pro</span></div>
+        <div class="clone-pub-profile">
+          <div class="set-avatar" style="width:56px;height:56px;font-size:22px;flex-shrink:0">А</div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text)">Алексей (CLOONE)</p>
+            <p class="desc-sm">Эксперт в продуктивности и предпринимательстве</p>
+          </div>
+        </div>
+        <div class="clone-link-block">
+          <p style="font-size:12px;color:var(--text-mid);margin-bottom:8px">Публичная ссылка:</p>
+          <div class="clone-link-input">
+            <span class="clone-link-url">cloone.app/alexey</span>
+            <button class="btn-outline-xs" onclick="copyCloneLink()">Копировать</button>
+          </div>
+          <p class="desc-sm">Поделитесь этой ссылкой — люди смогут общаться с вашим клоном</p>
+        </div>
+        <div class="clone-access-settings">
+          <div class="toggle-group" style="padding:7px 0"><span style="font-size:12.5px">Публичный доступ</span><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="toggle-group" style="padding:7px 0"><span style="font-size:12.5px">Требовать подписку</span><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+          <div class="toggle-group" style="padding:7px 0"><span style="font-size:12.5px">Бесплатный пробный период (7 дней)</span><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+          <div class="toggle-group train-toggle-row" style="padding:7px 0;flex-wrap:wrap;gap:4px">
+            <div style="flex:1;min-width:0">
+              <span style="font-size:12.5px;font-weight:600">Обучение на диалогах</span>
+              <p class="train-consent-note">Согласие на использование переписки для дообучения клона включено в оферту подписки и политику конфиденциальности CLOONE</p>
+            </div>
+            <label class="toggle" style="flex-shrink:0;margin-top:2px"><input type="checkbox" checked id="trainOnDialogsToggle" onchange="showToast(this.checked ? '🧠 Обучение на диалогах включено' : '🛑 Обучение на диалогах отключено')"><span class="slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Token Limit card -->
+      <div class="card-widget mon-token-card">
+        <div class="widget-header"><span class="widget-title">Токены Pro-плана</span><span class="plan-badge pro" style="margin-left:auto">50 000/мес</span></div>
+        <div class="mon-token-big">42 500</div>
+        <p class="desc-sm" style="margin-bottom:10px">использовано из 50 000 токенов</p>
+        <div class="btu-progress-wrap" style="margin-bottom:10px">
+          <div class="btu-progress-bar" style="width:85%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-dim);margin-bottom:12px">
+          <span>Осталось: <strong style="color:var(--text)">7 500</strong></span>
+          <span>Обновление: <strong style="color:var(--text)">14 июля</strong></span>
+        </div>
+        <p class="desc-sm" style="margin-bottom:10px">Токены тратятся на каждый ответ клона. При исчерпании — автоответы приостанавливаются.</p>
+        <button class="btn-primary" style="width:100%" onclick="showToast('💳 Открываю покупку токенов...')">+ Докупить токены</button>
+      </div>
+
+      <!-- Revenue chart -->
+      <div class="card-widget mon-chart-card">
+        <div class="widget-header">
+          <span class="widget-title">Доход по месяцам</span>
+          <select class="period-select" style="font-size:12px;padding:5px 10px;border:1px solid var(--border);border-radius:6px;margin-left:auto">
+            <option>Последние 6 месяцев</option>
+            <option>Год</option>
+          </select>
+        </div>
+        <canvas id="revenueChart" style="width:100%;height:130px"></canvas>
+      </div>
+
+      <!-- Plans table -->
+      <div class="card-widget mon-plans-card">
+        <div class="widget-header"><span class="widget-title">Тарифные планы</span><button class="btn-primary" style="padding:6px 14px;font-size:12px;margin-left:auto" onclick="showToast('Открываю редактор тарифов...')">+ Создать тариф</button></div>
+        <div class="plans-table">
+          <div class="pt-header"><span>Название</span><span>Цена</span><span>Чистый доход</span><span>Подписчики</span><span>Доход брутто</span><span>Возможности</span><span>Статус</span><span></span></div>
+          <div class="pt-row">
+            <div class="pt-name"><span class="plan-badge basic">Базовый</span>Базовый доступ</div>
+            <div><span class="pt-price">₽490/мес</span><span class="pt-net-price">→ ₽441 вам</span></div>
+            <span class="pt-rev">₽23 814</span>
+            <span class="pt-subs">54 подписчика</span>
+            <span class="pt-rev" style="color:var(--text-mid)">₽26 460</span>
+            <div class="pt-features"><span class="tag-chip" style="font-size:10px">50 сообщений/день</span><span class="tag-chip" style="font-size:10px">Telegram</span></div>
+            <span class="sr-status synced">✓ Активен</span>
+            <button class="btn-outline-xs" onclick="showToast('Редактирование тарифа Базовый...')">Изменить</button>
+          </div>
+          <div class="pt-row">
+            <div class="pt-name"><span class="plan-badge pro">Pro</span>Расширенный доступ</div>
+            <div><span class="pt-price">₽990/мес</span><span class="pt-net-price">→ ₽891 вам</span></div>
+            <span class="pt-rev">₽26 730</span>
+            <span class="pt-subs">30 подписчиков</span>
+            <span class="pt-rev" style="color:var(--text-mid)">₽29 700</span>
+            <div class="pt-features"><span class="tag-chip" style="font-size:10px">Безлимит</span><span class="tag-chip" style="font-size:10px">Все каналы</span><span class="tag-chip" style="font-size:10px">Приоритет</span></div>
+            <span class="sr-status synced">✓ Активен</span>
+            <button class="btn-outline-xs" onclick="showToast('Редактирование тарифа Pro...')">Изменить</button>
+          </div>
+          <div class="pt-row">
+            <div class="pt-name"><span class="plan-badge vip">VIP</span>Личное общение</div>
+            <div><span class="pt-price">₽2 990/мес</span><span class="pt-net-price">→ ₽2 691 вам</span></div>
+            <span class="pt-rev">₽13 455</span>
+            <span class="pt-subs">5 подписчиков</span>
+            <span class="pt-rev" style="color:var(--text-mid)">₽14 950</span>
+            <div class="pt-features"><span class="tag-chip" style="font-size:10px">Голосовые</span><span class="tag-chip" style="font-size:10px">Видео-сессии</span><span class="tag-chip" style="font-size:10px">Личная связь</span></div>
+            <span class="sr-status synced">✓ Активен</span>
+            <button class="btn-outline-xs" onclick="showToast('Редактирование тарифа VIP...')">Изменить</button>
+          </div>
+          <div class="pt-royalty-note">* Роялти CLOONE 10% автоматически вычитается из каждого платежа. Ваш чистый доход указан выше.</div>
+        </div>
+      </div>
+
+      <!-- Community -->
+      <div class="card-widget mon-comm-card">
+        <div class="widget-header"><span class="widget-title">Сообщества для продажи</span></div>
+        <div class="community-list">
+          <div class="comm-item">
+            <div class="source-icon tg" style="width:32px;height:32px;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.032 9.57c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.52 14.44l-2.95-.924c-.642-.2-.654-.642.136-.953l11.526-4.445c.535-.194 1.004.13.33.13z"/></svg></div>
+            <div class="comm-info"><span class="comm-name">Telegram-канал</span><span class="desc-sm">24 300 подписчиков</span></div>
+            <span class="sr-status synced">✓ Виджет</span>
+          </div>
+          <div class="comm-item">
+            <div class="source-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+            <div class="comm-info"><span class="comm-name">Instagram</span><span class="desc-sm">8 700 подписчиков</span></div>
+            <button class="btn-outline-xs" onclick="showToast('Подключение Instagram...')">Добавить</button>
+          </div>
+          <div class="comm-item">
+            <div class="source-icon" style="background:var(--accent);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🌐</div>
+            <div class="comm-info"><span class="comm-name">Свой сайт</span><span class="desc-sm">Виджет-кнопка или встроенный чат</span></div>
+            <button class="btn-outline-xs" onclick="showToast('Копирую код виджета...')">Код</button>
+          </div>
+          <div class="comm-item">
+            <div class="source-icon" style="background:#ff6b6b;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">▶</div>
+            <div class="comm-info"><span class="comm-name">YouTube</span><span class="desc-sm">Ссылка в описании видео</span></div>
+            <button class="btn-outline-xs" onclick="showToast('Добавление YouTube...')">Добавить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscribers list -->
+      <div class="card-widget mon-subs-card">
+        <div class="widget-header"><span class="widget-title">Последние подписчики</span><button class="link-btn ml-auto" onclick="showToast('Полный список...')">Все →</button></div>
+        <div class="subscribers-list">
+          <div class="sub-item">
+            <div class="dialog-avatar" style="background:#e8d5fb;color:#7c3aed;width:32px;height:32px;font-size:13px;flex-shrink:0">М</div>
+            <div class="sub-info"><span class="dc-name" style="font-size:12px">Мария К.</span><span class="desc-sm">Pro · Telegram</span></div>
+            <div style="text-align:right;flex-shrink:0"><span class="tag-replied">Активна</span><p class="desc-sm">14 июня</p></div>
+          </div>
+          <div class="sub-item">
+            <div class="dialog-avatar" style="background:#dbeafe;color:#2563eb;width:32px;height:32px;font-size:13px;flex-shrink:0">Д</div>
+            <div class="sub-info"><span class="dc-name" style="font-size:12px">Дмитрий А.</span><span class="desc-sm">Базовый · Instagram</span></div>
+            <div style="text-align:right;flex-shrink:0"><span class="tag-replied">Активен</span><p class="desc-sm">12 июня</p></div>
+          </div>
+          <div class="sub-item">
+            <div class="dialog-avatar" style="background:#d1fae5;color:#065f46;width:32px;height:32px;font-size:13px;flex-shrink:0">С</div>
+            <div class="sub-info"><span class="dc-name" style="font-size:12px">Светлана О.</span><span class="desc-sm">VIP · Сайт</span></div>
+            <div style="text-align:right;flex-shrink:0"><span class="tag-replied">Активна</span><p class="desc-sm">10 июня</p></div>
+          </div>
+          <div class="sub-item">
+            <div class="dialog-avatar" style="background:#fce7f3;color:#be185d;width:32px;height:32px;font-size:13px;flex-shrink:0">Е</div>
+            <div class="sub-info"><span class="dc-name" style="font-size:12px">Екатерина В.</span><span class="desc-sm">Pro · Telegram</span></div>
+            <div style="text-align:right;flex-shrink:0"><span class="tag-attention" style="background:rgba(245,158,11,0.1);color:#b45309;border:1px solid rgba(245,158,11,0.3);padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600">Истекает</span><p class="desc-sm">8 июня</p></div>
+          </div>
+          <div class="sub-item">
+            <div class="dialog-avatar" style="background:#fef3c7;color:#92400e;width:32px;height:32px;font-size:13px;flex-shrink:0">И</div>
+            <div class="sub-info"><span class="dc-name" style="font-size:12px">Иван П.</span><span class="desc-sm">Базовый · Instagram</span></div>
+            <div style="text-align:right;flex-shrink:0"><span class="tag-closed">Истёк</span><p class="desc-sm">1 июня</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PAGE: PROFILE (Onboarding Hierarchy) ─── -->
+  <div class="page hidden" id="page-profile">
+    <div class="page-topbar">
+      <div>
+        <h1 class="page-title">Мой профиль клона</h1>
+        <p class="page-sub">Иерархия знаний · 6 уровней · Обучающие данные для клона</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-secondary" onclick="showToast('Экспорт профиля...')">📄 Экспорт</button>
+        <button class="btn-primary" onclick="showToast('✦ Запускаю сессию онбординга...')">✦ Начать сессию</button>
+      </div>
+    </div>
+
+    <!-- Summary bar -->
+    <div class="profile-summary-bar card-widget" style="margin-bottom:24px;">
+      <div class="psb-item">
+        <div class="psb-val accent">27 / 47</div>
+        <div class="psb-label">измерений заполнено</div>
+      </div>
+      <div class="psb-divider"></div>
+      <div class="psb-item">
+        <div class="psb-val">1.5 / 6</div>
+        <div class="psb-label">уровней завершено</div>
+      </div>
+      <div class="psb-divider"></div>
+      <div class="psb-item">
+        <div class="psb-val green">142</div>
+        <div class="psb-label">фактов в RAG-памяти</div>
+      </div>
+      <div class="psb-divider"></div>
+      <div class="psb-item">
+        <div class="psb-val orange">⚠ Уровень 4</div>
+        <div class="psb-label">критичный — не заполнен</div>
+      </div>
+    </div>
+
+    <div class="profile-levels-list">
+
+      <!-- Level 0 -->
+      <div class="profile-level-card done">
+        <div class="plc-header">
+          <div class="plc-icon">🪪</div>
+          <div class="plc-title-group">
+            <div class="plc-level-tag">Уровень 0</div>
+            <div class="plc-title">Якорь идентичности</div>
+            <div class="plc-desc">Базовые координаты личности — первооснова всего профиля</div>
+          </div>
+          <div class="plc-meta">
+            <div class="plc-status done">✓ Заполнен</div>
+            <div class="plc-vectors"><span class="vector-tag-sm">V21: Narrative</span><span class="vector-tag-sm">V12: Body</span></div>
+          </div>
+          <button class="btn-outline-xs" onclick="showToast('Редактирование уровня 0...')">Изменить</button>
+        </div>
+        <div class="plc-data-grid">
+          <div class="plc-data-item"><span class="plc-data-label">Имя, пол</span><span class="plc-data-val">Алексей, мужской</span></div>
+          <div class="plc-data-item"><span class="plc-data-label">Дата рождения</span><span class="plc-data-val">15 марта 1990, 14:30, Москва</span></div>
+          <div class="plc-data-item" style="grid-column:1/-1"><span class="plc-data-label">Описание себя</span><span class="plc-data-val">Предприниматель и исследователь. Создаю проекты со смыслом. Верю в силу технологий и человеческого потенциала.</span></div>
+        </div>
+      </div>
+
+      <!-- Level 1 -->
+      <div class="profile-level-card partial">
+        <div class="plc-header">
+          <div class="plc-icon">🎮</div>
+          <div class="plc-title-group">
+            <div class="plc-level-tag">Уровень 1</div>
+            <div class="plc-title">Движущие силы</div>
+            <div class="plc-desc">В какую игру ты играешь по жизни — прошлое, настоящее, будущее</div>
+          </div>
+          <div class="plc-meta">
+            <div class="plc-status partial">⟳ 60% — продолжить</div>
+            <div class="plc-vectors"><span class="vector-tag-sm">V03</span><span class="vector-tag-sm">V04</span><span class="vector-tag-sm">V05</span></div>
+          </div>
+          <button class="btn-primary" style="padding:6px 14px;font-size:12px" onclick="showToast('✦ Продолжаю сессию Уровня 1...')">Продолжить →</button>
+        </div>
+        <div class="plc-roles-block">
+          <div class="plc-roles-section">
+            <div class="plc-roles-label past">🕐 Прошлое</div>
+            <div class="plc-roles-tags"><span class="role-tag past">Предприниматель</span><span class="role-tag past">Гонялся за деньгами</span></div>
+          </div>
+          <div class="plc-roles-section">
+            <div class="plc-roles-label present">▶ Сейчас</div>
+            <div class="plc-roles-tags"><span class="role-tag present">🧠 Новатор</span><span class="role-tag present">👨‍👧 Отец</span><span class="role-tag present">🎨 Творец</span></div>
+          </div>
+          <div class="plc-roles-section">
+            <div class="plc-roles-label future">🔮 Будущее</div>
+            <div class="plc-roles-tags"><span class="role-tag future">Известный творец с влиянием</span></div>
+          </div>
+        </div>
+        <div class="plc-incomplete-note">
+          <span>⚠ Не заполнено:</span> вдохновители, слабости, ключевые события
+          <button class="btn-outline-xs" onclick="showToast('Открываю незаполненные вопросы...')">Заполнить</button>
+        </div>
+      </div>
+
+      <!-- Level 2 -->
+      <div class="profile-level-card empty">
+        <div class="plc-header">
+          <div class="plc-icon">🔭</div>
+          <div class="plc-title-group">
+            <div class="plc-level-tag">Уровень 2</div>
+            <div class="plc-title">Мировоззрение</div>
+            <div class="plc-desc">Убеждения, картина мира, смыслы — без этого клон будет «нейтральным»</div>
+          </div>
+          <div class="plc-meta">
+            <div class="plc-status empty">○ Не начат</div>
+            <div class="plc-vectors"><span class="vector-tag-sm">V15</span><span class="vector-tag-sm">V16</span></div>
+          </div>
+          <button class="btn-outline-sm" onclick="showToast('✦ Начинаю Уровень 2...')">Начать</button>
+        </div>
+        <div class="plc-empty-hint">
+          <div class="plc-empty-questions">
+            <span class="plc-q">В чём ты уверен о мире, в чём большинство ошибается?</span>
+            <span class="plc-q">Политика и общество — как ты к ним относишься?</span>
+            <span class="plc-q">Что такое смерть для тебя?</span>
+          </div>
+          <p class="desc-sm" style="margin-top:8px">5 вопросов · ~10 минут</p>
+        </div>
+      </div>
+
+      <!-- Level 3 -->
+      <div class="profile-level-card empty">
+        <div class="plc-header">
+          <div class="plc-icon">🤝</div>
+          <div class="plc-title-group">
+            <div class="plc-level-tag">Уровень 3</div>
+            <div class="plc-title">Отношения, деньги, власть</div>
+            <div class="plc-desc">Огромная часть личности проявляется только в отношениях</div>
+          </div>
+          <div class="plc-meta">
+            <div class="plc-status empty">○ Не начат</div>
+            <div class="plc-vectors"><span class="vector-tag-sm">V01</span><span class="vector-tag-sm">V02</span><span class="vector-tag-sm">V17</span></div>
+          </div>
+          <button class="btn-outline-sm" onclick="showToast('✦ Начинаю Уровень 3...')">Начать</button>
+        </div>
+        <div class="plc-empty-hint">
+          <div class="plc-empty-questions">
+            <span class="plc-q">Семья: как ты относишься к родителям?</span>
+            <span class="plc-q">Деньги: страх / инструмент / цель?</span>
+            <span class="plc-q">Власть и влияние: хочешь влиять? Зачем?</span>
+          </div>
+          <p class="desc-sm" style="margin-top:8px">5 вопросов · ~15 минут</p>
+        </div>
+      </div>
+
+      <!-- Level 4 — CRITICAL -->
+      <div class="profile-level-card critical">
+        <div class="plc-critical-badge">⚡ КРИТИЧНЫЙ — Без этого клон не звучит как ты</div>
+        <div class="plc-header">
+          <div class="plc-icon">🎙️</div>
+          <div class="plc-title-group">
+            <div class="plc-level-tag critical">Уровень 4 · Критический</div>
+            <div class="plc-title">Голос, стиль речи и эмоциональные паттерны</div>
+            <div class="plc-desc">Описывает не ЧТО ты думаешь, а КАК говоришь. Сюда входят реальные примеры твоих сообщений.</div>
+          </div>
+          <div class="plc-meta">
+            <div class="plc-status critical">⚠ Нужен срочно</div>
+            <div class="plc-vectors"><span class="vector-tag-sm">V13</span><span class="vector-tag-sm">V14</span><span class="vector-tag-sm">V20</span><span class="vector-tag-sm">V24</span></div>
+          </div>
+          <button class="btn-primary" style="padding:8px 18px;font-size:13px" onclick="showToast('✦ Запускаю Уровень 4...')">✦ Заполнить сейчас</button>
+        </div>
+        <div class="plc-empty-hint" style="border-left-color:var(--orange)">
+          <div class="plc-empty-questions">
+            <span class="plc-q">Как ты обычно начинаешь разговор? Больше слушаешь или говоришь?</span>
+            <span class="plc-q">Используешь ли мат, сленг, иронию?</span>
+            <span class="plc-q">Что тебя злит? Что восхищает мгновенно?</span>
+            <span class="plc-q">Загрузи 3–5 реальных сообщений / постов для захвата «голоса»</span>
+          </div>
+          <p class="desc-sm" style="margin-top:8px;color:var(--orange)">8 вопросов + загрузка примеров · ~20 минут</p>
+        </div>
+      </div>
+
+      <!-- Level 5 -->
+      <div class="profile-level-card empty">
+        <div class="plc-header">
+          <div class="plc-icon">🔒</div>
+          <div class="plc-title-group">
+            <div class="plc-level-tag">Уровень 5</div>
+            <div class="plc-title">Биография, тело и анти-профиль</div>
+            <div class="plc-desc">Красные линии — что клон никогда не должен говорить или делать</div>
+          </div>
+          <div class="plc-meta">
+            <div class="plc-status empty">○ Не начат</div>
+            <div class="plc-vectors"><span class="vector-tag-sm">V08</span><span class="vector-tag-sm">V11</span><span class="vector-tag-sm">V25</span></div>
+          </div>
+          <button class="btn-outline-sm" onclick="showToast('✦ Начинаю Уровень 5...')">Начать</button>
+        </div>
+        <div class="plc-empty-hint">
+          <div class="plc-empty-questions">
+            <span class="plc-q">Красные линии: что ты никогда не скажешь публично?</span>
+            <span class="plc-q">О чём тебе больно говорить?</span>
+            <span class="plc-q">Чем тебя нельзя похвалить? (фальшивая похвала — отдельный триггер)</span>
+          </div>
+          <p class="desc-sm" style="margin-top:8px">5 вопросов · ~10 минут</p>
+        </div>
+      </div>
+
+      <!-- RAG Memory section -->
+      <div class="card-widget rag-memory-card" style="margin-top:8px">
+        <div class="widget-header">
+          <span class="widget-title">🧠 RAG Memory — обогащённые факты</span>
+          <span class="desc-sm" style="margin-left:10px;color:var(--text-dim)">142 факта</span>
+        </div>
+        <p class="desc-sm" style="margin-bottom:14px">Когда ты описываешь свои качества, бот автоматически извлекает факты, обогащает из веба и сохраняет в память клона.</p>
+        <div class="rag-facts-list">
+          <div class="rag-fact">
+            <div class="rag-fact-icon" style="background:rgba(108,99,255,0.1);color:var(--accent)">🔬</div>
+            <div class="rag-fact-body">
+              <div class="rag-fact-trait">Эмпатия</div>
+              <div class="rag-fact-context">«Умею видеть в человеке потенциал» → обогащено: эмпатия как качество лидера</div>
+            </div>
+            <span class="rag-fact-source">SearXNG</span>
+          </div>
+          <div class="rag-fact">
+            <div class="rag-fact-icon" style="background:rgba(18,183,106,0.1);color:var(--green)">🎯</div>
+            <div class="rag-fact-body">
+              <div class="rag-fact-trait">Стратегическое мышление</div>
+              <div class="rag-fact-context">«Вижу картину целиком, строю системы» → системное мышление</div>
+            </div>
+            <span class="rag-fact-source">SearXNG</span>
+          </div>
+          <div class="rag-fact">
+            <div class="rag-fact-icon" style="background:rgba(245,158,11,0.1);color:var(--orange)">⚡</div>
+            <div class="rag-fact-body">
+              <div class="rag-fact-trait">Нетерпимость к бюрократии</div>
+              <div class="rag-fact-context">«Ненавижу бессмысленные процессы» → антипаттерн в коллективе</div>
+            </div>
+            <span class="rag-fact-source">SearXNG</span>
+          </div>
+        </div>
+        <button class="link-btn" style="margin-top:10px" onclick="showToast('Загружаю все факты...')">Показать все 142 факта →</button>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-bottom-nav">
+  <a class="mbn-item active" onclick="navigate('home')" data-page="home">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Главная</span>
+  </a>
+  <a class="mbn-item" onclick="navigate('dialogs')" data-page="dialogs">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span class="mbn-badge">12</span>
+    <span>Диалоги</span>
+  </a>
+  <a class="mbn-item" onclick="navigate('studio')" data-page="studio">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span>Studio</span>
+  </a>
+  <a class="mbn-item" onclick="navigate('monetization')" data-page="monetization">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>
+    <span>Доход</span>
+  </a>
+  <a class="mbn-item" onclick="navigate('settings')" data-page="settings">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="19" cy="7" r="2"/><path d="M19 9v1"/></svg>
+    <span>Профиль</span>
+  </a>
+</nav>
+
+<!-- ═══════════ TEST DIALOG MODAL ═══════════ -->
+<div class="modal-overlay hidden" id="testDialogModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">🧪 Тестовый диалог</h2>
+        <p class="modal-sub">Поговорите с клоном — это sandbox, ответы не влияют на обучение</p>
+      </div>
+      <button class="modal-close" onclick="closeTestModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="test-modal-chat" id="testModalChat">
+        <div class="msg-date-divider">Sandbox · Тест-режим</div>
+        <div class="mirror-msg system">Привет! Я цифровой клон Алексея 👋 Можешь задать мне любой вопрос — это безопасный тестовый режим.</div>
+      </div>
+      <div class="test-modal-input">
+        <input type="text" class="chat-input" id="testModalInput" placeholder="Задайте вопрос клону..." />
+        <button class="send-btn" onclick="sendTestModalMsg()">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

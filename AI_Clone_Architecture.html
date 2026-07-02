@@ -38,6 +38,7 @@
 <div class="nav-back-bar">
   <a href="index.html" class="nav-back-link">← Back to Home</a>
   <a href="pitch_deck.html" class="nav-back-link">← To Presentation</a>
+  <button class="nav-back-link btn-sandbox" onclick="openLoginPopup()" style="background: linear-gradient(135deg, var(--primary) 0%, #a29bfe 100%); color: white; border: none; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-weight: 700; font-family: inherit; margin-left: 15px; font-size: 13px; box-shadow: 0 4px 12px rgba(108,99,255,0.2); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; outline: none;">✦ Enter Sandbox Clone</button>
   <div class="lang-select-wrap" style="pointer-events: auto;">
     <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'AI_Clone_Architecture.html' : 'AI_Clone_Architecture-' + this.value + '.html');">
       <option value="en" selected>EN</option>
@@ -935,6 +936,120 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.card, .vector-card, .agent-card, .flow-step, .algo-step, .role-item').forEach(el => {
   el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; observer.observe(el);
 });
+
+// Login Sandbox Popup Logic
+function openLoginPopup() {
+  let modal = document.getElementById('loginSandboxModal');
+  if (!modal) {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .login-modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(10, 11, 22, 0.7); backdrop-filter: blur(8px);
+        display: flex; align-items: center; justify-content: center; z-index: 10000;
+        opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+      }
+      .login-modal-overlay.active { opacity: 1; pointer-events: auto; }
+      .login-modal-box {
+        background: #1c1d30; border: 1px solid rgba(108, 99, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); border-radius: 16px;
+        padding: 30px; width: 100%; max-width: 400px; color: #fff;
+        transform: translateY(-20px); transition: transform 0.3s ease;
+      }
+      .login-modal-overlay.active .login-modal-box { transform: translateY(0); }
+      .login-modal-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; text-align: left; }
+      .login-modal-sub { font-size: 13px; color: #a29bfe; margin-bottom: 20px; text-align: left; }
+      .login-form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px; text-align: left; }
+      .login-form-group label { font-size: 11px; font-weight: 700; color: #a29bfe; text-transform: uppercase; letter-spacing: 0.5px; }
+      .login-input {
+        background: #131424; border: 1px solid rgba(108, 99, 255, 0.15);
+        border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 14px;
+        transition: all 0.2s; outline: none; width: 100%; box-sizing: border-box;
+      }
+      .login-input:focus { border-color: #6c5ce7; box-shadow: 0 0 8px rgba(108,99,255,0.2); }
+      .login-btn {
+        background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+        color: white; border: none; padding: 12px; border-radius: 8px;
+        cursor: pointer; font-weight: 700; font-size: 14px; margin-top: 10px;
+        transition: all 0.2s; box-shadow: 0 4px 12px rgba(108,99,255,0.3); width: 100%;
+      }
+      .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(108,99,255,0.4); }
+      .login-close-btn {
+        background: none; border: none; color: #a29bfe; font-size: 24px;
+        cursor: pointer; position: absolute; top: 15px; right: 15px; line-height: 1; outline: none;
+      }
+      .login-error { color: #ff7675; font-size: 12.5px; margin-top: 10px; text-align: center; display: none; }
+    `;
+    document.head.appendChild(style);
+
+    modal = document.createElement('div');
+    modal.id = 'loginSandboxModal';
+    modal.className = 'login-modal-overlay';
+    modal.innerHTML = `
+      <div class="login-modal-box" style="position: relative;">
+        <button class="login-close-btn" onclick="closeLoginPopup()">×</button>
+        <div class="login-modal-title">✦ Enter Sandbox Clone</div>
+        <div class="login-modal-sub">Enter username and password to launch simulation</div>
+        <div class="login-form-group">
+          <label>Username</label>
+          <input type="text" id="loginUsername" class="login-input" placeholder="John Doe" value="Alexey" required />
+        </div>
+        <div class="login-form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="login-input" placeholder="••••••••" required />
+        </div>
+        <div id="loginErrorMsg" class="login-error">Incorrect password. Please try again.</div>
+        <button class="login-btn" onclick="submitLogin()">Launch Application →</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Enter key support
+    document.getElementById('loginPassword').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submitLogin();
+    });
+    document.getElementById('loginUsername').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submitLogin();
+    });
+  }
+
+  setTimeout(() => {
+    modal.classList.add('active');
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginErrorMsg').style.display = 'none';
+    document.getElementById('loginUsername').focus();
+  }, 10);
+}
+
+function closeLoginPopup() {
+  const modal = document.getElementById('loginSandboxModal');
+  if (modal) modal.classList.remove('active');
+}
+
+function submitLogin() {
+  const nameInput = document.getElementById('loginUsername');
+  const passInput = document.getElementById('loginPassword');
+  const errorMsg = document.getElementById('loginErrorMsg');
+
+  const username = nameInput.value.trim();
+  const password = passInput.value.trim();
+
+  if (!username) {
+    errorMsg.textContent = 'Please enter a username';
+    errorMsg.style.display = 'block';
+    nameInput.focus();
+    return;
+  }
+
+  if (password === '55555') {
+    localStorage.setItem('cloone_user_name', username);
+    window.location.href = 'app/index.html';
+  } else {
+    errorMsg.textContent = 'Incorrect password. Please try again.';
+    errorMsg.style.display = 'block';
+    passInput.focus();
+  }
+}
 </script>
 </body>
 </html>
