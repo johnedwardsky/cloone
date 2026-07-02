@@ -723,6 +723,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDialogCounts();
     selectDialog(0);
   }
+  // Check for onboarding
+  if (!localStorage.getItem('cloone_onboarded')) {
+    setTimeout(openVoiceInterview, 800);
+  }
   // Animate progress bars
   setTimeout(animateBars, 300);
 });
