@@ -1243,7 +1243,11 @@ function initMonetizationChart() {
 document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('testDialogModal');
   if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeTestModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTestModal(); });
+  const voiceOverlay = document.getElementById('voiceInterviewModal');
+  if (voiceOverlay) voiceOverlay.addEventListener('click', e => { if (e.target === voiceOverlay) closeVoiceInterview(); });
+  document.addEventListener('keydown', e => { 
+    if (e.key === 'Escape') { closeTestModal(); closeVoiceInterview(); } 
+  });
   const tmi = document.getElementById('testModalInput');
   if (tmi) tmi.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendTestModalMsg(); } });
   const tci = document.getElementById('testChatInput');
@@ -1749,4 +1753,344 @@ updateSettingsLearningStats();
     });
   }
 })();
+
+/* ═══════════════════════════ VOICE INTERVIEW LOGIC ═══════════════════════════ */
+
+const INTERVIEW_QUESTIONS = [
+  {
+    level: "Уровень 0 · Якорь идентичности",
+    question: "Привет! Давай создадим твоего цифрового двойника. Для начала представься: как тебя зовут и как ты предпочитаешь, чтобы к тебе обращались?",
+    simText: "Меня зовут [USER_NAME]. Мне нравится, когда ко мне обращаются просто [USER_NAME], на ты. Я предприниматель и исследователь."
+  },
+  {
+    level: "Уровень 1 · Движущие силы (Роли)",
+    question: "Супер! Расскажи немного о своей основной деятельности. Кем ты видишь себя сейчас и в какую главную жизненную игру ты играешь?",
+    simText: "Сейчас моя главная игра — это создание инновационных технологических проектов, которые реально меняют жизнь людей. Я вижу себя как новатора, изобретателя, но в то же время ответственного родителя и творца."
+  },
+  {
+    level: "Уровень 1 · Движущие силы (Прошлое)",
+    question: "Интересно. А если взглянуть в прошлое: какие роли ты перерос, от каких целей отказался и почему?",
+    simText: "Раньше я много времени тратил на то, чтобы доказать кому-то свою ценность, гонялся чисто за финансовыми показателями. Был таким классическим достигатором-предпринимателем, но быстро выгорел и понял, что в этом нет живой искры."
+  },
+  {
+    level: "Уровень 1 · Движущие силы (Будущее & Амбиции)",
+    question: "Каковы твои главные амбиции и планы на ближайшие 5-10 лет? Каких вершин хочешь достичь?",
+    simText: "В ближайшие годы я хочу построить устойчивую экосистему вокруг искусственного интеллекта, которая позволит людям автоматизировать рутину и раскрыть творческий потенциал. Мечтаю создать мировой бренд."
+  },
+  {
+    level: "Уровень 1 · Движущие силы (Вдохновители)",
+    question: "Кто из известных личностей или исторических фигур тебя по-настоящему вдохновляет и чем именно?",
+    simText: "Меня очень вдохновляют люди вроде Леонардо да Винчи за его универсальность и сочетание науки с искусством, а также Ричард Фейнман за его искреннюю детскую любознательность и простоту в объяснении сложных вещей."
+  },
+  {
+    level: "Уровень 4 · Голос и стиль речи",
+    question: "Опиши свой привычный стиль общения. Ты предпочитаешь лаконичность, иронию, или, может, любишь подробные рассуждения?",
+    simText: "Я общаюсь достаточно свободно, люблю использовать иронию, но стараюсь не перебарщивать. Предпочитаю баланс между глубоким смыслом и простотой формулировок, иногда использую сленг, но по делу."
+  }
+];
+
+let currentInterviewIdx = 0;
+let isInterviewRecording = false;
+let interviewSpeechInterval = null;
+let interviewSpeechTimeout = null;
+
+function openVoiceInterview() {
+  currentInterviewIdx = 0;
+  isInterviewRecording = false;
+  clearInterval(interviewSpeechInterval);
+  clearTimeout(interviewSpeechTimeout);
+  
+  const modal = document.getElementById('voiceInterviewModal');
+  if (modal) modal.classList.remove('hidden');
+  
+  updateInterviewUI();
+}
+
+function closeVoiceInterview() {
+  isInterviewRecording = false;
+  clearInterval(interviewSpeechInterval);
+  clearTimeout(interviewSpeechTimeout);
+  
+  const modal = document.getElementById('voiceInterviewModal');
+  if (modal) modal.classList.add('hidden');
+  
+  // Stop recording animation
+  const btn = document.getElementById('btnRecord');
+  if (btn) {
+    btn.classList.remove('recording');
+    btn.innerHTML = "🎙️ Начать говорить";
+  }
+  const wave = document.getElementById('waveCircle');
+  if (wave) wave.classList.remove('recording');
+  const bars = document.getElementById('waveformBars');
+  if (bars) bars.classList.remove('recording');
+}
+
+function updateInterviewUI() {
+  const userName = localStorage.getItem('cloone_user_name') || 'Алексей';
+  const qData = INTERVIEW_QUESTIONS[currentInterviewIdx];
+  
+  document.getElementById('interviewLevel').textContent = qData.level;
+  document.getElementById('interviewQuestion').textContent = qData.question.replace(/\[USER_NAME\]/g, userName);
+  document.getElementById('interviewTimer').textContent = `Вопрос ${currentInterviewIdx + 1} из ${INTERVIEW_QUESTIONS.length}`;
+  
+  document.getElementById('transcriptionStatus').textContent = "🎙️ Готов к записи...";
+  document.getElementById('transcriptionStatus').style.color = "var(--text-dim)";
+  document.getElementById('transcriptionText').textContent = "Нажмите кнопку «Начать говорить», чтобы дать ответ голосом...";
+  document.getElementById('transcriptionText').style.opacity = "0.6";
+  
+  document.getElementById('btnPrevQuestion').disabled = (currentInterviewIdx === 0);
+  document.getElementById('btnNextQuestion').textContent = (currentInterviewIdx === INTERVIEW_QUESTIONS.length - 1) ? "Завершить интервью ➔" : "Пропустить →";
+  
+  const btn = document.getElementById('btnRecord');
+  if (btn) {
+    btn.classList.remove('recording');
+    btn.innerHTML = "🎙️ Начать говорить";
+  }
+  const wave = document.getElementById('waveCircle');
+  if (wave) wave.classList.remove('recording');
+  const bars = document.getElementById('waveformBars');
+  if (bars) bars.classList.remove('recording');
+}
+
+function toggleInterviewRecording() {
+  const btn = document.getElementById('btnRecord');
+  const wave = document.getElementById('waveCircle');
+  const bars = document.getElementById('waveformBars');
+  const status = document.getElementById('transcriptionStatus');
+  const textContainer = document.getElementById('transcriptionText');
+  const userName = localStorage.getItem('cloone_user_name') || 'Алексей';
+  
+  if (!isInterviewRecording) {
+    // Start Recording
+    isInterviewRecording = true;
+    btn.classList.add('recording');
+    btn.innerHTML = "⏹️ Остановить запись";
+    if (wave) wave.classList.add('recording');
+    if (bars) bars.classList.add('recording');
+    
+    status.textContent = "🎙️ Идёт запись аудиопотока...";
+    status.style.color = "var(--orange)";
+    textContainer.style.opacity = "1";
+    textContainer.textContent = "...";
+    
+    // Simulate real-time speech-to-text
+    const qData = INTERVIEW_QUESTIONS[currentInterviewIdx];
+    const fullText = qData.simText.replace(/\[USER_NAME\]/g, userName);
+    const words = fullText.split(' ');
+    let wordIdx = 0;
+    
+    interviewSpeechInterval = setInterval(() => {
+      if (wordIdx < words.length) {
+        textContainer.textContent = words.slice(0, wordIdx + 1).join(' ') + "...";
+        wordIdx++;
+      } else {
+        clearInterval(interviewSpeechInterval);
+        stopInterviewRecording(true);
+      }
+    }, 350);
+  } else {
+    // Manually Stop Recording
+    clearInterval(interviewSpeechInterval);
+    stopInterviewRecording(false);
+  }
+}
+
+function stopInterviewRecording(autoCompleted) {
+  isInterviewRecording = false;
+  
+  const btn = document.getElementById('btnRecord');
+  const wave = document.getElementById('waveCircle');
+  const bars = document.getElementById('waveformBars');
+  const status = document.getElementById('transcriptionStatus');
+  const textContainer = document.getElementById('transcriptionText');
+  const userName = localStorage.getItem('cloone_user_name') || 'Алексей';
+  
+  if (btn) {
+    btn.classList.remove('recording');
+    btn.innerHTML = "🎙️ Говорить заново";
+  }
+  if (wave) wave.classList.remove('recording');
+  if (bars) bars.classList.remove('recording');
+  
+  status.textContent = "✅ Аудио записано и транскрибировано!";
+  status.style.color = "var(--green)";
+  
+  const qData = INTERVIEW_QUESTIONS[currentInterviewIdx];
+  const fullText = qData.simText.replace(/\[USER_NAME\]/g, userName);
+  textContainer.textContent = fullText;
+}
+
+function prevInterviewQuestion() {
+  if (currentInterviewIdx > 0) {
+    currentInterviewIdx--;
+    clearInterval(interviewSpeechInterval);
+    clearTimeout(interviewSpeechTimeout);
+    isInterviewRecording = false;
+    updateInterviewUI();
+  }
+}
+
+function nextInterviewQuestion() {
+  clearInterval(interviewSpeechInterval);
+  clearTimeout(interviewSpeechTimeout);
+  isInterviewRecording = false;
+  
+  if (currentInterviewIdx < INTERVIEW_QUESTIONS.length - 1) {
+    currentInterviewIdx++;
+    updateInterviewUI();
+  } else {
+    // Complete Onboarding - Show Calibration screen
+    startInterviewCalibration();
+  }
+}
+
+function startInterviewCalibration() {
+  const body = document.querySelector('.voice-interview-body');
+  const modalBox = document.querySelector('.voice-interview-box');
+  
+  // Hide normal interview body, show calibration loader
+  body.style.display = 'none';
+  
+  const calLoader = document.createElement('div');
+  calLoader.className = 'calibration-loader';
+  calLoader.id = 'calibrationLoader';
+  calLoader.innerHTML = `
+    <div class="cal-spinner"></div>
+    <h3 class="cal-title">Калибровка личности и 24 векторов...</h3>
+    <div class="cal-steps-list">
+      <div class="cal-step-item active" id="cs1">⏳ Транскрипция аудиофайлов...</div>
+      <div class="cal-step-item" id="cs2">🧬 Вычисление семантических связей векторов...</div>
+      <div class="cal-step-item" id="cs3">🎙️ Тональный анализ и слепок голоса...</div>
+      <div class="cal-step-item" id="cs4">🧠 Инициализация Personality Core v1.0...</div>
+    </div>
+  `;
+  modalBox.appendChild(calLoader);
+  
+  // Animate steps
+  setTimeout(() => {
+    const cs1 = document.getElementById('cs1');
+    if (cs1) {
+      cs1.classList.remove('active');
+      cs1.classList.add('done');
+      cs1.innerHTML = '✅ Транскрипция аудиофайлов завершена';
+    }
+    const cs2 = document.getElementById('cs2');
+    if (cs2) cs2.classList.add('active');
+  }, 1000);
+  
+  setTimeout(() => {
+    const cs2 = document.getElementById('cs2');
+    if (cs2) {
+      cs2.classList.remove('active');
+      cs2.classList.add('done');
+      cs2.innerHTML = '✅ Семантические связи векторов вычислены';
+    }
+    const cs3 = document.getElementById('cs3');
+    if (cs3) cs3.classList.add('active');
+  }, 2000);
+  
+  setTimeout(() => {
+    const cs3 = document.getElementById('cs3');
+    if (cs3) {
+      cs3.classList.remove('active');
+      cs3.classList.add('done');
+      cs3.innerHTML = '✅ Тональный анализ и слепок голоса готовы';
+    }
+    const cs4 = document.getElementById('cs4');
+    if (cs4) cs4.classList.add('active');
+  }, 3000);
+  
+  setTimeout(() => {
+    const cs4 = document.getElementById('cs4');
+    if (cs4) {
+      cs4.classList.remove('active');
+      cs4.classList.add('done');
+      cs4.innerHTML = '✅ Personality Core v1.0 успешно инициализирован';
+    }
+    
+    setTimeout(() => {
+      // Finalize
+      localStorage.setItem('cloone_onboarded', 'true');
+      closeVoiceInterview();
+      
+      // Restore layout
+      calLoader.remove();
+      body.style.display = 'block';
+      
+      showToast('🎉 Успешно! Характер клона откалиброван на основе вашего голоса. 24 вектора личности обновлены!', 'success');
+      
+      // Update UI elements in profile to show done status
+      const plc1 = document.querySelector('.profile-level-card.partial');
+      if (plc1) {
+        plc1.className = 'profile-level-card done';
+        const status = plc1.querySelector('.plc-status');
+        if (status) {
+          status.textContent = '✓ Заполнен';
+          status.className = 'plc-status done';
+        }
+        const btn = plc1.querySelector('.btn-primary');
+        if (btn) {
+          btn.className = 'btn-outline-xs';
+          btn.textContent = 'Изменить';
+          btn.style.padding = '';
+          btn.style.fontSize = '';
+          btn.onclick = function() { showToast('Редактирование уровня 1...'); };
+        }
+      }
+      
+      const plc4 = document.querySelector('.profile-level-card.critical');
+      if (plc4) {
+        plc4.className = 'profile-level-card done';
+        const badge = plc4.querySelector('.plc-critical-badge');
+        if (badge) badge.remove();
+        const status = plc4.querySelector('.plc-status');
+        if (status) {
+          status.textContent = '✓ Заполнен';
+          status.className = 'plc-status done';
+        }
+        const btn = plc4.querySelector('.btn-primary');
+        if (btn) {
+          btn.className = 'btn-outline-xs';
+          btn.textContent = 'Изменить';
+          btn.style.padding = '';
+          btn.style.fontSize = '';
+          btn.onclick = function() { showToast('Редактирование уровня 4...'); };
+        }
+      }
+      
+      // Switch level status in sidebar/widgets
+      document.querySelectorAll('.onb-level.partial').forEach(el => {
+        el.className = 'onb-level done';
+        const bar = el.querySelector('.onb-level-bar');
+        if (bar) bar.style.width = '100%';
+        const status = el.querySelector('.onb-level-status');
+        if (status) {
+          status.textContent = '✓ 100%';
+          status.className = 'onb-level-status done';
+        }
+      });
+      document.querySelectorAll('.onb-level.critical').forEach(el => {
+        el.className = 'onb-level done';
+        const bar = el.querySelector('.onb-level-bar');
+        if (bar) bar.style.width = '100%';
+        const status = el.querySelector('.onb-level-status');
+        if (status) {
+          status.textContent = '✓ 100%';
+          status.className = 'onb-level-status done';
+        }
+      });
+      
+      // Update general metrics
+      const psbVals = document.querySelectorAll('.psb-val');
+      if (psbVals.length >= 4) {
+        psbVals[0].textContent = '41 / 47';
+        psbVals[1].textContent = '3.5 / 6';
+        psbVals[3].textContent = 'Готов к работе';
+        psbVals[3].className = 'psb-val green';
+      }
+      
+    }, 800);
+  }, 4000);
+}
 

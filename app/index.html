@@ -2246,7 +2246,7 @@
       </div>
       <div class="page-actions">
         <button class="btn-secondary" onclick="showToast('Экспорт профиля...')">📄 Экспорт</button>
-        <button class="btn-primary" onclick="showToast('✦ Запускаю сессию онбординга...')">✦ Начать сессию</button>
+        <button class="btn-primary" onclick="openVoiceInterview()">✦ Начать голосовое интервью</button>
       </div>
     </div>
 
@@ -2310,7 +2310,7 @@
             <div class="plc-status partial">⟳ 60% — продолжить</div>
             <div class="plc-vectors"><span class="vector-tag-sm">V03</span><span class="vector-tag-sm">V04</span><span class="vector-tag-sm">V05</span></div>
           </div>
-          <button class="btn-primary" style="padding:6px 14px;font-size:12px" onclick="showToast('✦ Продолжаю сессию Уровня 1...')">Продолжить →</button>
+          <button class="btn-primary" style="padding:6px 14px;font-size:12px" onclick="openVoiceInterview()">Продолжить →</button>
         </div>
         <div class="plc-roles-block">
           <div class="plc-roles-section">
@@ -2345,7 +2345,7 @@
             <div class="plc-status empty">○ Не начат</div>
             <div class="plc-vectors"><span class="vector-tag-sm">V15</span><span class="vector-tag-sm">V16</span></div>
           </div>
-          <button class="btn-outline-sm" onclick="showToast('✦ Начинаю Уровень 2...')">Начать</button>
+          <button class="btn-outline-sm" onclick="openVoiceInterview()">Начать</button>
         </div>
         <div class="plc-empty-hint">
           <div class="plc-empty-questions">
@@ -2370,7 +2370,7 @@
             <div class="plc-status empty">○ Не начат</div>
             <div class="plc-vectors"><span class="vector-tag-sm">V01</span><span class="vector-tag-sm">V02</span><span class="vector-tag-sm">V17</span></div>
           </div>
-          <button class="btn-outline-sm" onclick="showToast('✦ Начинаю Уровень 3...')">Начать</button>
+          <button class="btn-outline-sm" onclick="openVoiceInterview()">Начать</button>
         </div>
         <div class="plc-empty-hint">
           <div class="plc-empty-questions">
@@ -2396,7 +2396,7 @@
             <div class="plc-status critical">⚠ Нужен срочно</div>
             <div class="plc-vectors"><span class="vector-tag-sm">V13</span><span class="vector-tag-sm">V14</span><span class="vector-tag-sm">V20</span><span class="vector-tag-sm">V24</span></div>
           </div>
-          <button class="btn-primary" style="padding:8px 18px;font-size:13px" onclick="showToast('✦ Запускаю Уровень 4...')">✦ Заполнить сейчас</button>
+          <button class="btn-primary" style="padding:8px 18px;font-size:13px" onclick="openVoiceInterview()">✦ Начать интервью (Уровень 4)</button>
         </div>
         <div class="plc-empty-hint" style="border-left-color:var(--orange)">
           <div class="plc-empty-questions">
@@ -2422,7 +2422,7 @@
             <div class="plc-status empty">○ Не начат</div>
             <div class="plc-vectors"><span class="vector-tag-sm">V08</span><span class="vector-tag-sm">V11</span><span class="vector-tag-sm">V25</span></div>
           </div>
-          <button class="btn-outline-sm" onclick="showToast('✦ Начинаю Уровень 5...')">Начать</button>
+          <button class="btn-outline-sm" onclick="openVoiceInterview()">Начать</button>
         </div>
         <div class="plc-empty-hint">
           <div class="plc-empty-questions">
@@ -2518,6 +2518,52 @@
       <div class="test-modal-input">
         <input type="text" class="chat-input" id="testModalInput" placeholder="Задайте вопрос клону..." />
         <button class="send-btn" onclick="sendTestModalMsg()">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ VOICE INTERVIEW MODAL ═══════════ -->
+<div class="modal-overlay hidden" id="voiceInterviewModal">
+  <div class="modal-box voice-interview-box">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">🎙️ Голосовой онбординг клона</h2>
+        <p class="modal-sub">Инициализация ядра личности · ~15 минут свободного общения</p>
+      </div>
+      <button class="modal-close" onclick="closeVoiceInterview()">×</button>
+    </div>
+    <div class="modal-body voice-interview-body">
+      <!-- Waveform animation container -->
+      <div class="waveform-container">
+        <div class="wave-circle" id="waveCircle"></div>
+        <div class="waveform-bars" id="waveformBars">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      
+      <!-- Current question card -->
+      <div class="interview-question-card">
+        <div class="iq-level" id="interviewLevel">Уровень 0 · Якорь идентичности</div>
+        <div class="iq-text" id="interviewQuestion">Привет! Давай создадим твоего цифрового двойника. Для начала представься: как тебя зовут и как ты предпочитаешь, чтобы к тебе обращались?</div>
+      </div>
+
+      <!-- Live transcription box -->
+      <div class="transcription-box">
+        <div class="tb-header">
+          <span class="tb-status" id="transcriptionStatus">🎙️ Готов к записи...</span>
+          <span class="tb-timer" id="interviewTimer">Вопрос 1 из 6</span>
+        </div>
+        <div class="tb-text" id="transcriptionText">Нажмите кнопку «Начать говорить», чтобы дать ответ голосом...</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="interview-controls">
+        <button class="btn-secondary" id="btnPrevQuestion" onclick="prevInterviewQuestion()" disabled>← Назад</button>
+        <button class="btn-primary btn-record" id="btnRecord" onclick="toggleInterviewRecording()">🎙️ Начать говорить</button>
+        <button class="btn-secondary" id="btnNextQuestion" onclick="nextInterviewQuestion()">Пропустить →</button>
       </div>
     </div>
   </div>

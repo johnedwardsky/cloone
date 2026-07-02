@@ -3256,3 +3256,202 @@ body {
 .drift-val.positive { color: var(--green); }
 .drift-val.negative { color: var(--orange); }
 .drift-val.neutral { color: var(--text-dim); }
+
+/* =============== VOICE INTERVIEW MODAL =============== */
+.voice-interview-box {
+  max-width: 580px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.voice-interview-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 0;
+}
+.waveform-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg2);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.wave-circle {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,99,255,0.4) 0%, transparent 70%);
+  border: 2px solid var(--accent);
+  transition: all 0.3s ease;
+}
+.wave-circle.recording {
+  animation: pulseWave 1.2s infinite ease-in-out;
+  background: radial-gradient(circle, rgba(245,158,11,0.4) 0%, transparent 70%);
+  border-color: var(--orange);
+}
+@keyframes pulseWave {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.waveform-bars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 60px;
+  z-index: 2;
+}
+.waveform-bars span {
+  width: 4px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: height 0.15s ease, background 0.3s;
+}
+.waveform-bars.recording span {
+  background: var(--orange);
+  animation: bounceBar 0.8s infinite alternate ease-in-out;
+}
+.waveform-bars.recording span:nth-child(2n) { animation-delay: 0.15s; }
+.waveform-bars.recording span:nth-child(3n) { animation-delay: 0.3s; }
+.waveform-bars.recording span:nth-child(4n) { animation-delay: 0.45s; }
+
+@keyframes bounceBar {
+  0% { height: 10px; }
+  100% { height: 50px; }
+}
+
+.interview-question-card {
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(108,99,255,0.05) 0%, transparent 100%);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px 12px 12px 4px;
+}
+.iq-level {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.iq-text {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.transcription-box {
+  width: 100%;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: var(--bg2);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 6px;
+}
+.tb-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.tb-timer {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+.tb-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.interview-controls {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+.btn-record {
+  flex: 1;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft)) !important;
+  color: white !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(108,99,255,0.2);
+}
+.btn-record.recording {
+  background: linear-gradient(135deg, var(--orange), #f97316) !important;
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+}
+
+/* Calibration Loader */
+.calibration-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  width: 100%;
+  gap: 24px;
+}
+.cal-spinner {
+  width: 64px;
+  height: 64px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spinCal 1s infinite linear;
+}
+@keyframes spinCal {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.cal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.cal-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+}
+.cal-step-item {
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+.cal-step-item.active {
+  color: var(--accent);
+  font-weight: 600;
+  transform: translateX(4px);
+}
+.cal-step-item.done {
+  color: var(--green);
+  font-weight: 500;
+}
