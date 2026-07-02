@@ -38,7 +38,6 @@
 <div class="nav-back-bar">
   <a href="index.html" class="nav-back-link">← Back to Home</a>
   <a href="pitch_deck.html" class="nav-back-link">← To Presentation</a>
-  <button class="nav-back-link btn-sandbox" onclick="openLoginPopup()" style="background: linear-gradient(135deg, var(--primary) 0%, #a29bfe 100%); color: white; border: none; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-weight: 700; font-family: inherit; margin-left: 15px; font-size: 13px; box-shadow: 0 4px 12px rgba(108,99,255,0.2); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; outline: none;">✦ Enter Sandbox Clone</button>
   <div class="lang-select-wrap" style="pointer-events: auto;">
     <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'AI_Clone_Architecture.html' : 'AI_Clone_Architecture-' + this.value + '.html');">
       <option value="en" selected>EN</option>
@@ -48,6 +47,10 @@
       <option value="ar">العربية</option>
     </select>
   </div>
+</div>
+
+<div class="nav-right-bar">
+  <button class="btn-sandbox" onclick="openLoginPopup()">✦ Enter Sandbox Clone</button>
 </div>
 
 <div class="cover">

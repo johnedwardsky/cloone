@@ -327,3 +327,49 @@
   color: var(--text);
 }
 
+/* Floating Right Navigation Bar */
+.nav-right-bar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  pointer-events: none;
+}
+.btn-sandbox {
+  pointer-events: auto;
+  background: linear-gradient(135deg, var(--primary) 0%, #a29bfe 100%);
+  color: white !important;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(108,99,255,0.25);
+  transition: all 0.2s;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+.btn-sandbox:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(108,99,255,0.4);
+}
+.btn-sandbox:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .nav-right-bar {
+    top: 12px;
+    right: 12px;
+  }
+  .btn-sandbox {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
+
