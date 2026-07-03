@@ -1925,6 +1925,255 @@ const INTERVIEW_QUESTIONS = [
   }
 ]
 
+
+/* ===================================================================
+   INTERVIEW ENGINE v2.0 — Adaptive Digital DNA Engine
+   Pipeline: Basic Data → 6 Levels → Openness → Crystals → 24 Vectors
+   =================================================================== */
+
+const InterviewEngine = {
+
+  /* State */
+  state: {
+    phase: 'idle',
+    basicData: {},
+    levelData: {},
+    openness_score: 50,
+    openness_type: 'B',
+    openness_level: 1,
+    crystals: {},
+    matrix: {},
+    answer_history: [],
+    active_vectors: [],
+    gap_vectors: [],
+    tension_zones: [],
+    last_hook: '',
+    questions_asked: 0,
+    dna_completeness: 0
+  },
+
+  /* Crystal → Vectors map */
+  CRYSTAL_VECTOR_MAP: {
+    C1: ['V11','V17','V20','V12'],
+    C2: ['V03','V05','V19','V06'],
+    C3: ['V08','V16','V15','V12'],
+    C4: ['V13','V04','V21','V24'],
+    C5: ['V06','V05','V18','V03'],
+    C6: ['V01','V02','V22','V14'],
+    C7: ['V14','V16','V09','V07'],
+    C8: ['V12','V23','V19','V08'],
+    C9: ['V15','V07','V08','V21']
+  },
+
+  ALL_VECTORS: [
+    'V01','V02','V03','V04','V05','V06','V07','V08','V09','V10',
+    'V11','V12','V13','V14','V15','V16','V17','V18','V19','V20',
+    'V21','V22','V23','V24'
+  ],
+
+  /* Analyse answer text — update state */
+  analyzeAnswer(answerText, questionVectors) {
+    const s = this.state;
+    let delta = 0;
+
+    const highSignals = [
+      /(я понял|мне сложно|честно|признаюсь|стыдно|горжусь|боюсь|люблю|ненавижу)/i,
+      /(потому что|хотя|несмотря на|сам не понимаю|противоречие)/i
+    ];
+    const lowSignals = [
+      /(люди вообще|все так|обычно|в целом|наверное|как все)/i
+    ];
+
+    for (const rx of highSignals) { if (rx.test(answerText)) delta += 8; }
+    for (const rx of lowSignals)  { if (rx.test(answerText)) delta -= 10; }
+
+    const wordCount = answerText.trim().split(/s+/).length;
+    if (wordCount > 30) delta += 5;
+    if (wordCount > 60) delta += 8;
+    if (wordCount < 10) delta -= 12;
+
+    s.openness_score = Math.max(0, Math.min(100, s.openness_score + delta));
+
+    if (s.openness_score >= 70) {
+      s.openness_type = 'A';
+      s.openness_level = Math.min(3, s.openness_level + 1);
+    } else if (s.openness_score >= 40) {
+      s.openness_type = 'B';
+    } else {
+      s.openness_type = 'C';
+      s.openness_level = Math.max(0, s.openness_level - 1);
+    }
+
+    for (const v of (questionVectors || [])) {
+      if (!s.active_vectors.includes(v)) s.active_vectors.push(v);
+      s.gap_vectors = s.gap_vectors.filter(g => g !== v);
+    }
+
+    const hookMatch = answerText.match(
+      /(безS+|никогда|всегда|невозможно|устал|странно|вдруг|пустота|страшно|хочу|должен|обязан)/i
+    );
+    s.last_hook = hookMatch ? hookMatch[0] : '';
+
+    s.answer_history.push({
+      text: answerText,
+      vectors: questionVectors,
+      hook: s.last_hook,
+      openness_score: s.openness_score
+    });
+    s.questions_asked++;
+    s.dna_completeness = Math.min(95, Math.round((s.active_vectors.length / 24) * 100));
+
+    return { delta, openness_type: s.openness_type, hook: s.last_hook };
+  },
+
+  /* Analyse 6-level answers to init crystals and vectors */
+  analyzeLevel6Data() {
+    const s = this.state;
+    const allText = Object.values(s.levelData).join(' ').toLowerCase();
+
+    s.crystals = {
+      C1: this._score(allText, ['безопасность','риск','деньги','страх','выживание','угроза','защита']),
+      C2: this._score(allText, ['создаю','придумываю','творчество','новое','идея','проект','строю']),
+      C3: this._score(allText, ['интуиция','чувствую','исследую','наблюдаю','осторожно','анализирую']),
+      C4: this._score(allText, ['говорю','выражаю','рассказываю','делюсь','объясняю','публично']),
+      C5: this._score(allText, ['решаю','веду','влияю','цель','воля','добиваюсь','лидер']),
+      C6: this._score(allText, ['люблю','семья','забочусь','близкие','эмпатия','люди','дружба']),
+      C7: this._score(allText, ['система','анализ','структура','логика','данные','план','расчёт']),
+      C8: this._score(allText, ['чувствую','эмоции','воображение','мечтаю','переживаю','внутри']),
+      C9: this._score(allText, ['смысл','зачем','вселенная','глубоко','сознание','философия','существование'])
+    };
+
+    const covered = new Set();
+    for (const [crystal, score] of Object.entries(s.crystals)) {
+      if (score > 0.3) {
+        (this.CRYSTAL_VECTOR_MAP[crystal] || []).forEach(v => covered.add(v));
+      }
+    }
+    s.active_vectors = [...covered];
+    s.gap_vectors = this.ALL_VECTORS.filter(v => !covered.has(v));
+    s.dna_completeness = Math.round((covered.size / 24) * 100);
+  },
+
+  _score(text, keywords) {
+    let hits = 0;
+    for (const kw of keywords) { if (text.includes(kw)) hits++; }
+    return Math.min(1, (hits / keywords.length) * 2.5);
+  },
+
+  /* Choose next question target */
+  getNextTarget() {
+    const s = this.state;
+    if (s.tension_zones.length > 0) return { type: 'tension', vectors: s.tension_zones[0] };
+    const critical = s.gap_vectors.filter(v => ['V11','V17','V21','V22','V23','V08'].includes(v));
+    if (critical.length > 0) return { type: 'gap', vectors: [critical[0]] };
+    if (s.gap_vectors.length > 0) return { type: 'gap', vectors: [s.gap_vectors[0]] };
+    return { type: 'deepen', vectors: s.active_vectors.slice(-2) };
+  },
+
+  /* Generate next adaptive question */
+  generateAdaptiveQuestion() {
+    const s = this.state;
+    const level = s.openness_level;
+    const target = this.getNextTarget();
+    const hook = s.last_hook;
+    const gapVec = target.vectors[0] || '';
+
+    // Question banks per openness level
+    const banks = {
+      0: {  // Neutral
+        'V07': 'Какой тип людей тебя заряжает, а какой забирает энергию?',
+        'V10': 'Что ты точно делаешь каждое утро — даже если всё летит в тартарары?',
+        'V19': 'Если бы ты описал пространство где тебе лучше всего думается — как оно выглядит?',
+        'V09': 'Что последнее ты узнал что тебя по-настоящему удивило?',
+        default: 'Что ты делаешь в первую очередь когда начинается что-то новое?'
+      },
+      1: {  // Metaphor / projection
+        'V11': 'Если страх — это персонаж в твоей жизни, кем бы он был? Союзником или врагом?',
+        'V17': 'Если бы деньги могли говорить — что они сказали бы тебе прямо сейчас?',
+        'V22': 'Если доверие — это здание, сколько времени тебе нужно чтобы построить его с новым человеком?',
+        'V23': 'Как выглядит твой худший день — не снаружи, а изнутри?',
+        'V14': 'Если бы твои эмоции были погодой — какая погода у тебя сейчас?',
+        'V15': 'Есть убеждение которое ты держишь при себе — потому что люди вокруг не поняли бы?',
+        'V04': 'Какую роль ты играешь в жизни других людей, которую не выбирал сам?',
+        'V18': 'Если бы твоя жизнь была фильмом — в каком жанре она сейчас?',
+        tension: 'Ты говоришь одно, но в другом месте — противоположное. Как обе версии уживаются в тебе?',
+        default: 'Если бы твоя жизнь была фильмом — в каком жанре она сейчас?'
+      },
+      2: {  // Mirror — interviewer goes first
+        'V20': 'Когда кто-то меня разочаровывает — я даю второй шанс, но без прежней близости. А ты как?',
+        'V16': 'Я однажды принял решение полностью вопреки логике — и это оказалось лучшим что я делал. Было у тебя такое?',
+        'V14': 'Мне иногда сложно понять — я злюсь или просто устал. У тебя бывает что эмоции путаются?',
+        'V08': 'Есть вещи о которых я никому не рассказываю — не из стыда, а просто не хочу чтобы это знали. Есть такое у тебя?',
+        'V01': 'Я понял что мне нужно очень мало людей — но чтобы по-настоящему. У тебя так же или иначе?',
+        'V03': 'У меня есть достижение которым горжусь — но никому не рассказываю, потому что сложно объяснить почему это важно. Есть что-то такое?',
+        deepen: hook
+          ? ('Ты сказал «' + hook + '» — ты имеешь в виду именно это, или за этим что-то большее?')
+          : 'Я слышу что это важно для тебя. Что именно в этом самое главное?',
+        tension: 'Я замечаю две разные версии в том что ты говоришь. Какая из них настоящая — или это зависит от контекста?',
+        default: 'Я стал другим за последние несколько лет — и не всегда в том направлении которое планировал. У тебя так же?'
+      },
+      3: {  // Shadow
+        'V21': 'Есть история которую ты рассказываешь о себе — и сам уже почти поверил. Но где-то знаешь что это роль. Что это?',
+        'V08': 'Что ты никогда не скажешь вслух — не из страха, а просто потому что это только твоё?',
+        'V23': 'Если бы ты мог исчезнуть на месяц — не убежать, а просто стать невидимым — что бы ты делал?',
+        'V22': 'Чего ты на самом деле хочешь от близких людей — но никогда не просишь напрямую?',
+        tension: 'Ты описываешь себя одним образом, но живёшь — другим. Что происходит в этом пространстве между словами и жизнью?',
+        default: 'В 2 часа ночи когда не спится — о чём думаешь чаще всего?'
+      }
+    };
+
+    const bank = banks[level] || banks[1];
+    let key = 'default';
+    if (target.type === 'tension') key = 'tension';
+    else if (target.type === 'deepen') key = 'deepen';
+    else if (gapVec && bank[gapVec]) key = gapVec;
+
+    const questionText = bank[key] || bank['default'];
+
+    return {
+      question: questionText,
+      level_label: ['Нейтральный','Косвенный','Зеркало','Теневой'][level] || 'Косвенный',
+      target_type: target.type,
+      vectors: target.vectors,
+      openness_score: s.openness_score,
+      openness_label: ({A:'Открытый',B:'Осторожный',C:'Закрытый'})[s.openness_type] || 'Осторожный',
+      hook_used: hook
+    };
+  },
+
+  /* Check if interview is complete */
+  isComplete() {
+    return this.state.dna_completeness >= 75 || this.state.questions_asked >= 20;
+  },
+
+  /* Reset all state */
+  reset() {
+    this.state = {
+      phase: 'idle', basicData: {}, levelData: {},
+      openness_score: 50, openness_type: 'B', openness_level: 1,
+      crystals: {}, matrix: {},
+      answer_history: [], active_vectors: [], gap_vectors: [],
+      tension_zones: [], last_hook: '', questions_asked: 0, dna_completeness: 0
+    };
+  },
+
+  /* Summary for UI display */
+  getSummary() {
+    const s = this.state;
+    const typeLabels = { A: 'Открытый', B: 'Осторожный', C: 'Закрытый' };
+    const topCrystals = Object.entries(s.crystals)
+      .sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k]) => k);
+    return {
+      openness_type: typeLabels[s.openness_type] || 'Осторожный',
+      openness_score: s.openness_score,
+      top_crystals: topCrystals,
+      active_vectors: s.active_vectors.length,
+      dna_completeness: s.dna_completeness,
+      answers_count: s.answer_history.length
+    };
+  }
+};
+
 let currentInterviewIdx = 0;
 let isInterviewRecording = false;
 let interviewSpeechInterval = null;
@@ -1935,6 +2184,10 @@ function openVoiceInterview() {
   isInterviewRecording = false;
   clearInterval(interviewSpeechInterval);
   clearTimeout(interviewSpeechTimeout);
+  
+  // Reset engine state for fresh interview
+  InterviewEngine.reset();
+  InterviewEngine.state.phase = 'adaptive';
   
   const modal = document.getElementById('voiceInterviewModal');
   if (modal) modal.classList.remove('hidden');
@@ -1974,6 +2227,18 @@ function updateInterviewUI() {
   document.getElementById('transcriptionStatus').style.color = "var(--text-dim)";
   document.getElementById('transcriptionText').textContent = "Нажмите кнопку «Начать говорить», чтобы дать ответ голосом...";
   document.getElementById('transcriptionText').style.opacity = "0.6";
+  
+  // Show hint text if element exists
+  const hintEl = document.getElementById('interviewHint');
+  if (hintEl && qData.hint) hintEl.textContent = '💡 ' + qData.hint;
+  
+  // Show openness badge
+  const opennessBadge = document.getElementById('interviewOpennessBadge');
+  if (opennessBadge) {
+    const summary = InterviewEngine.getSummary();
+    const typeIcon = {A:'🟢',B:'🟡',C:'🔴'}[InterviewEngine.state.openness_type] || '🟡';
+    opennessBadge.textContent = typeIcon + ' ' + summary.openness_label + ' · ДНК ' + summary.dna_completeness + '%';
+  }
   
   document.getElementById('btnPrevQuestion').disabled = (currentInterviewIdx === 0);
   document.getElementById('btnNextQuestion').textContent = (currentInterviewIdx === INTERVIEW_QUESTIONS.length - 1) ? "Завершить интервью ➔" : "Пропустить →";
@@ -2055,6 +2320,17 @@ function stopInterviewRecording(autoCompleted) {
   const qData = INTERVIEW_QUESTIONS[currentInterviewIdx];
   const fullText = qData.simText.replace(/\[USER_NAME\]/g, userName);
   textContainer.textContent = fullText;
+  
+  // Feed answer into InterviewEngine
+  const engineResult = InterviewEngine.analyzeAnswer(fullText, qData.vectors || []);
+  const summary = InterviewEngine.getSummary();
+  
+  // Update openness badge if element exists
+  const opennessBadge = document.getElementById('interviewOpennessBadge');
+  if (opennessBadge) {
+    const typeIcon = {A:'🟢',B:'🟡',C:'🔴'}[InterviewEngine.state.openness_type] || '🟡';
+    opennessBadge.textContent = typeIcon + ' ' + summary.openness_label + ' · ДНК ' + summary.dna_completeness + '%';
+  }
 }
 
 function prevInterviewQuestion() {
@@ -2091,6 +2367,12 @@ function startInterviewCalibration() {
   const calLoader = document.createElement('div');
   calLoader.className = 'calibration-loader';
   calLoader.id = 'calibrationLoader';
+  // Run full engine analysis on collected answers
+  InterviewEngine.state.phase = 'calibration';
+  InterviewEngine.analyzeLevel6Data();
+  const dnaSummary = InterviewEngine.getSummary();
+  const dnaInfo = 'Тип: ' + dnaSummary.openness_type + ' · Векторов: ' + dnaSummary.active_vectors + '/24 · ДНК: ' + dnaSummary.dna_completeness + '%';
+  
   calLoader.innerHTML = `
     <div class="cal-spinner"></div>
     <h3 class="cal-title">Калибровка личности и 24 векторов...</h3>
@@ -2148,6 +2430,11 @@ function startInterviewCalibration() {
     setTimeout(() => {
       // Finalize
       localStorage.setItem('cloone_onboarded', 'true');
+      InterviewEngine.state.phase = 'complete';
+      const finalSummary = InterviewEngine.getSummary();
+      localStorage.setItem('cloone_dna_summary', JSON.stringify(finalSummary));
+      localStorage.setItem('cloone_openness_type', finalSummary.openness_type);
+      localStorage.setItem('cloone_dna_completeness', finalSummary.dna_completeness);
       closeVoiceInterview();
       
       // Restore layout
