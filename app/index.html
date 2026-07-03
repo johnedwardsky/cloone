@@ -321,6 +321,28 @@
         </div>
       </div>
 
+      <!-- Crystal Core widget -->
+      <div class="card-widget" style="border:1px solid rgba(108,99,255,0.3);background:linear-gradient(135deg,rgba(108,99,255,0.04),transparent);">
+        <div class="widget-header">
+          <span class="widget-title" style="color:var(--accent);">🔮 Кристальное ядро</span>
+          <button class="info-btn" title="9 фундаментальных измерений — основа всего профиля">ⓘ</button>
+          <button class="link-btn ml-auto" onclick="openVoiceInterview()">Интервью →</button>
+        </div>
+        <p class="desc-sm" style="margin-bottom:12px;color:var(--text-mid)">9 фильтров → 24 вектора. Голосовое интервью устанавливает кристалл.</p>
+        <div class="crystal-grid-mini">
+          <div class="crystal-mini-item" title="Инстинкты и самосохранение"><span class="cm-dot" style="color:#e94070">●</span><span class="cm-label">К1</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:72%;background:#e94070"></div></div></div>
+          <div class="crystal-mini-item" title="Творчество и созидание"><span class="cm-dot" style="color:#ff8c00">●</span><span class="cm-label">К2</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:85%;background:#ff8c00"></div></div></div>
+          <div class="crystal-mini-item" title="Интуиция и исследование"><span class="cm-dot" style="color:#b8860b">●</span><span class="cm-label">К3</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:68%;background:#b8860b"></div></div></div>
+          <div class="crystal-mini-item" title="Выражение и коммуникация"><span class="cm-dot" style="color:#12b76a">●</span><span class="cm-label">К4</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:55%;background:#12b76a"></div></div></div>
+          <div class="crystal-mini-item" title="Воля и влияние"><span class="cm-dot" style="color:#0096ff">●</span><span class="cm-label">К5</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:80%;background:#0096ff"></div></div></div>
+          <div class="crystal-mini-item" title="Любовь и эмпатия"><span class="cm-dot" style="color:var(--accent)">●</span><span class="cm-label">К6</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:62%;background:var(--accent)"></div></div></div>
+          <div class="crystal-mini-item" title="Аналитика и структура"><span class="cm-dot" style="color:#00b4cc">●</span><span class="cm-label">К7</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:77%;background:#00b4cc"></div></div></div>
+          <div class="crystal-mini-item" title="Эмоциональность и воображение"><span class="cm-dot" style="color:#ff64b4">●</span><span class="cm-label">К8</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:58%;background:#ff64b4"></div></div></div>
+          <div class="crystal-mini-item" title="Экзистенциальное мышление"><span class="cm-dot" style="color:#9b51e0">●</span><span class="cm-label">К9</span><div class="cm-bar-wrap"><div class="cm-bar" style="width:88%;background:#9b51e0"></div></div></div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:12px;font-size:12px" onclick="openVoiceInterview()">🎙️ Пройти кристальное интервью</button>
+      </div>
+
       <!-- Onboarding levels progress -->
       <div class="card-widget onboarding-card">
         <div class="widget-header">
@@ -329,6 +351,7 @@
           <button class="link-btn ml-auto" onclick="navigate('profile')">Заполнить →</button>
         </div>
         <p class="desc-sm" style="margin-bottom:14px;color:var(--text-mid)">Чем больше уровней заполнено — тем точнее клон воспроизводит тебя</p>
+
         <div class="onb-levels">
           <div class="onb-level done">
             <div class="onb-level-header">
@@ -2242,15 +2265,74 @@
     <div class="page-topbar">
       <div>
         <h1 class="page-title">Мой профиль клона</h1>
-        <p class="page-sub">Иерархия знаний · 6 уровней · Обучающие данные для клона</p>
+        <p class="page-sub">🔮 9 Кристаллов → 24 вектора · 6 уровней обучения</p>
       </div>
       <div class="page-actions">
         <button class="btn-secondary" onclick="showToast('Экспорт профиля...')">📄 Экспорт</button>
-        <button class="btn-primary" onclick="openVoiceInterview()">✦ Начать голосовое интервью</button>
+        <button class="btn-primary" onclick="openVoiceInterview()">🔮 Кристальное интервью</button>
       </div>
     </div>
 
-    <!-- Summary bar -->
+    <!-- Crystal Core Section -->
+    <div class="card-widget" style="margin-bottom:24px;border:1px solid rgba(108,99,255,0.35);background:linear-gradient(135deg,rgba(108,99,255,0.06),rgba(162,155,254,0.02));">
+      <div class="widget-header" style="margin-bottom:4px;">
+        <span class="widget-title" style="color:var(--accent);font-size:15px;">🔮 Кристальное ядро — первичный фильтр личности</span>
+        <button class="btn-outline-xs" onclick="openVoiceInterview()">✦ Пройти интервью</button>
+      </div>
+      <p style="font-size:12px;color:var(--text-mid);margin-bottom:16px;line-height:1.5;">Каждый ответ голосового интервью <strong>сначала проходит через один из 9 кристаллов</strong>, и только затем распределяется по 24 векторам личности.</p>
+      <div class="crystal-profile-grid">
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🔴</span><span class="cpi-name">К1 · Инстинкты</span><span class="cpi-val">72%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:72%;background:linear-gradient(90deg,#e94070,#ff6b8a)"></div></div>
+          <div class="cpi-vectors">→ V11, V17, V20</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🟠</span><span class="cpi-name">К2 · Творчество</span><span class="cpi-val">85%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:85%;background:linear-gradient(90deg,#ff8c00,#ffb347)"></div></div>
+          <div class="cpi-vectors">→ V03, V05, V16</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🟡</span><span class="cpi-name">К3 · Интуиция</span><span class="cpi-val">68%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:68%;background:linear-gradient(90deg,#b8860b,#ffd700)"></div></div>
+          <div class="cpi-vectors">→ V08, V16, V07</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🟢</span><span class="cpi-name">К4 · Коммуникация</span><span class="cpi-val">55%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:55%;background:linear-gradient(90deg,#12b76a,#34d39a)"></div></div>
+          <div class="cpi-vectors">→ V13, V04, V10</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🔵</span><span class="cpi-name">К5 · Воля</span><span class="cpi-val">80%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:80%;background:linear-gradient(90deg,#0096ff,#4db8ff)"></div></div>
+          <div class="cpi-vectors">→ V06, V05, V18</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">💜</span><span class="cpi-name">К6 · Эмпатия</span><span class="cpi-val">62%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:62%;background:linear-gradient(90deg,#6c63ff,#a29bfe)"></div></div>
+          <div class="cpi-vectors">→ V01, V02, V22</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🩵</span><span class="cpi-name">К7 · Аналитика</span><span class="cpi-val">77%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:77%;background:linear-gradient(90deg,#00b4cc,#00d4f0)"></div></div>
+          <div class="cpi-vectors">→ V14, V16, V09</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">🌸</span><span class="cpi-name">К8 · Эмоции</span><span class="cpi-val">58%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:58%;background:linear-gradient(90deg,#ff64b4,#ff96cc)"></div></div>
+          <div class="cpi-vectors">→ V12, V19, V23</div>
+        </div>
+        <div class="crystal-profile-item">
+          <div class="cpi-header"><span style="font-size:14px">✨</span><span class="cpi-name">К9 · Экзистенция</span><span class="cpi-val">88%</span></div>
+          <div class="cpi-bar-wrap"><div class="cpi-bar" style="width:88%;background:linear-gradient(90deg,#9b51e0,#bf87f7)"></div></div>
+          <div class="cpi-vectors">→ V07, V15, V08</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;background:rgba(108,99,255,0.07);border-radius:8px;font-size:12px;color:var(--text-mid);">
+        ⚡ <strong>Как работает:</strong> 9 вопросов голосового интервью → кристальная матрица → автоматическая инициализация всех 24 векторов. Никаких длинных форм.
+      </div>
+    </div>
+
+
     <div class="profile-summary-bar card-widget" style="margin-bottom:24px;">
       <div class="psb-item">
         <div class="psb-val accent">27 / 47</div>

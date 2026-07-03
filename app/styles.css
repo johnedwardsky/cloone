@@ -3456,3 +3456,87 @@ body {
   color: var(--green);
   font-weight: 500;
 }
+
+/* ═══════════ CRYSTAL CORE STYLES ═══════════ */
+.crystal-grid-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.crystal-mini-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cm-dot { font-size: 10px; flex-shrink: 0; width: 14px; }
+.cm-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-mid);
+  width: 22px;
+  flex-shrink: 0;
+}
+.cm-bar-wrap {
+  flex: 1;
+  height: 5px;
+  background: var(--border-light);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.cm-bar {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(.4,0,.2,1);
+}
+
+/* Crystal Profile Grid (profile page) */
+.crystal-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.crystal-profile-item {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 10px 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.crystal-profile-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+}
+.cpi-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.cpi-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+.cpi-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-mid);
+}
+.cpi-bar-wrap {
+  height: 5px;
+  background: var(--border-light);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+.cpi-bar {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(.4,0,.2,1);
+}
+.cpi-vectors {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
