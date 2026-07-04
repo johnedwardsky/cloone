@@ -864,6 +864,153 @@
   </div>
 </div>
 
+<!-- S4b — Пайплайн формирования Цифровой ДНК -->
+<div class="section" id="s4b" style="background:linear-gradient(135deg,rgba(108,99,255,0.06) 0%,rgba(0,0,0,0) 100%);border-top:3px solid rgba(108,99,255,0.3);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-number" style="background:linear-gradient(135deg,#6c63ff,#a29bfe);">04b</div>
+      <div class="section-title-wrap">
+        <h2>🧬 Пайплайн формирования Цифровой ДНК</h2>
+        <p>Полный поток от первого контакта до сформированной личности клона. Пять последовательных этапов — каждый питает следующий. Реализован в <strong>InterviewEngine v2.0</strong>.</p>
+      </div>
+    </div>
+
+    <!-- 5-stage pipeline diagram -->
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;margin-bottom:32px;font-size:13px;line-height:1.9;color:var(--text2);">
+
+      <div style="margin-bottom:14px;padding:14px 18px;border-left:3px solid var(--primary);border-radius:0 8px 8px 0;background:rgba(108,99,255,0.07);">
+        <div style="color:var(--primary);font-weight:700;font-family:'JetBrains Mono',monospace;">ЭТАП 0 &nbsp;·&nbsp; Вводные данные</div>
+        <div style="padding-left:16px;">Имя · Возраст · Город · Профессия · Краткое «о себе»</div>
+      </div>
+      <div style="text-align:center;color:rgba(255,255,255,0.15);font-size:20px;line-height:1.2;">↓</div>
+
+      <div style="margin:10px 0 14px;padding:14px 18px;border-left:3px solid #fdcb6e;border-radius:0 8px 8px 0;background:rgba(253,203,110,0.06);">
+        <div style="color:#fdcb6e;font-weight:700;font-family:'JetBrains Mono',monospace;">ЭТАП 1 &nbsp;·&nbsp; Интервью по 6 Уровням</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;padding-left:16px;margin-top:6px;">
+          <div>🪪 Уровень 0 · Якорь идентичности</div>
+          <div>🎮 Уровень 1 · Движущие силы</div>
+          <div>🔭 Уровень 2 · Мировоззрение</div>
+          <div>🤝 Уровень 3 · Отношения и деньги</div>
+          <div>🎙️ Уровень 4 · Голос и стиль <span style="color:#e17055;font-size:10px;font-weight:700;">КРИТИЧНЫЙ</span></div>
+          <div>🔒 Уровень 5 · Биография и анти-профиль</div>
+        </div>
+      </div>
+      <div style="text-align:center;color:rgba(255,255,255,0.15);font-size:20px;line-height:1.2;">↓</div>
+
+      <div style="margin:10px 0 14px;">
+        <div style="color:#00b894;font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:10px;">ЭТАП 2 &nbsp;·&nbsp; Калибровка Открытости</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-left:16px;">
+          <div style="background:rgba(0,184,148,0.1);border:1px solid rgba(0,184,148,0.3);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:18px;">🟢</div>
+            <div style="font-weight:700;color:var(--text1);font-size:12px;">Тип А · Открытый</div>
+            <div style="font-size:11px;">score 70–100<br>Сразу уровень 2–3</div>
+          </div>
+          <div style="background:rgba(253,203,110,0.1);border:1px solid rgba(253,203,110,0.3);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:18px;">🟡</div>
+            <div style="font-weight:700;color:var(--text1);font-size:12px;">Тип Б · Осторожный</div>
+            <div style="font-size:11px;">score 40–69<br>Начинаем с уровня 1</div>
+          </div>
+          <div style="background:rgba(225,112,85,0.1);border:1px solid rgba(225,112,85,0.3);border-radius:8px;padding:10px;text-align:center;">
+            <div style="font-size:18px;">🔴</div>
+            <div style="font-weight:700;color:var(--text1);font-size:12px;">Тип В · Закрытый</div>
+            <div style="font-size:11px;">score 0–39<br>Только уровень 0–1</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;color:rgba(255,255,255,0.15);font-size:20px;line-height:1.2;">↓</div>
+
+      <div style="margin:10px 0 14px;padding:14px 18px;border-left:3px solid #a29bfe;border-radius:0 8px 8px 0;background:rgba(162,155,254,0.06);">
+        <div style="color:#a29bfe;font-weight:700;font-family:'JetBrains Mono',monospace;">ЭТАП 3 &nbsp;·&nbsp; Кристальное Ядро</div>
+        <div style="padding-left:16px;">9 кристалов анализируют данные 6 уровней через свою линзу → выход: C1–C9 ∈ [0,1]</div>
+      </div>
+      <div style="text-align:center;color:rgba(255,255,255,0.15);font-size:20px;line-height:1.2;">↓</div>
+
+      <div style="margin:10px 0 14px;padding:14px 18px;border-left:3px solid #74b9ff;border-radius:0 8px 8px 0;background:rgba(116,185,255,0.06);">
+        <div style="color:#74b9ff;font-weight:700;font-family:'JetBrains Mono',monospace;">ЭТАП 4 &nbsp;·&nbsp; Инициализация 24 Векторов</div>
+        <div style="padding-left:16px;">Кристальные оценки → предварительные значения векторов → матрица 24×9 заполнена ~30–40%</div>
+      </div>
+      <div style="text-align:center;color:rgba(255,255,255,0.15);font-size:20px;line-height:1.2;">↓</div>
+
+      <div style="margin:10px 0 16px;padding:14px 18px;border-left:3px solid #fd79a8;border-radius:0 8px 8px 0;background:rgba(253,121,168,0.06);">
+        <div style="color:#fd79a8;font-weight:700;font-family:'JetBrains Mono',monospace;">ЭТАП 5 &nbsp;·&nbsp; Адаптивное Интервью ДНК</div>
+        <div style="padding-left:16px;">Уникальные вопросы по openness_type · крючки · пробелы · зоны напряжения → матрица 75–85%</div>
+      </div>
+
+      <div style="text-align:center;padding:18px;background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.5);border-radius:12px;">
+        <span style="color:var(--primary);font-weight:800;font-size:15px;">🧬 Цифровая ДНК сформирована · Матрица 24×9 = 216 точек · Personality Signature</span>
+      </div>
+    </div>
+
+    <!-- Adaptive interview algorithm -->
+    <div class="algo-box">
+      <h3>🎙️ Алгоритм адаптивного интервью (InterviewEngine v2.0)</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Вопросы не фиксированы — каждый генерируется на основе предыдущего ответа, уровня открытости и пробелов матрицы. Интервью ощущается как живой разговор.</p>
+      <div class="algo-steps">
+        <div class="algo-step">
+          <div class="algo-step-num">1</div>
+          <div class="algo-step-content">
+            <h4>Получен ответ → обновить openness_score</h4>
+            <p>Сигналы высокой открытости: длинный ответ, первое лицо + рефлексия, эмоциональные слова, самопризнание противоречий. Сигналы низкой: «люди вообще», короткий ответ, смена темы. Score 0–100 обновляется после каждого ответа.</p>
+          </div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step-num">2</div>
+          <div class="algo-step-content">
+            <h4>Извлечь «крючок» из ответа</h4>
+            <p>Система находит эмоционально заряженное слово или паттерн («без цели», «должен», «никогда», «устал»). Следующий вопрос начинается именно с него — создавая ощущение живого диалога, а не анкеты.</p>
+          </div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step-num">3</div>
+          <div class="algo-step-content">
+            <h4>Выбрать цель следующего вопроса</h4>
+            <p>Приоритет: <strong>1)</strong> Зона напряжения (противоречие между активными векторами) → <strong>2)</strong> Критический пробел (V11, V17, V21, V22, V23, V08 не покрыты) → <strong>3)</strong> Любой пробел → <strong>4)</strong> Углубление через крючок.</p>
+          </div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step-num">4</div>
+          <div class="algo-step-content">
+            <h4>Выбрать технику по уровню открытости</h4>
+            <p>
+              <strong>Уровень 0 · Нейтральный</strong> — наблюдательные вопросы без личных деталей<br>
+              <strong>Уровень 1 · Косвенный</strong> — метафора / проекция через третьих лиц<br>
+              <strong>Уровень 2 · Зеркало</strong> — «Я бы сделал так — а ты?» Интервьюер первым<br>
+              <strong>Уровень 3 · Теневой</strong> — маски, тайны, история которую рассказываешь о себе
+            </p>
+          </div>
+        </div>
+        <div class="algo-step">
+          <div class="algo-step-num">5</div>
+          <div class="algo-step-content">
+            <h4>Завершение → сохранить Personality Signature</h4>
+            <p>Интервью завершается когда матрица заполнена ≥75% или задано 15–20 вопросов. Итог: тип открытости A/B/C, доминантные кристаллы, кластеры векторов, зоны напряжения, слепые пятна.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hook example box -->
+    <div class="highlight blue" style="margin-top:24px;">
+      <div class="highlight-title">Пример: как «крючок» ведёт разговор</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;margin-top:12px;">
+        <div><span style="color:#a29bfe;">Вопрос:</span> Что ты делаешь, когда хочешь выключить голову?</div>
+        <div><span style="color:#00b894;">Ответ:</span> «Еду на машине <strong>без цели</strong>. Музыка — и всё.»</div>
+        <div style="margin:8px 0;padding:8px 12px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(108,99,255,0.5);border-radius:4px;">
+          крючок: «без цели» → активирует V10, V12 · пробел: V18, V23 · openness_delta: +3
+        </div>
+        <div><span style="color:#a29bfe;">Следующий вопрос (уровень 2 · зеркало):</span></div>
+        <div style="padding-left:16px;color:var(--text2);">«Я сам замечаю что мне нужны моменты когда нет никакой задачи — иначе теряю что-то важное. У тебя "без цели" — это отдых или чего-то не хватает в обычной жизни?»</div>
+        <div><span style="color:#00b894;">Ответ:</span> «Скорее второе. В обычной жизни я <strong>всегда что-то должен</strong>...»</div>
+        <div style="margin:8px 0;padding:8px 12px;background:rgba(255,255,255,0.03);border-left:2px solid rgba(253,203,110,0.5);border-radius:4px;">
+          крючок: «должен» → V04 (роли), V05 · напряжение: V03 vs V23 · openness_delta: +8 → уровень 3
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <!-- S5 -->
 <div class="section" id="s5" style="background:var(--bg2);">
   <div class="container">
