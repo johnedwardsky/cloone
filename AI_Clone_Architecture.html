@@ -170,15 +170,15 @@
     <div class="section-header">
       <div class="section-number">02</div>
       <div class="section-title-wrap">
-        <h2>Personality Profile — 24 Vectors</h2>
-        <p>Полный унифицированный каталог всех измерений личностного профиля. 24 вектора объединены в единую спецификацию: каждый имеет вес (приоритет), набор маркеров для сбора данных и связь с соответствующим агентом системы.</p>
+        <h2>Personality Profile — 29 Vectors</h2>
+        <p>A comprehensive unified catalog of all personality profile dimensions. The 29 vectors are unified into a single specification: each has a weight (priority), a set of markers for data collection, and a connection with the corresponding system agent.</p>
       </div>
     </div>
 
     <div class="graph-container">
-      <div class="section-label" style="margin-bottom:16px;">Profile Architecture: 24 Vectors</div>
+      <div class="section-label" style="margin-bottom:16px;">Profile Architecture: 29 Vectors</div>
       <div class="vector-diagram">
-        <div class="vd-center">PERSONALITY<br>PROFILE<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₄]</span></div>
+        <div class="vd-center">PERSONALITY<br>PROFILE<br><span style="font-size:10px;color:var(--text3);">W = [w₁…w₂₉]</span></div>
         <div class="vd-ring">
           <div class="vd-node primary">👥 Friends</div>
           <div class="vd-node primary">👨‍👩‍👧 Family</div>
@@ -204,6 +204,11 @@
           <div class="vd-node violet">🤝 Attachment</div>
           <div class="vd-node violet">🌡️ States</div>
           <div class="vd-node accent">😄 Humor</div>
+          <div class="vd-node accent">🕵️‍♂️ Cheating</div>
+          <div class="vd-node green">👁️ Attention</div>
+          <div class="vd-node accent">⚠️ Hazards</div>
+          <div class="vd-node red">💔 Social Pain</div>
+          <div class="vd-node primary">🥩 Trophic</div>
         </div>
       </div>
     </div>
@@ -393,16 +398,53 @@
         <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
       </div>
 
+      <div class="vector-group-label">— Block IV: Evolutionary Adaptations (Vectors 25–29)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🕵️‍♂️</div><div><div class="vector-num">Vector 25</div><div class="vector-name">Cheater Detection</div></div></div>
+        <div class="vector-desc">Evolutionary mechanisms for detecting reciprocity violations in social exchange; protection against exploitation.</div>
+        <div class="vector-tags"><span class="vector-tag">Reciprocity</span><span class="vector-tag">Trust</span><span class="vector-tag">Fraud Protection</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👁️</div><div><div class="vector-num">Vector 26</div><div class="vector-name">Shared Attention (White Sclera)</div></div></div>
+        <div class="vector-desc">Emulation of the evolutionary white sclera function for tracking eye gaze, attention, and understanding interlocutor's focus.</div>
+        <div class="vector-tags"><span class="vector-tag">Eye Gaze</span><span class="vector-tag">Shared Attention</span><span class="vector-tag">Empathy</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--success);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚠️</div><div><div class="vector-num">Vector 27</div><div class="vector-name">Threat &amp; Hazard EEA Detection</div></div></div>
+        <div class="vector-desc">Evolutionary survival responses (depth, darkness, predators, snakes, and strangers) — the core of the safety module.</div>
+        <div class="vector-tags"><span class="vector-tag">Survival</span><span class="vector-tag">Instincts</span><span class="vector-tag">Security</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--warning);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">💔</div><div><div class="vector-num">Vector 28</div><div class="vector-name">Social Exclusion Pain</div></div></div>
+        <div class="vector-desc">Sensitivity to group rejection, encoded as physical discomfort to maintain social identity and group conformity.</div>
+        <div class="vector-tags"><span class="vector-tag">Social Glue</span><span class="vector-tag">Rejection</span><span class="vector-tag">Group</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--danger);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🥩</div><div><div class="vector-num">Vector 29</div><div class="vector-name">Trophic Preferences</div></div></div>
+        <div class="vector-desc">Dopaminergic motivation drives (high-calorie search, comfort, energy balance).</div>
+        <div class="vector-tags"><span class="vector-tag">Resources</span><span class="vector-tag">Dopamine</span><span class="vector-tag">Energy Balance</span></div>
+        <div class="vector-weight"><span>Weight</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--primary);"></div></div><span>~60%</span></div>
+      </div>
+
     </div><!-- end vector-grid -->
 
     <div class="formula" style="margin-top:32px;">
       <span class="type">PersonalityProfile</span> <span class="op">=</span> {<br>
       &nbsp;&nbsp;social_type: <span class="var">"extrovert" | "introvert" | "balanced" | "volatile"</span>,<br>
-      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 24 вектора</span><br>
-      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// ordered descending веса</span><br>
-      &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// чувствительность к давлению</span><br>
+      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 29 vectors</span><br>
+      &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// ordered descending weights</span><br>
+      &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// pressure sensitivity</span><br>
       &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// semantic versioning</span><br>
-      &nbsp;&nbsp;alignment_score: <span class="var">0..1</span> <span class="comment">// точность копии, цель ≥ 0.85</span><br>
+      &nbsp;&nbsp;alignment_score: <span class="var">0..1</span> <span class="comment">// twin accuracy, goal ≥ 0.85</span><br>
       }
     </div>
   </div>
@@ -460,7 +502,7 @@
       <div class="section-number">04</div>
       <div class="section-title-wrap">
         <h2>Vector Connection Algorithms</h2>
-        <p>Three algorithms that connect 24 vectors into a single dynamic personality model. The algorithms work sequentially and in real time.</p>
+        <p>Three algorithms that connect 29 vectors (24 psychological and 5 evolutionary) into a single dynamic personality model. The algorithms work sequentially and in real time.</p>
       </div>
     </div>
 
@@ -468,9 +510,9 @@
       <h3>🧮 Algorithm 1: Personality Profile Construction (Onboarding)</h3>
       <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Executed once at initialization + regularly updated.</p>
       <div class="algo-steps">
-        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>15-Minute Voice Onboarding Interview</h4><p>Instead of filling out long textual forms, the user undergoes an interactive voice onboarding session. Based on audio responses, the system transcribes text, analyzes linguistic style and intonations, instantly calibrating the core personality (Levels 0, 1, and 4) and 24 vector weights.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>15-Minute Voice Onboarding Interview</h4><p>Instead of filling out long textual forms, the user undergoes an interactive voice onboarding session. Based on audio responses, the system transcribes text, analyzes linguistic style and intonations, instantly calibrating the core personality (Levels 0, 1, and 4) and all 29 vector weights.</p></div></div>
         <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Social Type Classification</h4><p>Classifier determines: Extrovert / Introvert / Balanced / Volatile. For the 4th type, <em>volatility_factor</em> — sensitivity to stressors — is calculated.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Calculation of Weight Vector W</h4><p>For each of the 24 vectors, weight w ∈ [0, 1] is calculated via: direct user assessment + indirect behavioral markers + contradiction analysis (declared vs actual).</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Calculation of Weight Vector W</h4><p>For each of the 29 vectors, weight w ∈ [0, 1] is calculated via: direct user assessment + indirect behavioral markers + contradiction analysis (declared vs actual).</p></div></div>
         <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Role Matrix Construction</h4><p>For each conscious role: activation frequency + context. For shadow ones: activation probability under stress. Each shadow role is bound to triggers from vectors 11, 14, 23.</p></div></div>
         <div class="algo-step"><div class="algo-step-num">5</div><div class="algo-step-content"><h4>Profile Validation with User</h4><p>The profile is presented as a "mirror." The user adjusts it. Iteration 3–5 times until convergence. Version v1.0 is finalized.</p></div></div>
       </div>
@@ -480,10 +522,10 @@
       <h3>⚡ Algorithm 2: Contextual Activation (Runtime)</h3>
       <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Executed on each request. Determines: vector, role, emotional background.</p>
       <div class="algo-steps">
-        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Request Context Classification</h4><p>NLP classifier determines which of the 24 vectors the request belongs to → the corresponding agent is activated.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Emotional Background Detection</h4><p>Vector 23 анализируется в реальном времени: тональность, время суток, история, маркеры стресса → вычисляется <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …}</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">1</div><div class="algo-step-content"><h4>Request Context Classification</h4><p>NLP classifier determines which of the 29 vectors the request belongs to → the corresponding agent is activated.</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">2</div><div class="algo-step-content"><h4>Emotional Background Detection</h4><p>Vector 23 is analyzed in real-time: message tone, time of day, history, stress markers → <em>emotional_state</em> ∈ {calm, stressed, excited, depleted, …} is calculated.</p></div></div>
         <div class="algo-step"><div class="algo-step-num">3</div><div class="algo-step-content"><h4>Active Role Selection</h4><p>If stressed → the probability of shadow roles increases: P(role | vector, state, history). Under a shadow role, the system either reproduces it or switches to a healthy counterpart.</p></div></div>
-        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Weighted Response Compilation</h4><p>Ответ = Σ(вес_агента × ответ_агента). Каждый из 8 агентов даёт версию, взвешенную по активным векторам и роли. Voice Agent применяет лингвистический стиль (Vector 13).</p></div></div>
+        <div class="algo-step"><div class="algo-step-num">4</div><div class="algo-step-content"><h4>Weighted Response Compilation</h4><p>Response = Σ(agent_weight × agent_response). Each of the 8 agents provides a version, weighted by active vectors and roles. Voice Agent applies the linguistic style (Vector 13).</p></div></div>
       </div>
     </div>
 
@@ -547,13 +589,53 @@
     </div>
     <div class="agent-grid">
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">Orchestrator</div></div></div><p>Central coordinator. Distributes to agents, gathers responses, weights them, forms the final response. The single point of entry/exit.</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">24 Vectors Context</div></div></div><p>Stores and updates the weight vector W for 24 dimensions. Classifies the request by vector and returns the relevant profile context.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">29 Vectors Context</div></div></div><p>Stores and updates the weight vector W for 29 dimensions. Classifies the request by vector and returns the relevant profile context.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">Role Management</div></div></div><p>Manages the matrix of roles: conscious + shadow. Determines the active role based on context and state.</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">Emotional Background</div></div></div><p>Определяет текущее эмоциональное состояние в реальном времени (Vector 23). Тональность, время, история, биомаркеры.</p><div class="agent-card-tags"><span class="tag red">Plutchik</span><span class="tag yellow">NLP Tone</span><span class="tag blue">Real-time</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">Linguistic Style</div></div></div><p>Хранит и применяет лингвистический профиль (Vector 13 + Вектор 24). «Окрашивает» ответ под стиль конкретного человека, включая юмор.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">Emotional Background</div></div></div><p>Determines the current emotional state in real-time (Vector 23). Evaluates voice tone, messaging speed, historical context, and biometrics.</p><div class="agent-card-tags"><span class="tag red">Plutchik</span><span class="tag yellow">NLP Tone</span><span class="tag blue">Real-time</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">Linguistic Style</div></div></div><p>Stores and applies the linguistic profile (Vector 13 + Vector 24). Shapes responses to mimic the user's specific verbal style, including humor.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">Shadow Patterns</div></div></div><p>Detects the activation of shadow roles, generates insight reports, suggests "healthy alternatives."</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">Continuous Learning</div></div></div><p>Tracks profile drift, updates W, versions, detects life events, initiates retraining.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Safety и этика</div></div></div><p>Контролирует доступ к данным. Шифрует чувствительные векторы (Secrets В08, Страхи В11). Ведёт consent_log. Право на забвение. Аудит-лог.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Safety &amp; Ethics</div></div></div><p>Controls data access. Encrypts sensitive vectors (Secrets V08, Fears V11). Maintains consent log. Right to be forgotten. Audit trail.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+    </div>
+
+    <div class="divider"></div>
+    <h3 style="margin-top: 28px;">🧠 Multi-Level Memory System</h3>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.6;">To ensure the digital twin acts as a continuous human consciousness, its memory is divided into functional layers mapping to biological memory systems:</p>
+    <div class="card-grid">
+      <div class="card" style="border-left:3px solid var(--info);">
+        <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">⚡</div>Sensory Buffer (Sensory Memory)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">
+          Real-time streaming and accumulation of micro-behaviors: eye gaze tracking (V26), typing dynamics, voice pitch shifts. Used for immediate response calibration.
+        </p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--primary);">
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">⏳</div>Working Memory</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">
+          Recursive buffer of the active context (Phonological Loop, Visuospatial Sketchpad). Maintains dialogue thread and rehearses draft outputs before generation.
+        </p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--success);">
+        <div class="card-title"><div class="card-icon" style="background:rgba(18,183,106,0.1);">📦</div>Long-Term Memory (LTM)</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5;">
+          <strong>Procedural:</strong> Motor and conversational habits (Vector 10).<br>
+          <strong>Semantic:</strong> Hierarchical ontological graph of the user's knowledge and personal encyclopedic facts.<br>
+          <strong>Episodic:</strong> Chronological archive of autobiographical events mapped to emotional states and timelines (Tulving).
+        </p>
+      </div>
+    </div>
+
+    <div class="highlight purple" style="margin-top:28px;">
+      <div class="highlight-title">🔄 Metacognitive Feedback Loop</div>
+      <p style="font-size:13.5px;line-height:1.6;">
+        The Master Agent is equipped with a recursive **metacognitive self-reflection** loop. Before presenting an output, the system evaluates its own cognitive biases, aligns the generated response with the core priority formula W, filters destructive shadow impulses via the Shadow Agent, and logs self-reflection metadata. This elevates the clone from a text generator to a self-reflective agent.
+      </p>
+    </div>
+
+    <div class="highlight green" style="margin-top:20px;">
+      <div class="highlight-title">👁️ Theory of Mind (ToM) Module</div>
+      <p style="font-size:13.5px;line-height:1.6;">
+        For genuine interaction, the clone features a **Theory of Mind (ToM)** module within the Master Agent. It constructs and tracks a mental map of the conversational partner: estimating their emotional state, objectives, knowledge level, and potential misconceptions. This ensures the clone communicates with the interlocutor as a distinct conscious entity rather than a mirror, adjusting style and detail density dynamically.
+      </p>
     </div>
   </div>
 </div>
@@ -767,7 +849,7 @@
   social_type: <span class="str">"extrovert" | "introvert" | "balanced" | "volatile"</span>;
   volatility_factor: <span class="num">number</span>;                  <span class="comment">// 0–1</span>
 
-  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 24 vectors, weight 0-1</span>
+  vector_weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="num">number</span>&gt;;   <span class="comment">// 29 vectors, weight 0-1</span>
   priority_formula: <span class="type">VectorId</span>[];               <span class="comment">// ordered descending</span>
 
   conscious_roles: <span class="type">RoleProfile</span>[];
@@ -779,7 +861,15 @@
   attachment_style: <span class="str">"secure"|"anxious"|"avoidant"|"disorganized"</span>; <span class="comment">// Vector 22</span>
   humor_profile: <span class="type">HumorVector</span>;                 <span class="comment">// Vector 24</span>
 
-  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// Vector 23 — реальное время</span>
+  evolutionary_adaptations: {
+    cheater_detection: <span class="num">number</span>;                <span class="comment">// Vector 25</span>
+    social_attention: <span class="num">number</span>;                 <span class="comment">// Vector 26</span>
+    threat_detection: <span class="num">number</span>;                 <span class="comment">// Vector 27</span>
+    social_pain: <span class="num">number</span>;                      <span class="comment">// Vector 28</span>
+    trophic_preferences: <span class="num">number</span>;              <span class="comment">// Vector 29</span>
+  };
+
+  current_state: <span class="type">EmotionalState</span>;              <span class="comment">// Vector 23 — real-time</span>
 
   consent_log: <span class="type">ConsentEntry</span>[];
   alignment_score: <span class="num">number</span>;                   <span class="comment">// clone accuracy, 0-1, target >= 0.85</span>
@@ -873,17 +963,19 @@
       <div class="section-number">08</div>
       <div class="section-title-wrap">
         <h2>Development Roadmap</h2>
-        <p>Four phases from MVP to a full multi-agent system with continuous learning and all 24 vectors.</p>
+        <p>Six phases from MVP to a full multi-agent system, neocortex emulation, and socio-cultural integration with all 29 vectors.</p>
       </div>
     </div>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Phase</th><th>Period</th><th>Tasks</th><th>Result</th><th>Key Risks</th></tr></thead>
         <tbody>
-          <tr><td><strong>Phase 0</strong><br><span class="tag purple">Research</span></td><td>4–6 weeks</td><td>Finalization of specification, stack selection, onboarding questionnaire for 24 vectors, data schema design</td><td>Architecture, questionnaire v1.0, team</td><td>Underestimating the complexity of Secrets and Fears vectors</td></tr>
+          <tr><td><strong>Phase 0</strong><br><span class="tag purple">Research</span></td><td>4–6 weeks</td><td>Finalization of specification, stack selection, onboarding questionnaire for 29 vectors, data schema design</td><td>Architecture, questionnaire v1.0, team</td><td>Underestimating the complexity of Secrets and Fears vectors</td></tr>
           <tr><td><strong>Phase 1</strong><br><span class="tag blue">MVP</span></td><td>8–12 weeks</td><td>Sphere Agent (11 basic spheres), Voice Agent (basic), profile v1.0, onboarding UI</td><td>Clone communicates in user style within basic spheres</td><td>Insufficient data for the Voice Agent</td></tr>
-          <tr><td><strong>Phase 2</strong><br><span class="tag yellow">Beta</span></td><td>12–16 weeks</td><td>Role Agent (conscious roles), Emotion Agent, Shadow Agent (Karpman), all 24 vectors, orchestrator</td><td>Clone switches roles by context, takes emotions and humor into account</td><td>Complexity of calibrating the Shadow Agent</td></tr>
-          <tr><td><strong>Phase 3</strong><br><span class="tag green">V1.0</span></td><td>8–12 weeks</td><td>Evolution Agent, RLHF across all 24 vectors, Privacy Agent, versioning, interlocutors' consent</td><td>Full dynamic twin with online learning</td><td>GDPR compliance, computational load</td></tr>
+          <tr><td><strong>Phase 2</strong><br><span class="tag yellow">Beta</span></td><td>12–16 weeks</td><td>Role Agent (conscious roles), Emotion Agent, Shadow Agent (Karpman), all 29 vectors, orchestrator</td><td>Clone switches roles by context, takes emotions and humor into account</td><td>Complexity of calibrating the Shadow Agent</td></tr>
+          <tr><td><strong>Phase 3</strong><br><span class="tag green">V1.0</span></td><td>8–12 weeks</td><td>Evolution Agent, RLHF across all 29 vectors, Privacy Agent, versioning, interlocutors' consent</td><td>Full dynamic twin with online learning</td><td>GDPR compliance, computational load</td></tr>
+          <tr><td><strong>Phase 4</strong><br><span class="tag red">Digital Brain</span></td><td>2026–2035</td><td>Emulation of multi-layered neocortex columnar organization in code, Piagetian learning (operant/observational by Bandura), integration of Theory of Mind and memory hierarchy</td><td>Cognitive copy with reflection levels approaching the original</td><td>Technological barriers in hardware/software emulation</td></tr>
+          <tr><td><strong>Phase 5</strong><br><span class="tag green">Socio-Int</span></td><td>2035–2046</td><td>Complete socio-cultural and legal integration of the digital Self as a subject with legal identity within the integrated NBICS environment</td><td>Overcoming the biological limit, achieving digital continuity of consciousness</td><td>Ethical and social friction in society</td></tr>
         </tbody>
       </table>
     </div>
@@ -914,8 +1006,8 @@
 <div class="doc-footer">
   <p>
     <strong style="color:var(--text2);">AI Human Clone — Technical Architecture Specification v2.1</strong><br>
-    Создан на основе авторской концепции. Для внутреннего использования. Все права сохраняются за автором.<br>July 2026.<br><br>
-    <span style="color:var(--primary);">24 personality vectors (unified profile) · 6 onboarding levels · 47 knowledge dimensions · 8 role types · 8 AI agents · 3 algorithms · 4 development phases</span>
+    Created based on the author's concept. For internal use. All rights reserved by the author.<br>July 2026.<br><br>
+    <span style="color:var(--primary);">29 personality vectors (24 psychological + 5 evolutionary) · 6 onboarding levels · 47 knowledge dimensions · 8 role types · 8 AI agents · 3 algorithms · 6 development phases</span>
   </p>
 </div>
 

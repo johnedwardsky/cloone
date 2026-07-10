@@ -392,12 +392,49 @@
         <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--accent3);"></div></div><span>~75%</span></div>
       </div>
 
+      <div class="vector-group-label">— Bloque IV: Adaptaciones Evolutivas (Vectores 25–29)</div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">🕵️‍♂️</div><div><div class="vector-num">Vector 25</div><div class="vector-name">Detector de Engaño (Cheater Detection)</div></div></div>
+        <div class="vector-desc">Mecanismos evolutivos para detectar violaciones de reciprocidad en el intercambio social; protección contra la explotación.</div>
+        <div class="vector-tags"><span class="vector-tag">Reciprocidad</span><span class="vector-tag">Confianza</span><span class="vector-tag">Protección</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:80%;background:var(--danger);"></div></div><span>~80%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(18,183,106,0.1);">👁️</div><div><div class="vector-num">Vector 26</div><div class="vector-name">Atención Compartida (White Sclera)</div></div></div>
+        <div class="vector-desc">Emulación de la función evolutiva de la esclerótica blanca para rastrear la mirada, la atención y el foco del interlocutor.</div>
+        <div class="vector-tags"><span class="vector-tag">Mirada</span><span class="vector-tag">Shared Attention</span><span class="vector-tag">Empatía</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:70%;background:var(--success);"></div></div><span>~70%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(217,119,6,0.1);">⚠️</div><div><div class="vector-num">Vector 27</div><div class="vector-name">Detección de Peligros EEA</div></div></div>
+        <div class="vector-desc">Respuestas evolutivas de supervivencia (miedo a la altura, oscuridad, depredadores, serpientes y extraños) — base del módulo de seguridad.</div>
+        <div class="vector-tags"><span class="vector-tag">Supervivencia</span><span class="vector-tag">Instintos</span><span class="vector-tag">Seguridad</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:85%;background:var(--warning);"></div></div><span>~85%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(233,64,112,0.1);">💔</div><div><div class="vector-num">Vector 28</div><div class="vector-name">Dolor de Exclusión Social</div></div></div>
+        <div class="vector-desc">Sensibilidad al rechazo del grupo, codificada como malestar físico para mantener la identidad social y la conformidad grupal.</div>
+        <div class="vector-tags"><span class="vector-tag">Cohesión Social</span><span class="vector-tag">Rechazo</span><span class="vector-tag">Grupo</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:75%;background:var(--danger);"></div></div><span>~75%</span></div>
+      </div>
+
+      <div class="vector-card">
+        <div class="vector-card-header"><div class="vector-icon" style="background:rgba(108,99,255,0.1);">🥩</div><div><div class="vector-num">Vector 29</div><div class="vector-name">Preferencias Tróficas</div></div></div>
+        <div class="vector-desc">Impulsos motivacionales dopaminérgicos (búsqueda de calorías, confort, balance energético).</div>
+        <div class="vector-tags"><span class="vector-tag">Recursos</span><span class="vector-tag">Dopamina</span><span class="vector-tag">Energía</span></div>
+        <div class="vector-weight"><span>Peso</span><div class="weight-bar"><div class="weight-fill" style="width:60%;background:var(--primary);"></div></div><span>~60%</span></div>
+      </div>
+
     </div><!-- end vector-grid -->
 
     <div class="formula" style="margin-top:32px;">
       <span class="type">PersonalityProfile</span> <span class="op">=</span> {<br>
       &nbsp;&nbsp;social_type: <span class="var">"extrovert" | "introvert" | "balanced" | "volatile"</span>,<br>
-      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 24 vectores</span><br>
+      &nbsp;&nbsp;weights: <span class="type">Record</span>&lt;<span class="type">VectorId</span>, <span class="var">0..1</span>&gt;, <span class="comment">// 29 vectores</span><br>
       &nbsp;&nbsp;priority_formula: <span class="type">VectorId</span>[], <span class="comment">// ordenado descendentemente por peso</span><br>
       &nbsp;&nbsp;volatility_factor: <span class="var">0..1</span>, <span class="comment">// sensibilidad a la presión</span><br>
       &nbsp;&nbsp;version: <span class="var">string</span>, <span class="comment">// control de versiones semántico</span><br>
