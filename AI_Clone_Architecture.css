@@ -33,7 +33,18 @@
       --border: rgba(108,99,255,0.2); --border2: rgba(0,0,0,0.07);
       --shadow: none; --shadow-glow: none;
     }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
     body { background: #fff !important; }
+    .nav-back-bar, .nav-right-bar { display: none !important; }
+    .cover {
+      min-height: auto !important;
+      height: auto !important;
+      padding: 40px 20px !important;
+      background: none !important;
+    }
     .page-break { page-break-before: always; }
     .section { break-inside: avoid; }
     .card { break-inside: avoid; }

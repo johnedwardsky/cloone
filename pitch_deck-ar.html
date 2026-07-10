@@ -64,15 +64,11 @@
     <p class="login-subtitle">أدخل بيانات الاعتماد لعرض العرض التقديمي</p>
     <form id="partnerLoginForm" onsubmit="event.preventDefault(); handleLogin();">
       <div class="login-form-group">
-        <label for="pLogin" class="login-label">اسم المستخدم</label>
-        <input type="text" id="pLogin" required placeholder="Partner" class="login-input">
-      </div>
-      <div class="login-form-group">
         <label for="pPassword" class="login-label">كلمة المرور</label>
         <input type="password" id="pPassword" required placeholder="••••••••" class="login-input">
       </div>
       <div id="loginError" class="login-error">
-        اسم المستخدم أو كلمة المرور غير صحيحة
+        كلمة المرور غير صحيحة
       </div>
       <button type="submit" class="login-btn">
         تسجيل الدخول
@@ -89,10 +85,17 @@
     }
   })();
 
-  function handleLogin() {
-    const loginVal = document.getElementById('pLogin').value;
+  async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function handleLogin() {
     const passVal = document.getElementById('pPassword').value;
-    if (loginVal === 'Partner' && passVal === '88888888') {
+    const hashed = await sha256(passVal);
+    if (hashed === '0f3d999d34fa4cc4fcd467d54283c62b97fbbd7583ff32388fbeb16de57b7a62') {
       sessionStorage.setItem('cloone_partner_auth', 'true');
       const overlay = document.getElementById('partnerLoginOverlay');
       overlay.style.transition = 'opacity 0.4s ease';
@@ -106,6 +109,123 @@
       const card = document.querySelector('.login-card');
       card.style.animation = 'shake 0.4s ease';
       setTimeout(() => { card.style.animation = ''; }, 400);
+    }
+  }
+
+  // Sandbox popup logic
+  function openLoginPopup() {
+    let modal = document.getElementById('loginSandboxModal');
+    if (!modal) {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .login-modal-overlay {
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(10, 11, 22, 0.7); backdrop-filter: blur(8px);
+          display: flex; align-items: center; justify-content: center; z-index: 10000000;
+          opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+          font-family: 'Inter', system-ui, sans-serif;
+        }
+        .login-modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .login-modal-box {
+          background: #1c1d30; border: 1px solid rgba(108, 99, 255, 0.2);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); border-radius: 16px;
+          padding: 30px; width: 100%; max-width: 400px; color: #fff;
+          transform: translateY(-20px); transition: transform 0.3s ease;
+          position: relative;
+        }
+        .login-modal-overlay.active .login-modal-box { transform: translateY(0); }
+        .login-modal-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #fff; text-align: left; }
+        .login-modal-sub { font-size: 13px; color: #a29bfe; margin-bottom: 20px; text-align: left; }
+        .login-form-group-sb { margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px; text-align: left; }
+        .login-form-group-sb label { font-size: 11px; font-weight: 700; color: #a29bfe; text-transform: uppercase; letter-spacing: 0.5px; }
+        .login-input-sb {
+          background: #131424; border: 1px solid rgba(108, 99, 255, 0.15);
+          border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 14px;
+          transition: all 0.2s; outline: none; width: 100%; box-sizing: border-box;
+        }
+        .login-input-sb:focus { border-color: #6c5ce7; box-shadow: 0 0 8px rgba(108,99,255,0.2); }
+        .login-btn-sb {
+          background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+          color: white; border: none; padding: 12px; border-radius: 8px;
+          cursor: pointer; font-weight: 700; font-size: 14px; margin-top: 10px;
+          transition: all 0.2s; box-shadow: 0 4px 12px rgba(108,99,255,0.3); width: 100%;
+        }
+        .login-btn-sb:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(108,99,255,0.4); }
+        .login-close-btn-sb {
+          background: none; border: none; color: #a29bfe; font-size: 24px;
+          cursor: pointer; position: absolute; top: 15px; right: 15px; line-height: 1; outline: none;
+        }
+        .login-error-sb { color: #ff7675; font-size: 12.5px; margin-top: 10px; text-align: center; display: none; }
+      `;
+      document.head.appendChild(style);
+
+      modal = document.createElement('div');
+      modal.id = 'loginSandboxModal';
+      modal.className = 'login-modal-overlay';
+      modal.innerHTML = `
+        <div class="login-modal-box">
+          <button class="login-close-btn-sb" onclick="closeLoginPopup()">×</button>
+          <div class="login-modal-title">✦ دخول Sandbox</div>
+          <div class="login-modal-sub">أدخل اسم المستخدم وكلمة المرور لتشغيل المحاكاة</div>
+          <div class="login-form-group-sb">
+            <label>اسم المستخدم</label>
+            <input type="text" id="loginUsername" class="login-input-sb" placeholder="أحمد" value="علي" required />
+          </div>
+          <div class="login-form-group-sb">
+            <label>كلمة المرور</label>
+            <input type="password" id="loginPassword" class="login-input-sb" placeholder="••••••••" required />
+          </div>
+          <div id="loginErrorMsg" class="login-error-sb">كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.</div>
+          <button class="login-btn-sb" onclick="submitLogin()">تشغيل التطبيق →</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      // Enter key support
+      document.getElementById('loginPassword').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submitLogin();
+      });
+      document.getElementById('loginUsername').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submitLogin();
+      });
+    }
+
+    setTimeout(() => {
+      modal.classList.add('active');
+      document.getElementById('loginPassword').value = '';
+      document.getElementById('loginErrorMsg').style.display = 'none';
+      document.getElementById('loginUsername').focus();
+    }, 10);
+  }
+
+  function closeLoginPopup() {
+    const modal = document.getElementById('loginSandboxModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  async function submitLogin() {
+    const nameInput = document.getElementById('loginUsername');
+    const passInput = document.getElementById('loginPassword');
+    const errorMsg = document.getElementById('loginErrorMsg');
+
+    const username = nameInput.value.trim();
+    const password = passInput.value.trim();
+
+    if (!username) {
+      errorMsg.textContent = 'يرجى إدخال اسم المستخدم';
+      errorMsg.style.display = 'block';
+      nameInput.focus();
+      return;
+    }
+
+    const hashed = await sha256(password);
+    if (hashed === 'fe57ccd1ec8ccd11eb73b3eb3080a9e8174dba4650e3afdd0031e06fe5fb060b') { // 8651N#$
+      localStorage.setItem('cloone_user_name', username);
+      window.location.href = 'app/index.html';
+    } else {
+      errorMsg.textContent = 'كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.';
+      errorMsg.style.display = 'block';
+      passInput.focus();
     }
   }
 </script>
@@ -727,7 +847,7 @@
     </svg>
   </div>
   <div class="header-actions">
-    <a href="AI_Clone_Architecture-ar.html" class="arch-btn" style="margin-right: 8px;">الهيكل التفصيلي</a>
+    <button class="arch-btn" onclick="openLoginPopup()" style="margin-right: 8px; border: none; cursor: pointer; outline: none; font-family: inherit;">✦ دخول Sandbox</button>
     <div class="lang-select-wrap" style="margin-right: 8px;">
       <select class="lang-select" onchange="localStorage.setItem('cloone_pref_lang', this.value); location = (this.value === 'en' ? 'pitch_deck.html' : 'pitch_deck-' + this.value + '.html');">
         <option value="en">EN</option>
