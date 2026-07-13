@@ -180,6 +180,56 @@
   tick();
 })();
 
+// ── MOBILE MENU TOGGLE ──
+(function () {
+  function initMobileMenu() {
+    const container = document.querySelector('nav .container');
+    if (!container) return;
+    
+    // Check if toggle already exists to prevent duplicate insertion
+    if (document.getElementById('menuToggle')) return;
+    
+    // Create hamburger toggle button
+    const toggle = document.createElement('button');
+    toggle.className = 'menu-toggle';
+    toggle.id = 'menuToggle';
+    toggle.setAttribute('aria-label', 'Toggle Menu');
+    toggle.innerHTML = '<span></span><span></span><span></span>';
+    container.appendChild(toggle);
+    
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !toggle.contains(e.target)) {
+          toggle.classList.remove('active');
+          navLinks.classList.remove('active');
+        }
+      });
+      
+      // Close menu when clicking any nav link/button/select
+      navLinks.querySelectorAll('a, button, select').forEach(item => {
+        item.addEventListener('click', () => {
+          toggle.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+  } else {
+    initMobileMenu();
+  }
+})();
+
 // ── ACCELERATOR: Synaptic storm ──
 (function () {
   const canvas = document.getElementById('accel-canvas');

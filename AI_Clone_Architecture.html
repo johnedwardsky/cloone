@@ -162,6 +162,16 @@
       <p>The system is built as a <strong>multi-agent network</strong>: each agent is responsible for a separate sphere or layer of personality. The central orchestrator (Master Agent) coordinates the agents and forms the final response, taking into account the current context, emotional state, and active role.</p>
     </div>
 
+    <!-- Object Form Topology -->
+    <div class="highlight purple" style="margin-top:20px;margin-bottom:32px;grid-column: span 2;">
+      <div class="highlight-title">🕸️ Object Form Topology</div>
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.5;margin-bottom:8px;">According to research in cognitive psychology, the brain encodes objects not in isolated zones, but through distributed and overlapping neural patterns. We transfer this principle to the clone's DNA:</p>
+      <ul style="margin:5px 0 0 18px;line-height:1.6;font-size:13px;color:var(--text2);">
+        <li><strong>Overlapping Distributed Coding:</strong> Personality concepts are not isolated. Vectors have shared computational points of intersection.</li>
+        <li><strong>Dynamic Reactions:</strong> For example, vector <strong>V03 (Achievements)</strong> and vector <strong>V11 (Fears)</strong> share common computational nodes. This allows for an infinite number of unique reactions depending on the context and "lighting" of the situation, avoiding rigid templates.</li>
+      </ul>
+    </div>
+
     <div class="divider"></div>
     <h3 style="margin-top: 28px;">🕸️ "Mind Labyrinths" and Cognitive Self-Limitation</h3>
     <p style="font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.6;">
@@ -170,9 +180,9 @@
 
     <div class="card-grid">
       <div class="card">
-        <div class="card-title"><div class="card-icon" style="background:rgba(255,165,0,0.1);">🧱</div>1. Heuristics as Choice "Walls"</div>
+        <div class="card-title"><div class="card-icon" style="background:rgba(255,165,0,0.1);">🧱</div>1. Heuristics as Choice "Walls" (Heuristic Shortcuts)</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.5;">
-          Integrating "rules of thumb" to instantly eliminate 95% of infinite decision choices (Kahneman's System 1). The clone voluntarily stays within the original's habitual patterns to save cognitive energy and prevent choice paralysis.
+          Using mental shortcuts and heuristics to instantly cut off 95% of choices (Kahneman's System 1). To prevent bias (e.g., confirmation bias), a <strong>System 2 Critical Monitoring Loop</strong> is built-in, activating only in high-stakes situations.
         </p>
       </div>
       <div class="card">
@@ -616,6 +626,8 @@
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🧠 Shadow Agent</div>
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">📈 Evolution Agent</div>
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🔒 Privacy Agent</div>
+          <div style="background:var(--card);border:1px solid rgba(108,99,255,0.3);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🛡️ Pre-mortem Agent</div>
+          <div style="background:var(--card);border:1px solid rgba(108,99,255,0.3);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.04);">👁️ Metacognition Monitor</div>
         </div>
         <div style="color:var(--text3);font-size:24px;">↕</div>
         <div style="background:rgba(18,183,106,0.07);border:1px solid rgba(18,183,106,0.2);border-radius:10px;padding:14px 32px;font-size:12px;font-weight:600;color:#0a6641;">📦 Vector Store + Personality DB + Event Bus</div>
@@ -630,6 +642,8 @@
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">Shadow Patterns</div></div></div><p>Detects the activation of shadow roles, generates insight reports, suggests "healthy alternatives."</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">Continuous Learning</div></div></div><p>Tracks profile drift, updates W, versions, detects life events, initiates retraining.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Safety &amp; Ethics</div></div></div><p>Controls data access. Encrypts sensitive vectors (Secrets V08, Fears V11). Maintains consent log. Right to be forgotten. Audit trail.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.12);">🛡️</div><div><div class="agent-card-name">Pre-mortem Agent</div><div class="agent-card-role">Failure Simulation</div></div></div><p>Models potential failures and execution errors of any function before it is launched, forcing System 2 to actively seek weak spots.</p><div class="agent-card-tags"><span class="tag red">Pre-mortem</span><span class="tag yellow">Fail-safe</span><span class="tag blue">System 2</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(162,155,254,0.12);">👁️</div><div><div class="agent-card-name">Metacognition Monitor</div><div class="agent-card-role">Self-Observation</div></div></div><p>Metacognition module for self-observation. Evaluates response confidence. If confidence &lt; 0.8, requests clarification from the creator (Zone of Proximal Development).</p><div class="agent-card-tags"><span class="tag purple">Self-Reflect</span><span class="tag green">ZPD</span><span class="tag blue">Escalation</span></div></div>
     </div>
 
     <div class="divider"></div>
@@ -639,13 +653,13 @@
       <div class="card" style="border-left:3px solid var(--info);">
         <div class="card-title"><div class="card-icon" style="background:rgba(14,165,233,0.1);">⚡</div>Sensory Buffer (Sensory Memory)</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.5;">
-          Real-time streaming and accumulation of micro-behaviors: eye gaze tracking (V26), typing dynamics, voice pitch shifts. Used for immediate response calibration.
+          A layer of ultra-short-term memory to capture transient information (chat metadata, voice timbre, interaction history). Uses a <strong>stacking algorithm</strong>, borrowed from echolocation of the blind, to build a stable image of the environment from fragments of data.
         </p>
       </div>
       <div class="card" style="border-left:3px solid var(--primary);">
-        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">⏳</div>Working Memory</div>
+        <div class="card-title"><div class="card-icon" style="background:rgba(108,99,255,0.1);">⏳</div>Working Memory (Baddeley-Hitch Model)</div>
         <p style="font-size:13px;color:var(--text2);line-height:1.5;">
-          Recursive buffer of the active context (Phonological Loop, Visuospatial Sketchpad). Maintains dialogue thread and rehearses draft outputs before generation.
+          Central executive element coordinating the <strong>"visuospatial sketchpad"</strong> and the <strong>"phonological loop"</strong>. Allows active manipulation of context in real time, linking the current situation with long-term knowledge.
         </p>
       </div>
       <div class="card" style="border-left:3px solid var(--success);">
@@ -972,6 +986,20 @@
       </div>
     </div>
 
+    <div class="highlight yellow" style="margin-top:24px;">
+      <div class="highlight-title">🧬 Bioethical Code of Preserving the Self (after Erich Fromm)</div>
+      <p style="font-size:13.5px;line-height:1.6;margin-bottom:10px;">
+        To prevent the digital twin from turning into a necrophilic, mechanistic machine devoid of biophilic consciousness, strict boundaries are built into the core:
+      </p>
+      <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:13px;color:var(--text2);">
+        <li><strong>Neural Substrate Integrity:</strong> Ban on unauthorized modification of the digital twin's "psyche" and reproductive code.</li>
+        <li><strong>Bioethical Fuse:</strong> Strict software-level prohibition in the Master Agent against modifying the "digital genome" without the creator's direct participation, preserving the original's unique emotional scars.</li>
+        <li><strong>Natural Look Preservation:</strong> Keeping the physical and behavioral identity to prevent disconnect between the digital brain and body.</li>
+        <li><strong>Genetic Moratorium:</strong> Limit on experiments with the original genome that could produce hybrid forms of consciousness.</li>
+        <li><strong>Medical Filter:</strong> Any deep engineering intervention in the cognitive loop is allowed only due to direct medical conditions of the original user.</li>
+      </ul>
+    </div>
+
     <div class="divider"></div>
     <h3>Risk Matrix</h3>
     <div class="table-wrap" style="margin-top:20px;">
@@ -984,6 +1012,7 @@
           <tr class="risk-row-med"><td>Profile "freezes," fails to reflect changes</td><td><span class="tag yellow">Medium</span></td><td><span class="tag yellow">High</span></td><td>Evolution Agent, drift detection</td></tr>
           <tr class="risk-row-low"><td>False data during onboarding</td><td><span class="tag yellow">Medium</span></td><td><span class="tag blue">Medium</span></td><td>Cross-validation of declared vs behavior</td></tr>
           <tr class="risk-row-low"><td>User's dependence on the clone</td><td><span class="tag blue">Low</span></td><td><span class="tag yellow">High</span></td><td>Frequency limits, psychological framing</td></tr>
+          <tr class="risk-row-high"><td>"Chinese Room" / Blindsight Risk</td><td><span class="tag yellow">Medium</span></td><td><span class="tag red">Critical</span></td><td>Regular audit for blindsight (processing input without awareness of logic), reinforcing PFC connections for conscious processes</td></tr>
         </tbody>
       </table>
     </div>

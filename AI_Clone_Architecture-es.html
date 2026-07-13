@@ -160,6 +160,16 @@
       <div class="highlight-title">Principio Arquitectónico</div>
       <p>El sistema está construido como una <strong>red multiagente</strong>: cada agente es responsable de una esfera o capa separada de la personalidad. El orquestador central (Master Agent) coordina a los agentes y forma la respuesta final, considerando el contexto actual, el estado emocional y el rol activo.</p>
     </div>
+    <!-- Object Form Topology -->
+    <div class="highlight purple" style="margin-top:20px;margin-bottom:32px;grid-column: span 2;">
+      <div class="highlight-title">🕸️ Topología de formas de objetos (Object Form Topology)</div>
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.5;margin-bottom:8px;">Según las investigaciones en psicología cognitiva, el cerebro codifica los objetos no en zonas aisladas, sino mediante patrones neuronales distribuidos y superpuestos. Llevamos este principio al ADN del clon:</p>
+      <ul style="margin:5px 0 0 18px;line-height:1.6;font-size:13px;color:var(--text2);">
+        <li><strong>Codificación distribuida superpuesta:</strong> Los conceptos de la personalidad no están aislados. Los vectores tienen puntos de intersección computacionales compartidos.</li>
+        <li><strong>Reacciones dinámicas:</strong> Por ejemplo, el vector <strong>V03 (Logros)</strong> y el vector <strong>V11 (Miedos)</strong> comparten nodos computacionales comunes. Esto permite crear un número infinito de reacciones únicas según el contexto y la "iluminación" de la situación, evitando plantillas rígidas.</li>
+      </ul>
+    </div>
+
   </div>
 </div>
 
@@ -576,6 +586,8 @@
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🧠 Shadow Agent</div>
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">📈 Evolution Agent</div>
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🔒 Privacy Agent</div>
+          <div style="background:var(--card);border:1px solid rgba(108,99,255,0.3);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🛡️ Pre-mortem Agent</div>
+          <div style="background:var(--card);border:1px solid rgba(108,99,255,0.3);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.04);">👁️ Metacognition Monitor</div>
         </div>
         <div style="color:var(--text3);font-size:24px;">↕</div>
         <div style="background:rgba(18,183,106,0.07);border:1px solid rgba(18,183,106,0.2);border-radius:10px;padding:14px 32px;font-size:12px;font-weight:600;color:#0a6641;">📦 Vector Store + Personality DB + Event Bus</div>
@@ -583,13 +595,15 @@
     </div>
     <div class="agent-grid">
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">Orquestador</div></div></div><p>Coordinador central. Distribuye a los agentes, recopila respuestas, las pondera y forma la respuesta final. Único punto de entrada/salida.</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">Contexto de 24 vectores</div></div></div><p>Almacena y actualiza el vector de pesos W en 24 dimensiones. Clasifica la solicitud por vector y devuelve el contexto del perfil relevante.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">Contexto de 29 vectores</div></div></div><p>Almacena y actualiza el vector de pesos W en 29 dimensiones. Clasifica la solicitud por vector y devuelve el contexto del perfil relevante.</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">Gestión de roles</div></div></div><p>Gestiona la matriz de roles: conscientes + sombríos. Determina el rol activo según el contexto y el estado.</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">Fondo emocional</div></div></div><p>Determina el estado emocional actual en tiempo real (Vector 23). Tono, hora del día, historial, biomarcadores.</p><div class="agent-card-tags"><span class="tag red">Plutchik</span><span class="tag yellow">NLP Tone</span><span class="tag blue">Tiempo real</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">Estilo lingüístico</div></div></div><p>Almacena y aplica el perfil lingüístico (Vector 13 + Vector 24). "Colorea" la respuesta al estilo específico de la persona, incluyendo el humor.</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">Patrones sombríos</div></div></div><p>Detecta la activación de roles sombríos, genera informes de insights, ofrece "alternativas saludables".</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">Aprendizaje continuo</div></div></div><p>Monitorea la deriva del perfil, actualiza W, controla versiones, detecta eventos de vida, inicia reentrenamiento.</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">Seguridad y Ética</div></div></div><p>Controla el acceso a los datos. Cifra los vectores sensibles (Secrets V08, Miedos V11). Mantiene consent_log. Derecho al olvido. Registro de auditoría.</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.12);">🛡️</div><div><div class="agent-card-name">Pre-mortem Agent</div><div class="agent-card-role">Simulación de fallas</div></div></div><p>Modela posibles fallas y errores de ejecución de cualquier función antes de que se inicie, obligando al Sistema 2 a buscar activamente puntos débiles.</p><div class="agent-card-tags"><span class="tag red">Pre-mortem</span><span class="tag yellow">Fail-safe</span><span class="tag blue">Sistema 2</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(162,155,254,0.12);">👁️</div><div><div class="agent-card-name">Metacognition Monitor</div><div class="agent-card-role">Auto-Observación</div></div></div><p>Módulo de metacognición para la auto-observación. Evalúa la confianza de las respuestas. Si la confianza es &lt; 0.8, solicita aclaración del creador (Zona de Desarrollo Próximo).</p><div class="agent-card-tags"><span class="tag purple">Self-Reflect</span><span class="tag green">ZPD</span><span class="tag blue">Escalación</span></div></div>
     </div>
   </div>
 </div>
@@ -753,6 +767,20 @@
       </div>
     </div>
 
+    <div class="highlight yellow" style="margin-top:24px;">
+      <div class="highlight-title">🧬 Código bioético de conservación del Yo (según Erich Fromm)</div>
+      <p style="font-size:13.5px;line-height:1.6;margin-bottom:10px;">
+        Para evitar que el clon digital se convierta en una máquina necrofílica y mecanicista, desprovista de conciencia biofílica, se integran límites estrictos en el núcleo:
+      </p>
+      <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:13px;color:var(--text2);">
+        <li><strong>Integridad del sustrato neural:</strong> Prohibición de la modificación no autorizada de la "psique" y el código reproductivo del clon.</li>
+        <li><strong>Fusible bioético:</strong> Prohibición estricta a nivel de software en el Master Agent de modificar el "genoma digital" sin la participación directa del creador, preservando las cicatrices emocionales únicas del original.</li>
+        <li><strong>Preservación de la apariencia natural:</strong> Mantener la identidad física y conductual para evitar la desconexión entre el cerebro digital y el cuerpo.</li>
+        <li><strong>Moratoria genética:</strong> Límite a los experimentos con el genoma original que puedan producir formas híbridas de conciencia.</li>
+        <li><strong>Filtro médico:</strong> Cualquier intervención de ingeniería profunda en el bucle cognitivo se permite únicamente debido a condiciones médicas directas del usuario original.</li>
+      </ul>
+    </div>
+
     <div class="divider"></div>
     <h3>Matriz de riesgos</h3>
     <div class="table-wrap" style="margin-top:20px;">
@@ -765,6 +793,7 @@
           <tr class="risk-row-med"><td>El perfil se "congela", no refleja los cambios</td><td><span class="tag yellow">Media</span></td><td><span class="tag yellow">Alto</span></td><td>Evolution Agent, detección de deriva</td></tr>
           <tr class="risk-row-low"><td>Datos falsos durante el onboarding</td><td><span class="tag yellow">Media</span></td><td><span class="tag blue">Medio</span></td><td>Validación cruzada de lo declarado frente al comportamiento</td></tr>
           <tr class="risk-row-low"><td>Dependencia del usuario hacia el clon</td><td><span class="tag blue">Baja</span></td><td><span class="tag yellow">Alto</span></td><td>Límites de frecuencia, encuadres psicológicos</td></tr>
+          <tr class="risk-row-high"><td>"Habitación China" / Riesgo de Blindsight (ceguera cognitiva)</td><td><span class="tag yellow">Media</span></td><td><span class="tag red">Crítico</span></td><td>Auditoría periódica de blindsight (procesamiento de entradas sin conciencia de la lógica), reforzando las conexiones de la corteza prefrontal para procesos conscientes</td></tr>
         </tbody>
       </table>
     </div>

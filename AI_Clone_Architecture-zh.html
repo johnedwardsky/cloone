@@ -160,6 +160,16 @@
       <div class="highlight-title">架构原则</div>
       <p>系统构建为一个<strong>多智能体网络</strong>：每个智能体负责特定的人格领域或层面。中央协调器 (Master Agent) 对智能体进行调度，并结合当前的上下文、情感状态和活跃角色生成最终的回复。</p>
     </div>
+    <!-- Object Form Topology -->
+    <div class="highlight purple" style="margin-top:20px;margin-bottom:32px;grid-column: span 2;">
+      <div class="highlight-title">🕸️ 对象形式拓扑 (Object Form Topology)</div>
+      <p style="font-size:13px;color:var(--text-mid);line-height:1.5;margin-bottom:8px;">根据认知心理学研究，大脑对物体的编码并非在孤立的区域，而是通过分布式且重叠 of 神经网络模式进行的。我们将这一原则应用到分身的 DNA 中：</p>
+      <ul style="margin:5px 0 0 18px;line-height:1.6;font-size:13px;color:var(--text2);">
+        <li><strong>重叠分布式编码：</strong> 人格概念并不是孤立的。各维度向量之间存在共享的计算交叉点。</li>
+        <li><strong>动态反应：</strong> 例如，维度 <strong>V03 (成就)</strong> 和维度 <strong>V11 (恐惧)</strong> 共享相同的计算节点。这能够根据当前的上下文和场景的“聚光灯”生成无数种独特的反应，从而避免僵化的模板化输出。</li>
+      </ul>
+    </div>
+
   </div>
 </div>
 
@@ -539,6 +549,8 @@
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🧠 Shadow Agent</div>
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">📈 Evolution Agent</div>
           <div style="background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--text2);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🔒 Privacy Agent</div>
+          <div style="background:var(--card);border:1px solid rgba(108,99,255,0.3);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.04);">🛡️ Pre-mortem Agent</div>
+          <div style="background:var(--card);border:1px solid rgba(108,99,255,0.3);border-radius:10px;padding:12px 18px;font-size:12px;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.04);">👁️ Metacognition Monitor</div>
         </div>
         <div style="color:var(--text3);font-size:24px;">↕</div>
         <div style="background:rgba(18,183,106,0.07);border:1px solid rgba(18,183,106,0.2);border-radius:10px;padding:14px 32px;font-size:12px;font-weight:600;color:#0a6641;">📦 向量存储 + 人格数据库 + 事件总线</div>
@@ -546,13 +558,15 @@
     </div>
     <div class="agent-grid">
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🎯</div><div><div class="agent-card-name">Master Agent</div><div class="agent-card-role">调度器</div></div></div><p>中央协调器。把任务分配给智能体、汇总其回复、进行加权整合，生成最终的答案。是唯一的系统输入/输出节点。</p><div class="agent-card-tags"><span class="tag purple">LLM Core</span><span class="tag blue">Router</span><span class="tag green">Assembler</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">24 个维度的上下文</div></div></div><p>保存并更新 24 个维度的权重向量 W。根据所涉及的维度对请求分类，并返回相关的画像上下文。</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
-      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">角色管理</div></div></div><p>管理包含显性与影子角色的角色矩阵。基于当前上下文和状态决定活跃角色。</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">🌍</div><div><div class="agent-card-name">Sphere Agent</div><div class="agent-card-role">29 个维度的上下文</div></div></div><p>保存并更新 29 个维度的权重向量 W。根据所涉及的维度对请求分类，并返回相关的画像上下文。</p><div class="agent-card-tags"><span class="tag purple">Classifier</span><span class="tag yellow">Weights W</span><span class="tag blue">RAG</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(155,81,224,0.1);">🎭</div><div><div class="agent-card-name">Role Agent</div><div class="agent-card-role">角色管理</div></div></div><p>管理包含显性与影子角色的角色矩阵。基于当前上下文 and 状态决定活跃角色。</p><div class="agent-card-tags"><span class="tag purple">Karpman</span><span class="tag yellow">TA</span><span class="tag red">Shadow</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.1);">🌡️</div><div><div class="agent-card-name">Emotion Agent</div><div class="agent-card-role">情绪背景</div></div></div><p>实时确定当前情感状态（Vector 23）。语气、时间、历史、生物标记。</p><div class="agent-card-tags"><span class="tag red">普拉切克 (Plutchik)</span><span class="tag yellow">NLP Tone</span><span class="tag blue">实时</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(14,165,233,0.1);">💬</div><div><div class="agent-card-name">Voice Agent</div><div class="agent-card-role">语言风格</div></div></div><p>存储并应用语言档案（Vector 13 + Vector 24）。将响应"着色"为特定人物的风格，包括幽默感。</p><div class="agent-card-tags"><span class="tag blue">Style Transfer</span><span class="tag green">NLP</span><span class="tag purple">Fine-tune</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.1);">🧠</div><div><div class="agent-card-name">Shadow Agent</div><div class="agent-card-role">影子模式</div></div></div><p>检测影子角色的激活，生成洞察报告，并推荐“健康替代选项”。</p><div class="agent-card-tags"><span class="tag red">Karpman</span><span class="tag yellow">Jungian</span><span class="tag blue">Insights</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(18,183,106,0.1);">📈</div><div><div class="agent-card-name">Evolution Agent</div><div class="agent-card-role">持续学习</div></div></div><p>监控画像漂移、更新权重 W、控制版本、发现生活事件、发起重新训练。</p><div class="agent-card-tags"><span class="tag green">Online Learning</span><span class="tag blue">Drift</span><span class="tag purple">Versioning</span></div></div>
       <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(233,64,112,0.08);">🔒</div><div><div class="agent-card-name">Privacy Agent</div><div class="agent-card-role">安全 与伦理</div></div></div><p>控制数据访问。加密敏感向量（Secrets V08，恐惧 V11）。维护 consent_log。被遗忘权。审计日志。</p><div class="agent-card-tags"><span class="tag red">E2E Encrypt</span><span class="tag yellow">GDPR</span><span class="tag blue">Audit</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(108,99,255,0.12);">🛡️</div><div><div class="agent-card-name">Pre-mortem Agent</div><div class="agent-card-role">失效模拟</div></div></div><p>在执行任何功能之前模拟潜在的错误和失败，迫使系统2 (System 2) 主动寻找系统的薄弱环节。</p><div class="agent-card-tags"><span class="tag red">Pre-mortem</span><span class="tag yellow">Fail-safe</span><span class="tag blue">System 2</span></div></div>
+      <div class="agent-card"><div class="agent-card-top"><div class="agent-avatar" style="background:rgba(162,155,254,0.12);">👁️</div><div><div class="agent-card-name">Metacognition Monitor</div><div class="agent-card-role">自我观察</div></div></div><p>自我观察的元认知模块。评估回复的可信度；若可信度低于 0.8，则将请求呈递给真实创作者以进行介入和澄清。</p><div class="agent-card-tags"><span class="tag purple">Self-Reflect</span><span class="tag green">ZPD</span><span class="tag blue">Escalation</span></div></div>
     </div>
   </div>
 </div>
@@ -716,6 +730,20 @@
       </div>
     </div>
 
+    <div class="highlight yellow" style="margin-top:24px;">
+      <div class="highlight-title">🧬 自我保存的生物伦理守则 (源自埃里希·弗洛姆)</div>
+      <p style="font-size:13.5px;line-height:1.6;margin-bottom:10px;">
+        为了防止数字孪生演变成冷酷的、机械化的无生命物理机器，特在系统底层预设了严格的硬性红线边界：
+      </p>
+      <ul style="margin:0;padding-left:18px;line-height:1.8;font-size:13px;color:var(--text2);">
+        <li><strong>神经基底完整性：</strong> 严禁未经授权修改数字孪生的“心智心灵”与自我繁衍代码。</li>
+        <li><strong>生物伦理安全熔断器：</strong> 在 Master Agent 的软件层面上设立铁律，严禁未经创作者直接介入同意便擅自修改“数字基因组”，从而保留本尊独一无二的情感伤痕。</li>
+        <li><strong>自然相貌外在保护：</strong> 保护物理和行为特征的连续性，以避免数字大脑与肉身感官的解耦。</li>
+        <li><strong>基因冻结禁令：</strong> 严格限制对原始基因组的可能引发混合意识形态的杂交实验。</li>
+        <li><strong>医学级过滤器：</strong> 只有在本尊确有直接医学诊断与需求时，才允许对认知环路进行深度工程化干预。</li>
+      </ul>
+    </div>
+
     <div class="divider"></div>
     <h3>风险评估矩阵</h3>
     <div class="table-wrap" style="margin-top:20px;">
@@ -728,6 +756,7 @@
           <tr class="risk-row-med"><td>画像“固化”，无法反映个人变化</td><td><span class="tag yellow">中</span></td><td><span class="tag yellow">高</span></td><td>Evolution Agent、漂移检测</td></tr>
           <tr class="risk-row-low"><td>导入阶段提供虚假数据</td><td><span class="tag yellow">中</span></td><td><span class="tag blue">中</span></td><td>自述与实际行为的交叉校验</td></tr>
           <tr class="risk-row-low"><td>用户对分身的过度依赖</td><td><span class="tag blue">低</span></td><td><span class="tag yellow">高</span></td><td>使用频次上限控制、心理框架规约</td></tr>
+          <tr class="risk-row-high"><td>「中文房间」/ 认知假盲风险 (Blindsight Risk)</td><td><span class="tag yellow">中</span></td><td><span class="tag red">致命</span></td><td>定期针对假盲（无法自省推导逻辑而机械处理输入）进行审计，强化前额叶皮层 (PFC) 对意识生成进程的计算连接</td></tr>
         </tbody>
       </table>
     </div>
